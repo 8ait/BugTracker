@@ -1,0 +1,23 @@
+﻿.centered {
+    position: fixed; /* or absolute */
+    top: 40%;
+    left: 50%;
+    width: 400px;
+    height: 300px;
+    margin: -150px 0 0 -200px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    box-shadow: 7px 7px 5px rgba(0,0,0,0.6);
+}
+
+.header-auth {
+    color: white;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+    background-color: chocolate;
+    height: 20%;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
