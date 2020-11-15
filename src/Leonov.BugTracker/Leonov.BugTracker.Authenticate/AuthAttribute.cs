@@ -1,7 +1,10 @@
 ﻿namespace Leonov.BugTracker.Authenticate
 {
+    using Leonov.BugTracker.Domain.Interfaces;
+
     using Microsoft.AspNetCore.Mvc.Filters;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>
     /// Фильтер на проверку определенного АРМа.
@@ -25,7 +28,9 @@
         /// <inheritdoc />
         public override void OnResultExecuting(ResultExecutingContext context)
         {
-            context.Result = new RedirectToActionResult("Index","Auth", context.RouteData.Values);
+            var auth = context.HttpContext.RequestServices.GetService<IAuthoriseService>();
+            if (!auth.IsAuthorized())
+                context.Result = new RedirectToActionResult("Index","Auth", context.RouteData.Values);
             base.OnResultExecuting(context);
         }
     }

@@ -1,26 +1,51 @@
-﻿@{
+﻿@using System.Web
+
+@model SignInDto
+
+@{
     ViewData["Title"] = "Авторизация";
     Layout = "_AuthLayout";
 }
-<div class="centered">
+    <div style="position: absolute; top: 15px; right: 15px; width: 400px;">
+    @{
+        foreach (var modelState in ViewData.ModelState.Values)
+        {
+            foreach (var error in modelState.Errors)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Ошибка:</strong> @error.ErrorMessage
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+        }
+    }
+    </div>
+    <div class="centered">
     <div class="header-auth">
         Авторизация
     </div>
-    <form style="width: 80%; margin: auto; margin-top: 40px;">
+    <form method="post" style="width: 80%; margin: auto; margin-top: 40px;" asp-controller="Auth" asp-action="Login">
         <div class="form-group row">
             <label for="inputLogin" class="col-3 col-form-label">Логин:</label>
             <div class="col-9">
-                <input type="text" class="form-control" id="inputLogin" placeholder="Введите логин">
+                <input asp-for="Login" name="login" type="text" class="form-control" id="inputLogin" placeholder="Введите логин">
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputPassword" class="col-3 col-form-label">Пароль</label>
+            <label for="inputPassword" class="col-3 col-form-label">Пароль:</label>
             <div class="col-9">
-                <input type="password" class="form-control" id="inputPassword" placeholder="Введите пароль">
+                <input asp-for="Password" name="password" type="password" class="form-control" id="inputPassword" placeholder="Введите пароль">
             </div>
         </div>
-        <div style="padding-top: 25px; margin: auto; width: 40%">
-            <button type="submit" class="btn btn-success" style="width: 100%">Войти</button>
+        <div class="row" style="padding-top: 25px; padding-bottom: 25px; margin: auto;">
+            <div class="col-6">
+                <button type="submit" class="btn btn-success" style="width: 100%;">Вход</button>
+            </div>
+            <div class="col-6">
+                <a class="btn btn-warning" style="color: white; width: 100%;" asp-controller="Auth" asp-action="SignIp">Регистрация</a>
+            </div>
         </div>
     </form>
 </div>

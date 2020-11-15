@@ -10,4 +10,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Routing.Abstractions" Version="2.2.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Leonov.BugTracker.Domain.Interfaces\Leonov.BugTracker.Domain.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>
