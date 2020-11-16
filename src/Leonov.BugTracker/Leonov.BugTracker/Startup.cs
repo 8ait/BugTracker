@@ -1,15 +1,14 @@
 namespace Leonov.BugTracker
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     using Leonov.BugTracker.Authenticate;
+    using Leonov.BugTracker.Domain.Database.SqlServer;
+    using Leonov.BugTracker.Domain.Interfaces;
+    using Leonov.BugTracker.Domain.Services;
+    using Leonov.BugTracker.Services.Implementations;
+    using Leonov.BugTracker.Services.Interfaces;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.HttpsPolicy;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
@@ -26,6 +25,13 @@ namespace Leonov.BugTracker
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connString = Configuration.GetSection("ConnectionString").Get<string>();
+            services.UseSqlServerContext(connString);
+
+            services.AddScoped<IUserTypeService, UserTypeService>();
+
+            RegisterMappingServices(services);
+
             services.AddControllersWithViews();
             services.AddHttpContextAccessor();
             services.AddCustomAuthentication();
@@ -34,7 +40,6 @@ namespace Leonov.BugTracker
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseCustomAuthentication();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -56,6 +61,15 @@ namespace Leonov.BugTracker
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        /// <summary>
+        /// Регистрация маппинг сервисов.
+        /// </summary>
+        /// <param name="services"> Коллекция сервисов. </param>
+        private void RegisterMappingServices(IServiceCollection services)
+        {
+            services.AddScoped<IAuthoriseMappingService, AuthoriseMappingService>();
         }
     }
 }

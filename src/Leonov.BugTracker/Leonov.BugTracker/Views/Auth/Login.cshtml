@@ -6,22 +6,31 @@
     ViewData["Title"] = "Авторизация";
     Layout = "_AuthLayout";
 }
-    <div style="position: absolute; top: 15px; right: 15px; width: 400px;">
+<div style="position: absolute; top: 15px; right: 15px; width: 400px;">
     @{
         foreach (var modelState in ViewData.ModelState.Values)
         {
             foreach (var error in modelState.Errors)
             {
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Ошибка:</strong> @error.ErrorMessage
+                    <strong>Ошибка ввода:</strong> @error.ErrorMessage
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
             }
         }
+        foreach (var error in (List<string>)ViewData["errors"])
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Ошибка авторизации:</strong> @error
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
     }
-    </div>
+</div>
     <div class="centered">
     <div class="header-auth">
         Авторизация
@@ -44,7 +53,7 @@
                 <button type="submit" class="btn btn-success" style="width: 100%;">Вход</button>
             </div>
             <div class="col-6">
-                <a class="btn btn-warning" style="color: white; width: 100%;" asp-controller="Auth" asp-action="SignIp">Регистрация</a>
+                <a class="btn btn-warning" style="color: white; width: 100%;" asp-controller="Auth" asp-action="RegisterIndex">Регистрация</a>
             </div>
         </div>
     </form>

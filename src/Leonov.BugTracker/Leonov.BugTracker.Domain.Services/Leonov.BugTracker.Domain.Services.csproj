@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Leonov.BugTracker.Domain.Database.SqlServer\Leonov.BugTracker.Domain.Database.SqlServer.csproj" />
+    <ProjectReference Include="..\Leonov.BugTracker.Domain.Interfaces\Leonov.BugTracker.Domain.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>

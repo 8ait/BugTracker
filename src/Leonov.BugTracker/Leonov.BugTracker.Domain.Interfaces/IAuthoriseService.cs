@@ -1,6 +1,9 @@
 ﻿namespace Leonov.BugTracker.Domain.Interfaces
 {
-    using Leonov.BugTracker.Domain.Models;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using Leonov.BugTracker.Domain.Models.Identity;
 
     /// <summary>
     /// Сервис для аутентификации.
@@ -11,13 +14,18 @@
         /// Войти.
         /// </summary>
         /// <param name="signIn"> Данные для входа. </param>
-        public void SignIn(SignIn signIn);
+        public Task SignInAsync(SignIn signIn, List<string> errors);
 
         /// <summary>
         /// Зарегистрироваться.
         /// </summary>
         /// <param name="signUp"> Данные для регистрации. </param>
-        public void SignUp(SignUp signUp);
+        public Task SignUpAsync(SignUp signUp, List<string> errors);
+
+        /// <summary>
+        /// Выйти из системы.
+        /// </summary>
+        public void SignOut();
 
         /// <summary>
         /// Проверка на вход.

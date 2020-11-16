@@ -1,0 +1,87 @@
+﻿@using System.Web
+@using System.Security.Cryptography.X509Certificates
+@using Leonov.BugTracker.Domain.Models
+@using System.Collections
+
+@model SignUpDto
+
+@{
+    ViewData["Title"] = "Регистрация";
+    Layout = "_AuthLayout";
+}
+<div style="position: absolute; top: 15px; right: 15px; width: 400px;">
+    @{
+        foreach (var modelState in ViewData.ModelState.Values)
+        {
+            foreach (var error in modelState.Errors)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Ошибка ввода:</strong> @error.ErrorMessage
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+        }
+        foreach (var error in (List<string>)ViewData["errors"])
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Ошибка регистрации:</strong> @error
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    }
+</div>
+<div class="centered" style="margin-top: 40px;">
+    <div class="header-auth">
+        Регистрация
+    </div>
+    <form method="post" style="width: 80%; margin: auto; margin-top: 40px;" asp-controller="Auth" asp-action="SignUp">
+        <div class="form-group row">
+            <label for="inputLogin" class="col-3 col-form-label">Логин:</label>
+            <div class="col-9">
+                <input asp-for="Login" name="login" type="text" class="form-control" id="inputLogin" placeholder="Введите логин">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputFirstname" class="col-3 col-form-label">Имя:</label>
+            <div class="col-9">
+                <input asp-for="Firstname" name="firstname" type="text" class="form-control" id="inputFirstname" placeholder="Введите имя">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputSurname" class="col-3 col-form-label">Фамилия:</label>
+            <div class="col-9">
+                <input asp-for="Surname" name="surname" type="text" class="form-control" id="inputSurname" placeholder="Введите фамилию">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputPassword" class="col-3 col-form-label">Пароль:</label>
+            <div class="col-9">
+                <input asp-for="Password" name="password" type="password" class="form-control" id="inputPassword" placeholder="Введите пароль">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputRepeatPassword" class="col-3 col-form-label">Повторите пароль:</label>
+            <div class="col-9">
+                <input asp-for="RepeatPassword" name="repeatPassword" type="password" class="form-control" id="inputRepeatPassword" placeholder="Повторите пароль">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputUserTypeId" class="col-3 col-form-label">Тип пользователя:</label>
+            <div class="col-9">
+                <select asp-for="UserTypeId" asp-items="ViewBag.UserTypes" id="inputUserTypeId" class="form-control"></select>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 25px; padding-bottom: 25px; margin: auto;">
+            <div class="col-6">
+                <a class="btn btn-warning" style="color: white; width: 100%;" asp-controller="Auth" asp-action="Index">Вход</a>
+            </div>
+            <div class="col-6">
+                <button type="submit" class="btn btn-success" style="width: 100%;">Регистрация</button>
+            </div>
+        </div>
+    </form>
+</div>
