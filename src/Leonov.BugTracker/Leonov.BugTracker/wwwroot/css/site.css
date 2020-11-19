@@ -35,11 +35,11 @@ html {
     }
 }
 
-.border-top {
-    border-top: 1px solid #e5e5e5;
+.border-top-footer {
+    border-top: solid saddlebrown 5px;
 }
-.border-bottom {
-    border-bottom: 1px solid #e5e5e5;
+.border-bottom-header {
+    border-bottom: solid saddlebrown 5px;
 }
 
 .box-shadow {
@@ -59,8 +59,10 @@ html {
 }
 
 body {
-  /* Margin bottom by footer height */
+    /* Margin bottom by footer height */
     margin-bottom: 60px;
+    background-image: url(../img/background_picture.png);
+    background-color: antiquewhite;
 }
 .navbar {
     color: white;

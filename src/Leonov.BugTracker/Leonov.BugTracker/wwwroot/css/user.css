@@ -1,0 +1,19 @@
+﻿.main-user {
+    margin: auto;
+    margin-top: 30px;
+    width: 80%;
+    background-color: #ffefd5;
+    padding: 20px;
+}
+
+.header-info-mini {
+    color: black;
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    background-color: sandybrown;
+    height: 50%;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}

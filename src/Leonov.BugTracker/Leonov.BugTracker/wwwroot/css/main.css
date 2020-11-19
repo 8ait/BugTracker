@@ -1,0 +1,72 @@
+﻿.main {
+    margin: auto;
+    margin-top: 30px;
+    width: 80%;
+}
+
+.info {
+    margin: auto;
+    background: wheat;
+    border: solid sandybrown 5px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.info-mini {
+    height: 100%;
+    background: papayawhip;
+    color: black;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.user-content {
+    margin: 10px;
+}
+
+.header-user-info {
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: chocolate;
+    height: 20%;
+    padding: 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.nav-link {
+    color: black;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: chocolate;
+    border-color: coral;
+}
+
+table {
+    border-collapse: separate;
+    border: inset black 4px;
+    border-radius: 6px;
+    -moz-border-radius: 6px;
+}
+
+td, th {
+    border-top: solid black 4px;
+    border-left: solid black 4px;
+}
+
+th {
+    background-color: chocolate;
+    border-top: none;
+}
+
+td:first-child, th:first-child {
+    border-left: none;
+}
+
+td {
+    background-color: papayawhip;
+}

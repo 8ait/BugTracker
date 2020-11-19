@@ -84,6 +84,17 @@
         }
 
         /// <inheritdoc />
+        public async Task<User> GetCurrentUser()
+        {
+            var user = new User();
+            if (IsAuthorized())
+                user = await _context.Users
+                    .Include(x => x.UserType)
+                    .FirstOrDefaultAsync(x => x.Login == _httpContextAccessor.HttpContext.Request.Cookies[LOGIN_COOKIE_NAME]);
+            return user;
+        }
+
+        /// <inheritdoc />
         public void SignOut()
         {
             _httpContextAccessor.HttpContext.Response.Cookies.Delete(LOGIN_COOKIE_NAME);

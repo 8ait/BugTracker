@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using Leonov.BugTracker.Domain.Models;
     using Leonov.BugTracker.Domain.Models.Identity;
 
     /// <summary>
@@ -21,6 +22,12 @@
         /// </summary>
         /// <param name="signUp"> Данные для регистрации. </param>
         public Task SignUpAsync(SignUp signUp, List<string> errors);
+
+        /// <summary>
+        /// Получить авторизованного пользователя.
+        /// </summary>
+        /// <returns> Пользователь. </returns>
+        public Task<User> GetCurrentUser();
 
         /// <summary>
         /// Выйти из системы.

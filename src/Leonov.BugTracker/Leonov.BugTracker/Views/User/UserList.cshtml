@@ -1,0 +1,24 @@
+﻿@{
+    ViewData["Title"] = "Пользователи";
+}
+
+<div class="main-user">
+    <table class="table table-striped" style="text-align: center;">
+        <thead style="background-color: chocolate; color: white">
+        <tr>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Имя</th>
+            <th scope="col">Должность</th>
+        </tr>
+        </thead>
+        <tbody id="users">
+        @Html.BeginForm("GetUsersTable","User")
+        </tbody>
+    </table>
+
+    <form action="/User/GetUsersTable" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#results" id="form0" method="get">
+        <input type="text" name="page" />
+        <input type="text" name="count" />
+        <input type="submit" value="count" />
+    </form>
+</div>

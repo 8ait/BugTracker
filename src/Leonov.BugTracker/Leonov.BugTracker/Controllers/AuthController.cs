@@ -5,7 +5,7 @@
     using System.Threading.Tasks;
 
     using Leonov.BugTracker.Domain.Interfaces;
-    using Leonov.BugTracker.Models;
+    using Leonov.BugTracker.Dto;
     using Leonov.BugTracker.Services.Interfaces;
 
     using Microsoft.AspNetCore.Mvc;

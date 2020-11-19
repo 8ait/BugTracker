@@ -1,4 +1,4 @@
-﻿namespace Leonov.BugTracker.Models
+﻿namespace Leonov.BugTracker.Dto
 {
     using System.ComponentModel.DataAnnotations;
 

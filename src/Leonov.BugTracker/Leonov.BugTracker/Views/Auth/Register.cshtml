@@ -1,9 +1,8 @@
 ﻿@using System.Web
 @using System.Security.Cryptography.X509Certificates
-@using Leonov.BugTracker.Domain.Models
 @using System.Collections
 
-@model SignUpDto
+@model Leonov.BugTracker.Dto.SignUpDto
 
 @{
     ViewData["Title"] = "Регистрация";
@@ -34,7 +33,7 @@
         }
     }
 </div>
-<div class="centered" style="margin-top: 40px;">
+<div class="centered" style="margin-top: 40px; width: 500px;">
     <div class="header-auth">
         Регистрация
     </div>
@@ -70,8 +69,8 @@
             </div>
         </div>
         <div class="form-group row">
-            <label for="inputUserTypeId" class="col-3 col-form-label">Тип пользователя:</label>
-            <div class="col-9">
+            <label for="inputUserTypeId" class="col-4 col-form-label">Тип пользователя:</label>
+            <div class="col-8">
                 <select asp-for="UserTypeId" asp-items="ViewBag.UserTypes" id="inputUserTypeId" class="form-control"></select>
             </div>
         </div>

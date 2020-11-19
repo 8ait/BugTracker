@@ -3,7 +3,7 @@
     using System.Threading.Tasks;
 
     using Leonov.BugTracker.Domain.Models.Identity;
-    using Leonov.BugTracker.Models;
+    using Leonov.BugTracker.Dto;
 
     /// <summary>
     /// Сервис для маппинга сущностей авторизации.

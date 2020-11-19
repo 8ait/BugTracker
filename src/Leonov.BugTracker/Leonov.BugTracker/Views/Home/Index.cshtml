@@ -1,8 +1,34 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Главная";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="main row">
+    <div class="col-3">
+        <div class="info">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-user" role="tab" aria-controls="v-pills-user" aria-selected="true">Мой профиль</a>
+                <a class="nav-link" id="v-pills-project-tab" data-toggle="pill" href="#v-pills-project" role="tab" aria-controls="v-pills-project" aria-selected="false">Мои проекты</a>
+                <a class="nav-link" id="v-pills-error-tab" data-toggle="pill" href="#v-pills-error" role="tab" aria-controls="v-pills-error" aria-selected="false">Мои ошибки</a>
+                <a class="nav-link" id="v-pills-audit-tab" data-toggle="pill" href="#v-pills-audit" role="tab" aria-controls="v-pills-audit" aria-selected="false">Мои аудиты</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="info">
+            <div class="tab-content" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
+                    @await Html.PartialAsync("MyViews/_UserInfo", Model, ViewData)
+                </div>
+                <div class="tab-pane fade" id="v-pills-project" role="tabpanel" aria-labelledby="v-pills-project-tab">
+                    @await Html.PartialAsync("MyViews/_ProjectInfo", Model, ViewData)
+                </div>
+                <div class="tab-pane fade" id="v-pills-error" role="tabpanel" aria-labelledby="v-pills-error-tab">
+                    @await Html.PartialAsync("MyViews/_ErrorInfo", Model, ViewData)
+                </div>
+                <div class="tab-pane fade" id="v-pills-audit" role="tabpanel" aria-labelledby="v-pills-audit-tab">
+                    @await Html.PartialAsync("MyViews/_AuditInfo", Model, ViewData)
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

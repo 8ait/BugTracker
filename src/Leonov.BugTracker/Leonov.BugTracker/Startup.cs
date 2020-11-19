@@ -29,6 +29,7 @@ namespace Leonov.BugTracker
             services.UseSqlServerContext(connString);
 
             services.AddScoped<IUserTypeService, UserTypeService>();
+            services.AddScoped<IUserService, UserService>();
 
             RegisterMappingServices(services);
 
@@ -70,6 +71,7 @@ namespace Leonov.BugTracker
         private void RegisterMappingServices(IServiceCollection services)
         {
             services.AddScoped<IAuthoriseMappingService, AuthoriseMappingService>();
+            services.AddScoped<IUserMappingService, UserMappingService>();
         }
     }
 }

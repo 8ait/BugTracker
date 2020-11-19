@@ -20,13 +20,8 @@ namespace Leonov.BugTracker.Controllers
             _logger = logger;
         }
 
-        [Auth("asd")]
+        [Auth("default")]
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Privacy()
         {
             return View();
         }

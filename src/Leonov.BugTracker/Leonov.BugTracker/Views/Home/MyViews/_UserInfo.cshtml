@@ -1,0 +1,68 @@
+﻿@{
+    Layout = null;
+}
+
+<div class="row" style="margin-bottom: 5px">
+    <div class="col-6">
+        <div class="info-mini" style="margin: 5px">
+            <div class="header-info-mini" style="margin: -20px; margin-bottom: 20px;">&#128295; Пользователь</div>
+            <h5><strong id="user-name">Имя Фамилия</strong></h5>
+            <h5><strong id="user-type">Должность</strong></h5>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="info-mini" style="margin: 5px; text-align: center">
+            <a class="btn btn-success" id="showGame" style="margin: 5px; width: 90%; margin-top: 25px;">Изменить информацию</a>
+            <a class="btn btn-success" style="margin: 5px; width: 90%">Изменить пароль</a>
+        </div>
+    </div>
+</div>
+<div class="row" style="margin-bottom: 10px; margin-top: 20px;">
+    <div class="col-6">
+        <div class="info-mini" style="margin: 5px">
+            <div class="header-info-mini" style="margin: -20px; margin-bottom: 20px;">&#128221; Статусы ошибок</div>
+            <h5><strong>Активно</strong> <span class="badge badge-info">0</span></h5>
+            <h5><strong>Неактивно</strong> <span class="badge badge-secondary">2</span></h5>
+            </div>
+    </div>
+    <div class="col-6">
+        <div class="info-mini" style="margin: 5px">
+            <div class="header-info-mini" style="margin: -20px; margin-bottom: 20px;">&#128172; Комментарии</div>
+            <h5><strong>Оставлено</strong> <span class="badge badge-info">0</span></h5>
+            <h5><strong>Популярность</strong> <span class="badge badge-danger">0</span></h5>
+        </div>
+    </div>
+</div>
+<!--Modal-->
+<div id="gameModal" class="modal hide fade in" data-url="@Url.Action("EditUserInformation", "User")">
+    <div id="gameContainer">
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="~/js/user.js" asp-append-version="true"></script>
+<script>
+    $(document).ready(function (e) {
+        getUserAjax();
+
+        function getUserAjax() {
+            $.ajax({
+                type: "GET",
+                url: "/User/GetCurrentUser",
+                data: '',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (json) {
+                    $('#user-name').text(json.surname + " " + json.firstname);
+                    $('#user-type').text(json.userTypeName);
+                },
+                failure: function (response) {
+                    console.log("Не удалось получить пользователя");
+                },
+                error: function (response) {
+                    console.log("Не удалось получить пользователя");
+                }
+            });
+        }
+    });
+</script>
