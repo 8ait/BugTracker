@@ -1,6 +1,9 @@
 ﻿namespace Leonov.BugTracker.Controllers
 {
+    using System.Collections.Generic;
+
     using Leonov.BugTracker.Domain.Interfaces;
+    using Leonov.BugTracker.Domain.Models;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -16,8 +19,9 @@
         [HttpGet]
         public JsonResult GetUserTypes([FromServices] IUserTypeService userTypeService)
         {
-            var result = new JsonResult(userTypeService.GetAll());
-            return result;
+            var errors = new List<string>();
+            var result = userTypeService.GetAll();
+            return new JsonResult(new Result<List<UserType>>(result, errors));
         }
     }
 }

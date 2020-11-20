@@ -12,6 +12,7 @@ namespace Leonov.BugTracker
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using Microsoft.Extensions.Logging;
 
     public class Startup
     {
@@ -28,6 +29,7 @@ namespace Leonov.BugTracker
             var connString = Configuration.GetSection("ConnectionString").Get<string>();
             services.UseSqlServerContext(connString);
 
+            services.AddLogging();
             services.AddScoped<IUserTypeService, UserTypeService>();
             services.AddScoped<IUserService, UserService>();
 

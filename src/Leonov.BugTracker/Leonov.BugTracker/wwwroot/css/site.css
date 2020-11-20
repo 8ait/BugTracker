@@ -98,3 +98,15 @@ body {
 .container-left {
     margin-left: auto;
 }
+
+.alert-danger {
+    border: solid 5px #721c24;
+}
+
+.alert-success {
+    border: solid 5px #155724;
+}
+
+.alerts {
+    z-index: 1000;
+}

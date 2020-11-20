@@ -2,7 +2,6 @@
 {
     using Leonov.BugTracker.Domain.Interfaces;
 
-    using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
 
     /// <summary>

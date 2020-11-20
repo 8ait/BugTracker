@@ -39,5 +39,11 @@
         /// </summary>
         /// <returns></returns>
         public bool IsAuthorized();
+
+        /// <summary>
+        /// Изменить пароль.
+        /// </summary>
+        /// <returns>  </returns>
+        public Task EditPasswordAsync(UserPasswordUpdate userPasswordUpdate, List<string> errors);
     }
 }

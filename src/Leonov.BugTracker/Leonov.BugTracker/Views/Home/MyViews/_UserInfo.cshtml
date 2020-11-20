@@ -13,7 +13,7 @@
     <div class="col-6">
         <div class="info-mini" style="margin: 5px; text-align: center">
             <a class="btn btn-success" data-toggle="modal" data-target="#editInfoModalCenter" style="margin: 5px; width: 90%; margin-top: 25px;">Изменить информацию</a>
-            <a class="btn btn-success" style="margin: 5px; width: 90%">Изменить пароль</a>
+            <a class="btn btn-success" data-toggle="modal" data-target="#editPasswordModalCenter" style="margin: 5px; width: 90%">Изменить пароль</a>
         </div>
     </div>
 </div>
@@ -37,6 +37,11 @@
 <div class="modal fade" id="editInfoModalCenter" tabindex="-1" role="dialog" aria-labelledby="editInfoModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         @await Html.PartialAsync("MyViews/_EditUserInfo");
+    </div>
+</div>
+<div class="modal fade" id="editPasswordModalCenter" tabindex="-1" role="dialog" aria-labelledby="editPasswordModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        @await Html.PartialAsync("MyViews/_EditUserPassword");
     </div>
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

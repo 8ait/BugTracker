@@ -13,12 +13,14 @@
     using Leonov.BugTracker.Domain.Models.Identity;
     using Microsoft.AspNetCore.Http;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
 
     /// <inheritdoc />
     public class AuthoriseService: IAuthoriseService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly BugTrackerContext _context;
+        private readonly ILogger _logger;
 
         private const byte KEY_LENGTH = 64;
         private const byte SALT_LENGTH = 64;
@@ -30,10 +32,13 @@
         /// Конструктор.
         /// </summary>
         /// <param name="httpContextAccessor"></param>
-        public AuthoriseService(IHttpContextAccessor httpContextAccessor, BugTrackerContext context)
+        public AuthoriseService(IHttpContextAccessor httpContextAccessor,
+            BugTrackerContext context,
+            ILogger<AuthoriseService> logger)
         {
             _httpContextAccessor = httpContextAccessor;
             _context = context;
+            _logger = logger;
         }
 
         /// <inheritdoc />
@@ -111,6 +116,35 @@
             var user = _context.Users.FirstOrDefault(x => x.Login == cookieLogin);
             var keyCookieHash = Convert.FromBase64String(keyCookie);
             return user != null && user.CookieSession.SequenceEqual(keyCookieHash);
+        }
+
+        /// <inheritdoc />
+        public async Task EditPasswordAsync(UserPasswordUpdate userPasswordUpdate, List<string> errors)
+        {
+            var user = await _context.Users.FindAsync(userPasswordUpdate.Id);
+            if (user is null)
+            {
+                errors.Add("Пользователя с таким Id не существует.");
+                return;
+            }
+            var hashPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(userPasswordUpdate.OldPassword), user.Salt);
+            if (!hashPassword.SequenceEqual(user.HashPassword))
+            {
+                errors.Add("Неверный старый пароль для пользователя.");
+                return;
+            }
+
+            user.HashPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(userPasswordUpdate.NewPassword), user.Salt);
+            try
+            {
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                errors.Add("Не удалось получить доступ к базе данных.");
+            }
         }
 
         /// <summary>

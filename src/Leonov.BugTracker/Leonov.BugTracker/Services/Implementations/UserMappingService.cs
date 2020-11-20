@@ -34,5 +34,16 @@
                 }
             };
         }
+
+        /// <inheritdoc />
+        public UserPasswordUpdate UserPasswordUpdateDtoInuserPasswordUpdate(UserPasswordUpdateDto userPasswordUpdateDto)
+        {
+            return new UserPasswordUpdate()
+            {
+                Id = userPasswordUpdateDto.Id,
+                NewPassword = userPasswordUpdateDto.NewPassword,
+                OldPassword = userPasswordUpdateDto.OldPassword
+            };
+        }
     }
 }
