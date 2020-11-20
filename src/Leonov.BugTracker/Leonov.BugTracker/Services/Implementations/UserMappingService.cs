@@ -15,7 +15,23 @@
                 Id = user.Id,
                 Firstname = user.FirstName,
                 Surname = user.Surname,
-                UserTypeName = user.UserType.Name
+                UserTypeName = user.UserType.Name,
+                UserTypeId = user.UserType.Id
+            };
+        }
+
+        /// <inheritdoc />
+        public UserInfo UserDtoInUserInfo(UserDto userDto)
+        {
+            return new UserInfo()
+            {
+                Id = userDto.Id,
+                Firstname = userDto.Firstname,
+                Surname = userDto.Surname,
+                UserType = new UserType()
+                {
+                    Id = userDto.UserTypeId
+                }
             };
         }
     }

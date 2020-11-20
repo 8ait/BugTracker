@@ -1,5 +1,6 @@
 ﻿namespace Leonov.BugTracker.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -41,14 +42,13 @@
         /// Редактировать информацию о текущем пользователе.
         /// </summary>
         /// <returns></returns>
-        public async Task<IActionResult> EditUserInformation(UserInfoDto userInfo)
+        [HttpPost]
+        public async Task<JsonResult> EditUserInformation([FromBody] UserDto userDto)
         {
-            if (!ModelState.IsValid)
-            {
-                return PartialView("_EditUserInfo", userInfo);
-            }
-
-            return Index();
+            var userInfo = _userMappingService.UserDtoInUserInfo(userDto);
+            var errors = new List<string>();
+            await _userService.UpdateUserInformation(userInfo, errors);
+            return new JsonResult("asd");
         }
 
         /// <summary>

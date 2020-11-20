@@ -23,7 +23,10 @@
             builder.Property(auth => auth.Salt).IsRequired().HasMaxLength(128);
             builder.Property(auth => auth.CookieSession).HasMaxLength(128);
 
-            builder.HasOne(user => user.UserType).WithMany().IsRequired();
+            builder.HasOne(user => user.UserType)
+                .WithMany()
+                .IsRequired()
+                .HasForeignKey(user => user.UserTypeId);
         }
     }
 }

@@ -1,30 +1,30 @@
-﻿namespace Leonov.BugTracker.Dto
+﻿namespace Leonov.BugTracker.Domain.Models
 {
-    using System.ComponentModel.DataAnnotations;
-
-    using Leonov.BugTracker.Domain.Models;
+    using System;
 
     /// <summary>
     /// Дто для информации о пользователе.
     /// </summary>
-    public class UserInfoDto
+    public class UserInfo
     {
+        /// <summary>
+        /// Идентфиикатор пользователя.
+        /// </summary>
+        public Guid Id { get; set; }
+
         /// <summary>
         /// Имя.
         /// </summary>
-        [Required]
         public string Firstname { get; set; }
 
         /// <summary>
         /// Фамилия.
         /// </summary>
-        [Required]
         public string Surname { get; set; }
 
         /// <summary>
         /// Тип пользователя.
         /// </summary>
-        [Required]
         public UserType UserType { get; set; }
     }
 }

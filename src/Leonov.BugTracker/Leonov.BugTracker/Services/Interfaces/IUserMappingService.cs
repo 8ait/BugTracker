@@ -9,10 +9,17 @@
     public interface IUserMappingService
     {
         /// <summary>
-        /// ПОльзователя в пользователя дто.
+        /// Пользователя в пользователя дто.
         /// </summary>
         /// <param name="user"> Пользователь. </param>
         /// <returns> Дто пользователя. </returns>
         public UserDto UserInUserDto(User user);
+
+        /// <summary>
+        /// Дто пользователя в информацию пользователя.
+        /// </summary>
+        /// <param name="userDto"> Дто ползователя. </param>
+        /// <returns> Информация пользователя. </returns>
+        public UserInfo UserDtoInUserInfo(UserDto userDto);
     }
 }

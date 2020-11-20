@@ -43,6 +43,23 @@
         }
 
         /// <inheritdoc />
+        public async Task UpdateUserInformation(UserInfo userInfo, List<string> errors)
+        {
+            var user = await _context.Users
+                .Include(u => u.UserType)
+                .FirstOrDefaultAsync(u => u.Id == userInfo.Id);
+            if (user is null)
+            {
+                errors.Add("Такого пользователя не существует.");
+            }
+
+            user.FirstName = userInfo.Firstname;
+            user.Surname = userInfo.Surname;
+            user.UserTypeId = userInfo.UserType.Id;
+            await EditAsync(user);
+        }
+
+        /// <inheritdoc />
         public User Get(Guid id)
         {
             throw new NotImplementedException();
@@ -51,7 +68,7 @@
         /// <inheritdoc />
         public async Task EditAsync(params User[] entities)
         {
-            await _context.Users.AddRangeAsync(entities);
+            _context.Users.UpdateRange(entities);
             await _context.SaveChangesAsync();
         }
     }

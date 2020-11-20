@@ -40,6 +40,11 @@
         public byte[] CookieSession { get; set; }
 
         /// <summary>
+        /// Идентификатор типа пользователя. 
+        /// </summary>
+        public Guid UserTypeId { get; set; }
+
+        /// <summary>
         /// Тип пользователя.
         /// </summary>
         public UserType UserType { get; set; }

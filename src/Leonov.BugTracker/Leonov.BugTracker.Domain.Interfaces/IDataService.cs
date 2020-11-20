@@ -18,7 +18,7 @@
         public T Get(Guid id);
 
         /// <summary>
-        /// Удалить сущности.
+        /// Редактировать сущности.
         /// </summary>
         /// <param name="entities"> Сущности. </param>
         /// <returns></returns>

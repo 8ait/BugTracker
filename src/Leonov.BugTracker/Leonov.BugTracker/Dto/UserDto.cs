@@ -26,5 +26,10 @@
         /// Тип пользователя.
         /// </summary>
         public string UserTypeName { get; set; }
+
+        /// <summary>
+        /// Идентификатор типа пользователя.
+        /// </summary>
+        public Guid UserTypeId { get; set; }
     }
 }
