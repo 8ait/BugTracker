@@ -1,17 +1,10 @@
 ﻿namespace Leonov.BugTracker.Domain.Models
 {
-    using System;
-
     /// <summary>
     /// Сущность обновления пароля.
     /// </summary>
-    public class UserPasswordUpdate
+    public class UserPasswordUpdate : BaseEntity
     {
-        /// <summary>
-        /// Идентификатор пользователя.
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         /// Старый пароль.
         /// </summary>

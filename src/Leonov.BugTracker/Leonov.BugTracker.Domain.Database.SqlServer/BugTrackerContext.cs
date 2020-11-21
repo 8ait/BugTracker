@@ -22,6 +22,16 @@
         public DbSet<UserType> UserTypes { get; set; }
 
         /// <summary>
+        /// Пользователи в проектах.
+        /// </summary>
+        public DbSet<UserInProject> UserInProjects { get; set; }
+        
+        /// <summary>
+        /// Проекты.
+        /// </summary>
+        public DbSet<Project> Projects { get; set; }
+
+        /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="options"> Опции создания контекста. </param>
@@ -35,6 +45,8 @@
         {
             modelBuilder.ApplyConfiguration(new UserMap());
             modelBuilder.ApplyConfiguration(new UserTypeMap());
+            modelBuilder.ApplyConfiguration(new ProjectMap());
+            modelBuilder.ApplyConfiguration(new UserInProjectMap());
         }
     }
 }

@@ -1,17 +1,10 @@
 ﻿namespace Leonov.BugTracker.Domain.Models
 {
-    using System;
-
     /// <summary>
     /// Дто для информации о пользователе.
     /// </summary>
-    public class UserInfo
+    public class UserInfo: BaseEntity
     {
-        /// <summary>
-        /// Идентфиикатор пользователя.
-        /// </summary>
-        public Guid Id { get; set; }
-
         /// <summary>
         /// Имя.
         /// </summary>

@@ -1,8 +1,7 @@
 ﻿namespace Leonov.BugTracker.Domain.Models
 {
     using System;
-
-    using Leonov.BugTracker.Domain.Models.Identity;
+    using System.Collections.Generic;
 
     /// <summary>
     /// Пользователь системы.
@@ -48,5 +47,10 @@
         /// Тип пользователя.
         /// </summary>
         public UserType UserType { get; set; }
+
+        /// <summary>
+        /// Пользователи в проекте.
+        /// </summary>
+        public List<UserInProject> UserInProject { get; set; }
     }
 }

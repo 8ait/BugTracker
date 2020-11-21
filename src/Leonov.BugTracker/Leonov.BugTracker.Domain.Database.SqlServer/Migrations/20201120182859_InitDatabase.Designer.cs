@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Leonov.BugTracker.Domain.Database.SqlServer.Migrations
 {
     [DbContext(typeof(BugTrackerContext))]
-    [Migration("20201115202221_Init")]
-    partial class Init
+    [Migration("20201120182859_InitDatabase")]
+    partial class InitDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,27 @@ namespace Leonov.BugTracker.Domain.Database.SqlServer.Migrations
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.0");
+
+            modelBuilder.Entity("Leonov.BugTracker.Domain.Models.Project", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<string>("About")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("project");
+                });
 
             modelBuilder.Entity("Leonov.BugTracker.Domain.Models.User", b =>
                 {
@@ -70,6 +91,34 @@ namespace Leonov.BugTracker.Domain.Database.SqlServer.Migrations
                     b.ToTable("user");
                 });
 
+            modelBuilder.Entity("Leonov.BugTracker.Domain.Models.UserInProject", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("newid()");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("ProjectId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("user_in_project");
+                });
+
             modelBuilder.Entity("Leonov.BugTracker.Domain.Models.UserType", b =>
                 {
                     b.Property<Guid>("Id")
@@ -96,6 +145,35 @@ namespace Leonov.BugTracker.Domain.Database.SqlServer.Migrations
                         .IsRequired();
 
                     b.Navigation("UserType");
+                });
+
+            modelBuilder.Entity("Leonov.BugTracker.Domain.Models.UserInProject", b =>
+                {
+                    b.HasOne("Leonov.BugTracker.Domain.Models.Project", "Project")
+                        .WithMany("UserInProject")
+                        .HasForeignKey("ProjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Leonov.BugTracker.Domain.Models.User", "User")
+                        .WithMany("UserInProject")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Project");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Leonov.BugTracker.Domain.Models.Project", b =>
+                {
+                    b.Navigation("UserInProject");
+                });
+
+            modelBuilder.Entity("Leonov.BugTracker.Domain.Models.User", b =>
+                {
+                    b.Navigation("UserInProject");
                 });
 #pragma warning restore 612, 618
         }
