@@ -40,7 +40,7 @@
         }
 
         /// <inheritdoc />
-        public Task EditAsync(params Project[] entities)
+        public Task EditAsync(List<string> errors, params Project[] entities)
         {
             throw new NotImplementedException();
         }

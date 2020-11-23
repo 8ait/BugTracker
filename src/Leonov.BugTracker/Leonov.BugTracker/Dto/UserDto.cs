@@ -30,6 +30,6 @@
         /// <summary>
         /// Идентификатор типа пользователя.
         /// </summary>
-        public Guid UserTypeId { get; set; }
+        public int UserTypeId { get; set; }
     }
 }

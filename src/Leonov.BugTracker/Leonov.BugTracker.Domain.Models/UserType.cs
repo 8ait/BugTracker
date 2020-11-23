@@ -1,19 +1,17 @@
 ﻿namespace Leonov.BugTracker.Domain.Models
 {
+    using System.Collections.Generic;
+
+    using Leonov.BugTracker.Domain.Models.Base;
+
     /// <summary>
     /// Тип пользователя.
     /// </summary>
-    public class UserType: BaseEntity
+    public class UserType: BaseDictionaryEntity
     {
         /// <summary>
-        /// Название.
+        /// Доступные права.
         /// </summary>
-        public string Name { get; set; }
-
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return Name;
-        }
+        public List<Arm> Arms { get; set; }
     }
 }

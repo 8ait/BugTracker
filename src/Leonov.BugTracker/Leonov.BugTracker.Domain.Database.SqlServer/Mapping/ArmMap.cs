@@ -7,18 +7,15 @@
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     /// <summary>
-    /// Маппинг для типа сущности.
+    /// Маппинг права.
     /// </summary>
-    public class UserTypeMap : BaseDictionaryMap<UserType>
+    public class ArmMap: BaseDictionaryMap<Arm>
     {
-        /// <inheritdoc/>
-        public override void Configure(EntityTypeBuilder<UserType> builder)
+        /// <inheritdoc />
+        public override void Configure(EntityTypeBuilder<Arm> builder)
         {
             base.Configure(builder);
-            builder.ToTable("user_type");
-
-            builder.HasMany(x => x.Arms)
-                .WithMany(x => x.UserTypes);
+            builder.ToTable("arm");
         }
     }
 }

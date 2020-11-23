@@ -1,5 +1,7 @@
 ﻿namespace Leonov.BugTracker.Domain.Models
 {
+    using Leonov.BugTracker.Domain.Models.Base;
+
     /// <summary>
     /// Дто для информации о пользователе.
     /// </summary>

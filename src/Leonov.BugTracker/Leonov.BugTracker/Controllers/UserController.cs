@@ -57,9 +57,6 @@
             if (string.IsNullOrWhiteSpace(userDto.Surname))
                 errors.Add("Фамилия не может быть пустой.");
 
-            if (userDto.UserTypeId == Guid.Empty)
-                errors.Add("Тип пользователя не может быть пустым.");
-
             if (!errors.Any())
             {
                 var userInfo = _userMappingService.UserDtoInUserInfo(userDto);

@@ -10,19 +10,23 @@
     using Leonov.BugTracker.Domain.Models;
 
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
 
     /// <inheritdoc />
     public class UserService: IUserService
     {
+        private readonly ILogger _logger;
         private readonly BugTrackerContext _context;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="context"> Контекст БД. </param>
-        public UserService(BugTrackerContext context)
+        /// <param name="logger"> Логгер. </param>
+        public UserService(BugTrackerContext context, ILogger<UserService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         /// <inheritdoc />
@@ -48,15 +52,18 @@
             var user = await _context.Users
                 .Include(u => u.UserType)
                 .FirstOrDefaultAsync(u => u.Id == userInfo.Id);
+
             if (user is null)
             {
                 errors.Add("Такого пользователя не существует.");
+                return;
             }
 
             user.FirstName = userInfo.Firstname;
             user.Surname = userInfo.Surname;
             user.UserTypeId = userInfo.UserType.Id;
-            await EditAsync(user);
+
+            await EditAsync(errors, user);
         }
 
         /// <inheritdoc />
@@ -66,10 +73,10 @@
         }
 
         /// <inheritdoc />
-        public async Task EditAsync(params User[] entities)
+        public async Task EditAsync(List<string> errors, params User[] entities)
         {
             _context.Users.UpdateRange(entities);
-            await _context.SaveChangesAsync();
+            await _context.TrySaveChangesAsync(errors);
         }
     }
 }

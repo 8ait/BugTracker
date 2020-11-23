@@ -12,7 +12,7 @@
                     $("<tr><td colspan='2'>Вы не участвуете ни в одном проекте.</td></tr>").appendTo("#projects");
                 } else {
                     json.value.projectInfoDtos.forEach(item => {
-                        $("<tr><td>" + item.name + "</td><td><a class='btn btn-success' href=" + item.id + ">Показать &#128270;</a></td></tr>").appendTo("#projects");
+                        $("<tr><td>" + item.name + "</td><td><a class='btn btn-success' href='Project/GetProject?id=" + item.id + "'>Показать &#128270;</a></td></tr>").appendTo("#projects");
                     });
                 }
                 document.getElementById('infoPage').innerHTML = json.value.page + " из " + json.value.countOfPages;

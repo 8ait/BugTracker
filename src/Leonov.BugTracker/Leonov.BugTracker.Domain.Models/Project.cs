@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
 
+    using Leonov.BugTracker.Domain.Models.Base;
+
     /// <summary>
     /// Сущность проекта.
     /// </summary>

@@ -21,14 +21,14 @@ function getUserInfoAjax() {
     });
 }
 
-//Получить пользователя.
+//Редактировать информацию пользователя.
 function postUserInfoAjax() {
     var user = {
         Id: $('#Id').val(),
         Firstname: $('#Firstname').val(),
         Surname: $('#Surname').val(),
         UserTypeName: "",
-        UserTypeId: $('#UserTypeId').val()
+        UserTypeId: parseInt($('#UserTypeId').val())
     };
 
     $.ajax({
@@ -44,8 +44,9 @@ function postUserInfoAjax() {
                 $(document.body).removeClass("modal-open");
                 getUserAjax();
                 getUserInfoAjax();
-                addInfo("alert-" + 0, "Информация отредактирована.");
-                showAlert("alert-" + 0, 0 * 450);
+                var id = getRandomInt(0, 9999);
+                addInfo("alert-" + id, "Информация отредактирована.");
+                showAlert("alert-" + id, 0 * 450);
             } else {
                 for (var i = 0; i < json.errors.length; i++) {
                     var id = getRandomInt(0, 9999);
@@ -135,8 +136,9 @@ function postUserPasswordAjax() {
                 $('#editPasswordModalCenter').modal('hide');
                 $('.modal-backdrop').remove();
                 $(document.body).removeClass("modal-open");
-                addInfo("alert-" + 0, "Пароль изменен.");
-                showAlert("alert-" + 0, 0 * 450);
+                var id = getRandomInt(0, 9999);
+                addInfo("alert-" + id, "Пароль изменен.");
+                showAlert("alert-" + id, 0 * 450);
             } else {
                 for (var i = 0; i < json.errors.length; i++) {
                     var id = getRandomInt(0, 9999);

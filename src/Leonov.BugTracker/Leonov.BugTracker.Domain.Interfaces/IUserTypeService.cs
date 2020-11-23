@@ -22,6 +22,6 @@
         /// </summary>
         /// <param name="id"> Идентификатор. </param>
         /// <returns> Тип пользователя. </returns>
-        Task<UserType> GetByIdAsync(Guid id);
+        Task<UserType> GetByIdAsync(int id);
     }
 }

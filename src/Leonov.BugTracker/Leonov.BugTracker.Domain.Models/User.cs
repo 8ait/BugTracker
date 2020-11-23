@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
 
+    using Leonov.BugTracker.Domain.Models.Base;
+
     /// <summary>
     /// Пользователь системы.
     /// </summary>
@@ -41,7 +43,7 @@
         /// <summary>
         /// Идентификатор типа пользователя. 
         /// </summary>
-        public Guid UserTypeId { get; set; }
+        public int UserTypeId { get; set; }
 
         /// <summary>
         /// Тип пользователя.

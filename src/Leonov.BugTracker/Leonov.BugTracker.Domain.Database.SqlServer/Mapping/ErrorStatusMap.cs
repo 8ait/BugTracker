@@ -7,18 +7,15 @@
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
     /// <summary>
-    /// Маппинг для типа сущности.
+    /// Маппинг статуса ошибки.
     /// </summary>
-    public class UserTypeMap : BaseDictionaryMap<UserType>
+    public class ErrorStatusMap: BaseDictionaryMap<ErrorStatus>
     {
-        /// <inheritdoc/>
-        public override void Configure(EntityTypeBuilder<UserType> builder)
+        /// <inheritdoc />
+        public override void Configure(EntityTypeBuilder<ErrorStatus> builder)
         {
             base.Configure(builder);
-            builder.ToTable("user_type");
-
-            builder.HasMany(x => x.Arms)
-                .WithMany(x => x.UserTypes);
+            builder.ToTable("error_status");
         }
     }
 }

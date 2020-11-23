@@ -2,6 +2,8 @@
 {
     using System;
 
+    using Leonov.BugTracker.Domain.Models.Base;
+
     /// <summary>
     /// Пользователь в проекте.
     /// </summary>

@@ -84,7 +84,7 @@
                 UserType = signUp.UserType
             };
             await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+            await _context.TrySaveChangesAsync(errors);
             await AuthoriseAsync(user);
         }
 
@@ -135,16 +135,9 @@
             }
 
             user.HashPassword = GenerateSaltedHash(Encoding.UTF8.GetBytes(userPasswordUpdate.NewPassword), user.Salt);
-            try
-            {
-                _context.Users.Update(user);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e.Message);
-                errors.Add("Не удалось получить доступ к базе данных.");
-            }
+
+            _context.Users.Update(user);
+            await _context.TrySaveChangesAsync(errors);
         }
 
         /// <summary>

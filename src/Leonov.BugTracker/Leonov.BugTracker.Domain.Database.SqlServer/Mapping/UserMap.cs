@@ -1,5 +1,6 @@
 ﻿namespace Leonov.BugTracker.Domain.Database.SqlServer.Mapping
 {
+    using Leonov.BugTracker.Domain.Database.SqlServer.Mapping.Base;
     using Leonov.BugTracker.Domain.Models;
 
     using Microsoft.EntityFrameworkCore;
@@ -8,13 +9,13 @@
     /// <summary>
     /// Маппинг для пользователя.
     /// </summary>
-    public class UserMap : IEntityTypeConfiguration<User>
+    public class UserMap : BaseEntityMap<User>
     {
         /// <inheritdoc/>
-        public void Configure(EntityTypeBuilder<User> builder)
+        public override void Configure(EntityTypeBuilder<User> builder)
         {
+            base.Configure(builder);
             builder.ToTable("user");
-            builder.Property(user => user.Id).HasDefaultValueSql("newid()");
             builder.Property(auth => auth.Login).IsRequired().HasMaxLength(150);
             builder.HasIndex(user => user.Login).IsUnique();
             builder.Property(user => user.FirstName).IsRequired().HasMaxLength(150);

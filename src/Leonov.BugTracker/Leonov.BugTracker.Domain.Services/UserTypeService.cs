@@ -33,7 +33,7 @@
         }
 
         /// <inheritdoc />
-        public async Task<UserType> GetByIdAsync(Guid id)
+        public async Task<UserType> GetByIdAsync(int id)
         {
             var user = await _context.UserTypes.FindAsync(id);
             user ??= await _context.UserTypes.FirstOrDefaultAsync();

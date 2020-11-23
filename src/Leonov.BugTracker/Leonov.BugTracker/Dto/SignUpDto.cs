@@ -43,7 +43,7 @@
         /// Тип пользователя.
         /// </summary>
         [Required(ErrorMessage = "Тип пользователя не должен быть пустым.")]
-        public Guid UserTypeId { get; set; }
+        public int UserTypeId { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {

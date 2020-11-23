@@ -1,4 +1,4 @@
-﻿namespace Leonov.BugTracker.Domain.Models
+﻿namespace Leonov.BugTracker.Domain.Models.Base
 {
     using System;
 

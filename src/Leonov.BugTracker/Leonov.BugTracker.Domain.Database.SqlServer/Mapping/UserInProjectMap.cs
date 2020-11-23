@@ -1,5 +1,6 @@
 ﻿namespace Leonov.BugTracker.Domain.Database.SqlServer.Mapping
 {
+    using Leonov.BugTracker.Domain.Database.SqlServer.Mapping.Base;
     using Leonov.BugTracker.Domain.Models;
 
     using Microsoft.EntityFrameworkCore;
@@ -8,13 +9,13 @@
     /// <summary>
     /// Мапппинг связи пользователя в проекте.
     /// </summary>
-    public class UserInProjectMap: IEntityTypeConfiguration<UserInProject>
+    public class UserInProjectMap: BaseEntityMap<UserInProject>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<UserInProject> builder)
+        public override void Configure(EntityTypeBuilder<UserInProject> builder)
         {
+            base.Configure(builder);
             builder.ToTable("user_in_project");
-            builder.Property(p => p.Id).HasDefaultValueSql("newid()");
 
             builder.HasOne(up => up.Project)
                 .WithMany(p => p.UserInProject)

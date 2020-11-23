@@ -1,7 +1,6 @@
 ﻿namespace Leonov.BugTracker.Domain.Database.SqlServer.Mapping
 {
-    using System;
-
+    using Leonov.BugTracker.Domain.Database.SqlServer.Mapping.Base;
     using Leonov.BugTracker.Domain.Models;
 
     using Microsoft.EntityFrameworkCore;
@@ -10,13 +9,13 @@
     /// <summary>
     /// Маппинг для проекта.
     /// </summary>
-    public class ProjectMap: IEntityTypeConfiguration<Project>
+    public class ProjectMap: BaseEntityMap<Project>
     {
         /// <inheritdoc />
-        public void Configure(EntityTypeBuilder<Project> builder)
+        public override void Configure(EntityTypeBuilder<Project> builder)
         {
+            base.Configure(builder);
             builder.ToTable("project");
-            builder.Property(p => p.Id).HasDefaultValueSql("newid()");
             builder.Property(p => p.Name).IsRequired().HasMaxLength(150);
             builder.Property(p => p.About).HasMaxLength(2000);
         }
