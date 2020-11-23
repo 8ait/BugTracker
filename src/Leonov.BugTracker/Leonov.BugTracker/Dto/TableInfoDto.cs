@@ -5,7 +5,7 @@
     /// <summary>
     /// Информация о таблице проектов.
     /// </summary>
-    public class ProjectTableInfoDto
+    public class TableInfoDto<T>
     {
         /// <summary>
         /// Количество страниц.
@@ -25,6 +25,6 @@
         /// <summary>
         /// Список проектов с инфомрацией на странице.
         /// </summary>
-        public List<ProjectInfoDto> ProjectInfoDtos { get; set; }
+        public List<T> RowDtos { get; set; }
     }
 }

@@ -5,15 +5,15 @@
     using Leonov.BugTracker.Dto;
 
     /// <summary>
-    /// Сервис для маппинга проектов.
+    /// Сервис для маппинга ошибок.
     /// </summary>
-    public interface IProjectMappingService
+    public interface IErrorMappingService
     {
         /// <summary>
         /// Дто таблицы с проектами.
         /// </summary>
         /// <param name="projectTableInfo"></param>
         /// <returns></returns>
-        public TableInfoDto<ProjectInfoDto> TableInfoToTableInfoDto(TableInfo<Project> tableInfo);
+        public TableInfoDto<ErrorInfoDto> TableInfoToTableInfoDto(TableInfo<Error> tableInfo);
     }
 }

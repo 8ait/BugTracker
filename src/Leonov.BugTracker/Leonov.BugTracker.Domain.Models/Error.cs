@@ -47,7 +47,7 @@
         /// <summary>
         /// Создатель ошибки.
         /// </summary>
-        public User CreateUser { get; set; }
+        public UserInProject CreateUser { get; set; }
 
         /// <summary>
         /// Ид создателя.
@@ -57,7 +57,7 @@
         /// <summary>
         /// Ответственный за выполнение ошибки.
         /// </summary>
-        public User ResponsibleUser { get; set; }
+        public UserInProject ResponsibleUser { get; set; }
 
         /// <summary>
         /// Ид ответсвенного.

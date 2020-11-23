@@ -59,14 +59,14 @@
             }
 
             var table = await _projectService.GetUserProjectTableInfoAsync(page, count, errors);
-            var tableDto = table != null ? _projectMappingService.ProjectTableInfoToProjectTableInfoDto(table) : null;
+            var tableDto = table != null ? _projectMappingService.TableInfoToTableInfoDto(table) : null;
 
             if (errors.Any())
             {
                 return new JsonResult(new Result(errors));
             }
 
-            return new JsonResult(new Result<ProjectTableInfoDto>(tableDto, errors));
+            return new JsonResult(new Result<TableInfoDto<ProjectInfoDto>>(tableDto, errors));
         }
     }
 }

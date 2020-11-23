@@ -1,16 +1,18 @@
-﻿namespace Leonov.BugTracker.Domain.Models
+﻿namespace Leonov.BugTracker.Domain.Models.Table
 {
     using System.Collections.Generic;
+
+    using Leonov.BugTracker.Domain.Models.Base;
 
     /// <summary>
     /// Таблица с проектами на определенной странице.
     /// </summary>
-    public class ProjectTableInfo
+    public class TableInfo<T> where T: BaseEntity
     {
         /// <summary>
         /// Проекты.
         /// </summary>
-        public List<Project> Projects { get; set; }
+        public List<T> Rows { get; set; }
 
         /// <summary>
         /// Страница.

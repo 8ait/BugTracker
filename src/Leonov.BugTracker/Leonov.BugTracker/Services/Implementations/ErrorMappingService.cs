@@ -8,13 +8,12 @@
     using Leonov.BugTracker.Dto;
     using Leonov.BugTracker.Services.Interfaces;
 
-    /// <inheritdoc />
-    public class ProjectMappingService : IProjectMappingService
+    public class ErrorMappingService: IErrorMappingService
     {
         /// <inheritdoc />
-        public TableInfoDto<ProjectInfoDto> TableInfoToTableInfoDto(TableInfo<Project> tableInfo)
+        public TableInfoDto<ErrorInfoDto> TableInfoToTableInfoDto(TableInfo<Error> tableInfo)
         {
-            return new TableInfoDto<ProjectInfoDto>()
+            return new TableInfoDto<ErrorInfoDto>()
             {
                 Page = tableInfo.Page,
                 Count = tableInfo.Count,
@@ -28,14 +27,16 @@
         /// </summary>
         /// <param name="projects"> Проекты. </param>
         /// <returns> Дто информации для проекта. </returns>
-        private IEnumerable<ProjectInfoDto> ProjectToProjectInfoDto(List<Project> projects)
+        private IEnumerable<ErrorInfoDto> ProjectToProjectInfoDto(List<Error> items)
         {
-            foreach (var project in projects)
+            foreach (var item in items)
             {
-                yield return new ProjectInfoDto()
+                yield return new ErrorInfoDto()
                 {
-                    Id = project.Id,
-                    Name = project.Name
+                    Id = item.Id,
+                    Name = item.Name,
+                    DateTime = item.CreateDate.ToShortDateString(),
+                    OriginAreaName = item.OriginArea.Name
                 };
             }
         }

@@ -7,17 +7,16 @@
     using Leonov.BugTracker.Domain.Models.Table;
 
     /// <summary>
-    /// Сервис для работы с проектами.
+    /// Сервис для работы с ошибками.
     /// </summary>
-    public interface IProjectService: IDataService<Project>
+    public interface IErrorService: IDataService<Error>
     {
-
         /// <summary>
         /// Получить таблицу с проектами на странице.
         /// </summary>
         /// <param name="page"> Номер страницы. </param>
         /// <param name="count"> Число элементов на странице. </param>
         /// <returns> Таблица с информацией. </returns>
-        public Task<TableInfo<Project>> GetUserProjectTableInfoAsync(int page, int count, List<string> errors);
+        public Task<TableInfo<Error>> GetUserErrorTableInfoAsync(int page, int count, List<string> errors);
     }
 }

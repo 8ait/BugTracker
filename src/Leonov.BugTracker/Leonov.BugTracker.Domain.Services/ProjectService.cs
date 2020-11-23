@@ -8,6 +8,7 @@
     using Leonov.BugTracker.Domain.Database.SqlServer;
     using Leonov.BugTracker.Domain.Interfaces;
     using Leonov.BugTracker.Domain.Models;
+    using Leonov.BugTracker.Domain.Models.Table;
 
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -18,7 +19,7 @@
         private readonly BugTrackerContext _context;
         private readonly ILogger _logger;
         private readonly IAuthoriseService _authoriseService;
-        
+
         /// <summary>
         /// Конструктор.
         /// </summary>
@@ -46,7 +47,7 @@
         }
 
         /// <inheritdoc />
-        public async Task<ProjectTableInfo> GetUserProjectTableInfoAsync(int page, int count, List<string> errors)
+        public async Task<TableInfo<Project>> GetUserProjectTableInfoAsync(int page, int count, List<string> errors)
         {
             var user = await _authoriseService.GetCurrentUser();
             if (user is null)
@@ -70,26 +71,7 @@
                 .AsNoTracking();
 
             var result = projectsOfUser.ToList();
-            var countOfPages = result.Count % count == 0 && result.Count != 0 ? result.Count / count : result.Count / count + 1;
-
-            if (page > countOfPages)
-            {
-                errors.Add("Запрашиваемая страница не существует.");
-                return null;
-            }
-
-            var projectTable = new ProjectTableInfo()
-            {
-                Projects = new List<Project>(),
-                Count = count,
-                CountOfPages = countOfPages,
-                Page = page
-            };
-
-            for (int i = (page - 1) * count; i < result.Count && i < page * count; i++)
-            {
-                projectTable.Projects.Add(result[i]);
-            }
+            var projectTable = TableUtil<Project>.GetTableInfo(page, count, errors, result);
 
             return projectTable;
         }
