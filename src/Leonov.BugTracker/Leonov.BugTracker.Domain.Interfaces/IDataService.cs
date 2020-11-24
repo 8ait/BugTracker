@@ -23,6 +23,21 @@
         /// </summary>
         /// <param name="entities"> Сущности. </param>
         /// <returns></returns>
-        public Task EditAsync(List<string> errors, params T[] entities);
+        public Task EditAsync(T entity, List<string> errors);
+
+        /// <summary>
+        /// Создать сущность.
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <param name="errors"></param>
+        /// <returns></returns>
+        public Task CreateAsync(T entity, List<string> errors);
+
+        /// <summary>
+        /// Удалить сущность.
+        /// </summary>
+        /// <param name="id"> Идентфикатор. </param>
+        /// <returns></returns>
+        public Task DeleteAsync(Guid id, List<string> errors);
     }
 }

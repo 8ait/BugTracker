@@ -35,7 +35,17 @@
         }
 
         /// <inheritdoc />
-        public Task EditAsync(List<string> errors, params Error[] entities)
+        public Task EditAsync(Error entity, List<string> errors)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CreateAsync(Error entity, List<string> errors)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(Guid id, List<string> errors)
         {
             throw new NotImplementedException();
         }
@@ -62,6 +72,29 @@
             var errorTable = TableUtil<Error>.GetTableInfo(page, count, errors, result);
 
             return errorTable;
+        }
+
+        /// <inheritdoc />
+        public async Task<TableInfo<Error>> GetProjectErrorTableInfoAsync(int page, int count, Guid id, List<string> errors)
+        {
+            var project = await _context.Projects.FindAsync(id);
+            if (project is null)
+            {
+                errors.Add("Не удалось получить проект.");
+            }
+
+            var userInProjectIds = _context.UserInProjects
+                .Where(x => x.ProjectId == project.Id)
+                .Select(x => x.Id);
+
+            var projectErrors = _context.Errors
+                .Include(x => x.OriginArea)
+                .Where(x => userInProjectIds.Contains(x.CreateUserId));
+
+            var result = projectErrors.ToList();
+            var projectErrorTable = TableUtil<Error>.GetTableInfo(page, count, errors, result);
+
+            return projectErrorTable;
         }
     }
 }

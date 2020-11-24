@@ -5,7 +5,7 @@
         <thead style="background-color: chocolate; color: white">
             <tr>
                 <th scope="col">Название</th>
-                <th scope="col"></th>
+                <th scope="col"><a class="btn btn-success" href="/Project/CreateIndex">Создать &#128193;</a></th>
             </tr>
         </thead>
         <tbody id="projects">
@@ -42,7 +42,7 @@
 
         getProjectAllTableAjax(1, 5);
 
-        userGo.onclick = function () {
+        projectAllGo.onclick = function () {
             var count = $('#projectAllCount').val();
             var page = $('#projectAllPage').val();
             getProjectAllTableAjax(page, count);

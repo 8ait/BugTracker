@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model Leonov.BugTracker.Dto.ProjectDto
+<div class="main row" style="width: 100%">
+    <div class="col-3">
+        <div class="info">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a class="nav-link active" id="v-pills-info-tab" data-toggle="pill" href="#v-pills-info" role="tab" aria-controls="v-pills-info" aria-selected="true">Информация проекта</a>
+                <a class="nav-link" id="v-pills-manager-tab" data-toggle="pill" href="#v-pills-manager" role="tab" aria-controls="v-pills-manager" aria-selected="false">Руководители</a>
+                <a class="nav-link" id="v-pills-developer-tab" data-toggle="pill" href="#v-pills-developer" role="tab" aria-controls="v-pills-developer" aria-selected="false">Разработчики</a>
+                <a class="nav-link" id="v-pills-tester-tab" data-toggle="pill" href="#v-pills-tester" role="tab" aria-controls="v-pills-tester" aria-selected="false">Тестировщики</a>
+                <a class="nav-link" id="v-pills-error-tab" data-toggle="pill" href="#v-pills-error" role="tab" aria-controls="v-pills-error" aria-selected="false">Ошибки</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="info">
+            <div class="tab-content" id="v-pills-tabContent">
+                <input type="hidden" id="projectId" value="@Model.Id"/>
+                <div class="tab-pane fade show active" id="v-pills-info" role="tabpanel" aria-labelledby="v-pills-info-tab">
+                    @await Html.PartialAsync("ProjectViews/_ProjectInfo", Model, ViewData)
+                </div>
+                <div class="tab-pane fade" id="v-pills-manager" role="tabpanel" aria-labelledby="v-pills-manager-tab">
+                    @await Html.PartialAsync("ProjectViews/_ProjectManagers", Model, ViewData)
+                </div>
+                <div class="tab-pane fade" id="v-pills-developer" role="tabpanel" aria-labelledby="v-pills-developer-tab">
+                    @await Html.PartialAsync("ProjectViews/_ProjectDevelopers", Model, ViewData)
+                </div>
+                <div class="tab-pane fade" id="v-pills-tester" role="tabpanel" aria-labelledby="v-pills-tester-tab">
+                    @await Html.PartialAsync("ProjectViews/_ProjectTesters", Model, ViewData)
+                </div>
+                <div class="tab-pane fade" id="v-pills-error" role="tabpanel" aria-labelledby="v-pills-error-tab">
+                    @await Html.PartialAsync("ProjectViews/_ProjectErrors", Model, ViewData)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

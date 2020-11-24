@@ -35,15 +35,63 @@
         }
 
         /// <inheritdoc />
-        public Task<Project> GetAsync(Guid id)
+        public async Task<Project> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var project = await _context.Projects.FindAsync(id);
+            return project;
         }
 
         /// <inheritdoc />
-        public Task EditAsync(List<string> errors, params Project[] entities)
+        public async Task EditAsync(Project entity, List<string> errors)
         {
-            throw new NotImplementedException();
+            _context.Projects.Update(entity);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                errors.Add("Не удалось обновить проект в базе данных.");
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task CreateAsync(Project entity, List<string> errors)
+        {
+            await _context.Projects.AddAsync(entity);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                errors.Add("Не удалось добавить проект в базу данных.");
+            }
+        }
+
+        /// <inheritdoc />
+        public async Task DeleteAsync(Guid id, List<string> errors)
+        {
+            var projectToDelete = await _context.Projects.FindAsync(id);
+            if (projectToDelete is null)
+            {
+                errors.Add("Такого проекта не сущетсвует");
+                return;
+            }
+
+            _context.Projects.Remove(projectToDelete);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                errors.Add("Не получилось удалить проект из базы данных.");
+            }
         }
 
         /// <inheritdoc />
@@ -78,6 +126,16 @@
 
             var result = projectsOfUser.ToList();
             var projectTable = TableUtil<Project>.GetTableInfo(page, count, errors, result);
+
+            return projectTable;
+        }
+
+        /// <inheritdoc/>
+        public async Task<TableInfo<Project>> GetProjectAllTableInfoAsync(int page, int count, List<string> errors)
+        {
+            var projects = await _context.Projects.ToListAsync();
+
+            var projectTable = TableUtil<Project>.GetTableInfo(page, count, errors, projects);
 
             return projectTable;
         }

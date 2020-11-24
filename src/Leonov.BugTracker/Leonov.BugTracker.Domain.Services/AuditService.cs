@@ -35,7 +35,17 @@
         }
 
         /// <inheritdoc />
-        public Task EditAsync(List<string> errors, params Audit[] entities)
+        public Task EditAsync(Audit entity, List<string> errors)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task CreateAsync(Audit entity, List<string> errors)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(Guid id, List<string> errors)
         {
             throw new NotImplementedException();
         }

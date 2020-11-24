@@ -83,3 +83,42 @@ function getProjectAllTableAjax(page, count) {
         }
     });
 }
+
+function deleteProjectAjax(id) {
+    var projectToDelete = id;
+    $.ajax({
+        type: "DELETE",
+        url: "/Project/Delete",
+        data: JSON.stringify(projectToDelete),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (json) {
+            if (json.isSuccess) {
+                window.location.href = "/Project";
+                var id = getRandomInt(0, 9999);
+                addInfo("alert-" + id, "Информация отредактирована.");
+                showAlert("alert-" + id, 0 * 450);
+            } else {
+                for (var i = 0; i < json.errors.length; i++) {
+                    var id = getRandomInt(0, 9999);
+                    addError("alert-" + id, json.errors[i]);
+                    showAlert("alert-" + id, i * 450);
+                }
+            }
+        },
+        failure: function (response) {
+            var id = getRandomInt(0, 9999);
+            var err = "Не удалось удалить проект.";
+            addError("alert-" + id, err);
+            showAlert("alert-" + id, 350);
+            console.log(err);
+        },
+        error: function (response) {
+            var id = getRandomInt(0, 9999);
+            var err = "Не удалось удалить проект.";
+            addError("alert-" + id, err);
+            showAlert("alert-" + id, 350);
+            console.log(err);
+        }
+    });
+}

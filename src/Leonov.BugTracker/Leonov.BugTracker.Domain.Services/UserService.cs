@@ -64,7 +64,7 @@
             user.Surname = userInfo.Surname;
             user.UserTypeId = userInfo.UserType.Id;
 
-            await EditAsync(errors, user);
+            await EditAsync(user, errors);
         }
 
         /// <inheritdoc />
@@ -89,10 +89,20 @@
         }
 
         /// <inheritdoc />
-        public async Task EditAsync(List<string> errors, params User[] entities)
+        public async Task EditAsync(User entity, List<string> errors)
         {
-            _context.Users.UpdateRange(entities);
+            _context.Users.Update(entity);
             await _context.TrySaveChangesAsync(errors);
+        }
+
+        public Task CreateAsync(User entity, List<string> errors)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteAsync(Guid id, List<string> errors)
+        {
+            throw new NotImplementedException();
         }
 
         private IQueryable<User> IncludeCommon(IQueryable<User> users)

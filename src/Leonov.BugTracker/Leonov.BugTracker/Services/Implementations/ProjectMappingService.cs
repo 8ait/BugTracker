@@ -23,6 +23,49 @@
             };
         }
 
+        /// <inheritdoc />
+        public ProjectDto ProjectToProjectDto(Project project)
+        {
+            return new ProjectDto()
+            {
+                Id = project.Id,
+                Name = project.Name,
+                About = project.About
+            };
+        }
+
+        /// <inheritdoc />
+        public Project CreateProjectDtoToProject(CreateProjectDto createProjectDto)
+        {
+            return new Project()
+            {
+                Name = createProjectDto.Name,
+                About = createProjectDto.About
+            };
+        }
+
+        /// <inheritdoc />
+        public Project EditProjectDtoToProject(EditProjectDto editProjectDto)
+        {
+            return new Project()
+            {
+                Id = editProjectDto.Id,
+                Name = editProjectDto.Name,
+                About = editProjectDto.About
+            };
+        }
+
+        /// <inheritdoc />
+        public EditProjectDto ProjectToEditProjectDto(Project project)
+        {
+            return new EditProjectDto()
+            {
+                Id = project.Id,
+                Name = project.Name,
+                About = project.About
+            };
+        }
+
         /// <summary>
         /// Маппинг проекта в дто информации для проекта.
         /// </summary>
