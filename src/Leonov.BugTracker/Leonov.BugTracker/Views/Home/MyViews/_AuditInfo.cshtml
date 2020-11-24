@@ -4,17 +4,54 @@
 
 <table class="table table-striped" style="text-align: center;">
     <thead style="background-color: chocolate; color: white">
-    <tr>
-        <th scope="col">Описание</th>
-        <th scope="col">Дата изменения</th>
-        <th scope="col">Состояние</th>
-    </tr>
+        <tr>
+            <th scope="col">Описание</th>
+            <th scope="col">Дата изменения</th>
+            <th scope="col">Состояние</th>
+        </tr>
     </thead>
-    <tbody>
-    <tr>
-        <td>Ошибка "Отображение" получила статус обнаружено</td>
-        <td>12.12.12</td>
-        <td>Обнаружено</td>
-    </tr>
+    <tbody id="audits">
     </tbody>
 </table>
+<div class="row" style="text-align: center">
+    <div class="col-8">
+        <div class="input-group" style="width: 60%; margin: auto">
+            <input type="number" class="form-control" id="auditPage">
+            <div class="input-group-append">
+                <span class="input-group-text" id="infoAuditPage">1 из 25</span>
+                <button class="btn btn-success" type="button" id="auditGo">Перейти</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="row">
+            <label class="col-6 col-form-label"><strong>Кол-во:</strong></label>
+            <div class="col-6">
+                <select name="count" id="auditCount" class="form-control" onchange="changeOption()">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/audit.js"></script>
+<script>
+    $(document).ready(function (e) {
+
+        getAuditTableAjax(1, 5);
+
+        auditGo.onclick = function() {
+            var count = $('#auditCount').val();
+            var page = $('#auditPage').val();
+            getAuditTableAjax(page, count);
+        }
+    });
+
+    function changeOption() {
+        var count = $('#auditCount').val();
+        getAuditTableAjax(1, count);
+    }
+</script>
