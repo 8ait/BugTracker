@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
 
     using Leonov.BugTracker.Domain.Models;
+    using Leonov.BugTracker.Domain.Models.Table;
 
     /// <summary>
     /// Сервис для работы с пользователями.
@@ -25,5 +26,14 @@
         /// <param name="errors"> Возможные ошибки. </param>
         /// <returns></returns>
         Task UpdateUserInformation(UserInfo userInfo, List<string> errors);
+
+        /// <summary>
+        /// Получить таблицу информации о пользователях.
+        /// </summary>
+        /// <param name="page"> Номер страницы. </param>
+        /// <param name="count"> Количество элементов на странице. </param>
+        /// <param name="errors"> Ошибки. </param>
+        /// <returns> Таблица информации. </returns>
+        public Task<TableInfo<User>> GetUserTableInfoAsync(int page, int count, List<string> errors);
     }
 }

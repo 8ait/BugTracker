@@ -2,23 +2,59 @@
     ViewData["Title"] = "Пользователи";
 }
 
-<div class="main-user">
+<div class="main-user info">
     <table class="table table-striped" style="text-align: center;">
         <thead style="background-color: chocolate; color: white">
-        <tr>
-            <th scope="col">Фамилия</th>
-            <th scope="col">Имя</th>
-            <th scope="col">Должность</th>
-        </tr>
+            <tr>
+                <th scope="col">Фамилия</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Должность</th>
+                <th scope="col"></th>
+            </tr>
         </thead>
         <tbody id="users">
-        @Html.BeginForm("GetUsersTable","User")
         </tbody>
     </table>
-
-    <form action="/User/GetUsersTable" data-ajax="true" data-ajax-mode="replace" data-ajax-update="#results" id="form0" method="get">
-        <input type="text" name="page" />
-        <input type="text" name="count" />
-        <input type="submit" value="count" />
-    </form>
+    <div class="row" style="text-align: center">
+        <div class="col-8">
+            <div class="input-group" style="width: 60%; margin: auto">
+                <input type="number" class="form-control" id="userPage">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="infoUserPage">1 из 25</span>
+                    <button class="btn btn-success" type="button" id="userGo">Перейти</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <label class="col-6 col-form-label"><strong>Кол-во:</strong></label>
+                <div class="col-6">
+                    <select name="count" id="userCount" class="form-control" onchange="changeOption()">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/user.js"></script>
+<script>
+    $(document).ready(function (e) {
+
+        getUserTableAjax(1, 5);
+
+        userGo.onclick = function () {
+            var count = $('#userCount').val();
+            var page = $('#userPage').val();
+            getUserTableAjax(page, count);
+        }
+    });
+
+    function changeOption() {
+        var count = $('#userCount').val();
+        getUserTableAjax(1, count);
+    }
+</script>

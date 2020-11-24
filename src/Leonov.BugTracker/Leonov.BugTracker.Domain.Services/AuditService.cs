@@ -29,7 +29,7 @@
         }
 
         /// <inheritdoc />
-        public Audit Get(Guid id)
+        public Task<Audit> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }

@@ -27,7 +27,7 @@
         <div class="row">
             <label class="col-6 col-form-label"><strong>Кол-во:</strong></label>
             <div class="col-6">
-                <select name="count" id="auditCount" class="form-control" onchange="changeOption()">
+                <select name="count" id="auditCount" class="form-control" onchange="changeAuditOption()">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="15">15</option>
@@ -50,7 +50,7 @@
         }
     });
 
-    function changeOption() {
+    function changeAuditOption() {
         var count = $('#auditCount').val();
         getAuditTableAjax(1, count);
     }

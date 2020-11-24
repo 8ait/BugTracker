@@ -1,6 +1,10 @@
 ﻿namespace Leonov.BugTracker.Services.Implementations
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     using Leonov.BugTracker.Domain.Models;
+    using Leonov.BugTracker.Domain.Models.Table;
     using Leonov.BugTracker.Dto;
     using Leonov.BugTracker.Services.Interfaces;
 
@@ -44,6 +48,37 @@
                 NewPassword = userPasswordUpdateDto.NewPassword,
                 OldPassword = userPasswordUpdateDto.OldPassword
             };
+        }
+
+        /// <inheritdoc />
+        public TableInfoDto<UserInfoDto> TableInfoToTableInfoDto(TableInfo<User> tableInfo)
+        {
+            return new TableInfoDto<UserInfoDto>()
+            {
+                Count = tableInfo.Count,
+                CountOfPages = tableInfo.CountOfPages,
+                Page = tableInfo.Page,
+                RowDtos = UserToUserInfoDto(tableInfo.Rows).ToList()
+            };
+        }
+
+        /// <summary>
+        /// Маппинг пользователя в дто информации для пользователя.
+        /// </summary>
+        /// <param name="items"> Пользователи. </param>
+        /// <returns> Дто информации для пользователя. </returns>
+        private IEnumerable<UserInfoDto> UserToUserInfoDto(List<User> items)
+        {
+            foreach (var item in items)
+            {
+                yield return new UserInfoDto()
+                {
+                    Id = item.Id,
+                    Firstname = item.FirstName,
+                    Surname = item.Surname,
+                    UserTypeName = item.UserType.Name
+                };
+            }
         }
     }
 }

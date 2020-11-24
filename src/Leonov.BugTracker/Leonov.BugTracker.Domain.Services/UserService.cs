@@ -8,6 +8,7 @@
     using Leonov.BugTracker.Domain.Database.SqlServer;
     using Leonov.BugTracker.Domain.Interfaces;
     using Leonov.BugTracker.Domain.Models;
+    using Leonov.BugTracker.Domain.Models.Table;
 
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
@@ -67,9 +68,24 @@
         }
 
         /// <inheritdoc />
-        public User Get(Guid id)
+        public async Task<TableInfo<User>> GetUserTableInfoAsync(int page, int count, List<string> errors)
         {
-            throw new NotImplementedException();
+            var users = _context.Users
+                .Include(x => x.UserType);
+            var result = await users.ToListAsync();
+
+            var table = TableUtil<User>.GetTableInfo(page, count, errors, result);
+
+            return table;
+        }
+
+        /// <inheritdoc />
+        public async Task<User> GetAsync(Guid id)
+        {
+            var user = await _context.Users
+                .Include(x => x.UserType)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            return user;
         }
 
         /// <inheritdoc />
@@ -77,6 +93,12 @@
         {
             _context.Users.UpdateRange(entities);
             await _context.TrySaveChangesAsync(errors);
+        }
+
+        private IQueryable<User> IncludeCommon(IQueryable<User> users)
+        {
+            users.Include(x => x.UserType);
+            return users;
         }
     }
 }

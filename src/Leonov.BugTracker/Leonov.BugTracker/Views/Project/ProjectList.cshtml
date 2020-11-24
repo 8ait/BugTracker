@@ -1,5 +1,56 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
 }
+<div class="main-project info">
+    <table class="table table-striped" style="text-align: center;">
+        <thead style="background-color: chocolate; color: white">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody id="projects">
+        </tbody>
+    </table>
+    <div class="row" style="text-align: center">
+        <div class="col-8">
+            <div class="input-group" style="width: 60%; margin: auto">
+                <input type="number" class="form-control" id="projectAllPage">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="infoProjectAllPage">1 из 25</span>
+                    <button class="btn btn-success" type="button" id="projectAllGo">Перейти</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <label class="col-6 col-form-label"><strong>Кол-во:</strong></label>
+                <div class="col-6">
+                    <select name="count" id="projectAllCount" class="form-control" onchange="changeProjectAllOption()">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/project.js"></script>
+<script>
+    $(document).ready(function (e) {
+
+        getProjectAllTableAjax(1, 5);
+
+        userGo.onclick = function () {
+            var count = $('#projectAllCount').val();
+            var page = $('#projectAllPage').val();
+            getProjectAllTableAjax(page, count);
+        }
+    });
+
+    function changeProjectAllOption() {
+        var count = $('#projectAllCount').val();
+        getProjectAllTableAjax(1, count);
+    }
+</script>

@@ -16,7 +16,7 @@
         /// </summary>
         /// <param name="id"> Идентификатор. </param>
         /// <returns> Сущность. </returns>
-        public T Get(Guid id);
+        public Task<T> GetAsync(Guid id);
 
         /// <summary>
         /// Редактировать сущности.

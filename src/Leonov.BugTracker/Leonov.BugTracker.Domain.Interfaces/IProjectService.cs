@@ -1,5 +1,6 @@
 ﻿namespace Leonov.BugTracker.Domain.Interfaces
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -18,6 +19,6 @@
         /// <param name="page"> Номер страницы. </param>
         /// <param name="count"> Число элементов на странице. </param>
         /// <returns> Таблица с информацией. </returns>
-        public Task<TableInfo<Project>> GetUserProjectTableInfoAsync(int page, int count, List<string> errors);
+        public Task<TableInfo<Project>> GetUserProjectTableInfoAsync(int page, int count, List<string> errors, Guid? id = null);
     }
 }

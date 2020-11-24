@@ -1,3 +1,83 @@
-﻿@{
-
+﻿@model Leonov.BugTracker.Dto.UserDto;
+@{
+    Layout = "_Layout";
 }
+<div class="main-user info">
+    <div class="row">
+        <div class="col-5">
+            <div class="info-mini" style="margin: 5px; margin-top: 15px; height: 200px">
+                <div class="header-info-mini" style="margin: -20px; margin-bottom: 20px;">&#128295; Пользователь</div>
+                <h5><strong id="user-name">@Model.Firstname @Model.Surname</strong></h5>
+                <h5><strong id="user-type">@Model.UserTypeName</strong></h5>
+            </div>
+            <div class="info-mini" style="margin: 5px; margin-top: 15px; height: 200px">
+                <div class="header-info-mini" style="margin: -20px; margin-bottom: 20px;">&#128221; Статусы ошибок</div>
+                <h5><strong>Активно</strong> <span class="badge badge-info">0</span></h5>
+                <h5><strong>Неактивно</strong> <span class="badge badge-secondary">2</span></h5>
+            </div>
+            <div class="info-mini" style="margin: 5px; margin-top: 15px; height: 200px">
+                <div class="header-info-mini" style="margin: -20px; margin-bottom: 20px;">&#128172; Комментарии</div>
+                <h5><strong>Оставлено</strong> <span class="badge badge-info">0</span></h5>
+                <h5><strong>Популярность</strong> <span class="badge badge-danger">0</span></h5>
+            </div>
+        </div>
+        <div class="col-7" style="text-align: center">
+            <strong><h2>Проекты пользователя:</h2></strong>
+            <table class="table" style="text-align: center; margin-top: 20px;">
+                <thead style="background-color: chocolate; color: white">
+                    <tr>
+                        <th scope="col-9">Название проекта</th>
+                        <th scope="col-3"></th>
+                    </tr>
+                </thead>
+                <tbody id="projects">
+                </tbody>
+            </table>
+            <div class="row" style="text-align: center">
+                <div class="col-7">
+                    <div class="input-group" style="margin: auto">
+                        <input type="hidden" id="userId" value="@Model.Id"/>
+                        <input type="number" class="form-control" id="userProjectPage">
+                        <div class="input-group-append">
+                            <span class="input-group-text" id="infoUserProjectPage">1 из 25</span>
+                            <button class="btn btn-success" type="button" id="userProjectGo">Перейти</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-5">
+                    <div class="row">
+                        <label class="col-6 col-form-label"><strong>Кол-во:</strong></label>
+                        <div class="col-6">
+                            <select name="count" id="userProjectCount" class="form-control" onchange="changeUserProjectOption()">
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/user.js"></script>
+<script>
+    $(document).ready(function (e) {
+        var id = $('#userId').val();
+        getProjectTableAjax(1, 5, id);
+
+        userProjectGo.onclick = function () {
+            var count = $('#userProjectCount').val();
+            var page = $('#userProjectPage').val();
+            var id = $('#userId').val();
+            getProjectTableAjax(page, count, id);
+        }
+    });
+
+    function changeUserProjectOption() {
+        var count = $('#userProjectCount').val();
+        var id = $('#userId').val();
+        getProjectTableAjax(1, count, id);
+    }
+</script>

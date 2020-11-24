@@ -35,7 +35,7 @@
         }
 
         /// <inheritdoc />
-        public Project Get(Guid id)
+        public Task<Project> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
@@ -47,9 +47,15 @@
         }
 
         /// <inheritdoc />
-        public async Task<TableInfo<Project>> GetUserProjectTableInfoAsync(int page, int count, List<string> errors)
+        public async Task<TableInfo<Project>> GetUserProjectTableInfoAsync(int page, int count, List<string> errors, Guid? id = null)
         {
-            var user = await _authoriseService.GetCurrentUser();
+            User user = null;
+
+            if (id is null)
+                user = await _authoriseService.GetCurrentUser();
+            else
+                user = await _context.Users.FindAsync(id);
+
             if (user is null)
             {
                 errors.Add("Не удалось получить пользователя.");

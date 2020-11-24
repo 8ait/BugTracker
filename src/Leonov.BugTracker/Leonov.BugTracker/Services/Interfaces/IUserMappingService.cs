@@ -1,6 +1,7 @@
 ﻿namespace Leonov.BugTracker.Services.Interfaces
 {
     using Leonov.BugTracker.Domain.Models;
+    using Leonov.BugTracker.Domain.Models.Table;
     using Leonov.BugTracker.Dto;
 
     /// <summary>
@@ -29,5 +30,12 @@
         /// <returns> Сущность обновления пароля. </returns>
         public UserPasswordUpdate
             UserPasswordUpdateDtoInuserPasswordUpdate(UserPasswordUpdateDto userPasswordUpdateDto);
+
+        /// <summary>
+        /// Маппинг таблицы пользователей в таблицу с информацией пользователей.
+        /// </summary>
+        /// <param name="tableInfo"> Таблица пользователей. </param>
+        /// <returns> Таблица с информацией. </returns>
+        public TableInfoDto<UserInfoDto> TableInfoToTableInfoDto(TableInfo<User> tableInfo);
     }
 }

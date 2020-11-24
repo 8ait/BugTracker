@@ -1,5 +1,6 @@
 ﻿namespace Leonov.BugTracker.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -67,6 +68,50 @@
             }
 
             return new JsonResult(new Result<TableInfoDto<ProjectInfoDto>>(tableDto, errors));
+        }
+
+        /// <summary>
+        /// Получить таблицу из проектов пользователя.
+        /// </summary>
+        /// <param name="page"> Номер страницы. </param>
+        /// <param name="count"> Количество элементов на странице. </param>
+        /// <param name="id"> ID пользователя. </param>
+        /// <returns> Список проектов. </returns>
+        public async Task<JsonResult> GetUserProjectTableById(int page, int count, Guid? id)
+        {
+            var errors = new List<string>();
+
+            if (page <= 0)
+                errors.Add("Неверный формат страницы.");
+
+            if (count <= 0)
+                errors.Add("Неверный формат количества элементов на странице.");
+
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            var table = await _projectService.GetUserProjectTableInfoAsync(page, count, errors, id);
+            var tableDto = table != null ? _projectMappingService.TableInfoToTableInfoDto(table) : null;
+
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            return new JsonResult(new Result<TableInfoDto<ProjectInfoDto>>(tableDto, errors));
+        }
+
+        /// <summary>
+        /// Получить всю таблицу проектов.
+        /// </summary>
+        /// <param name="page"> Номер страницы. </param>
+        /// <param name="count"> Кол-во элементов на странице. </param>
+        /// <returns></returns>
+        public async Task<JsonResult> GetProjectAllTable(int page, int count)
+        {
+            return null;
         }
     }
 }

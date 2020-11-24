@@ -40,6 +40,23 @@
         }
 
         /// <summary>
+        /// Получить пользователя по идентифкатору.
+        /// </summary>
+        /// <param name="id"> Идентификатор пользователя. </param>
+        /// <returns> Страница пользователя </returns>
+        public async Task<IActionResult> GetUser(Guid id)
+        {
+            var user = await _userService.GetAsync(id);
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            var userDto = _userMappingService.UserInUserDto(user);
+            return View("UserDetail", userDto);
+        }
+
+        /// <summary>
         /// Редактировать информацию о текущем пользователе.
         /// </summary>
         /// <returns></returns>
@@ -104,6 +121,38 @@
             var user = await _authoriseService.GetCurrentUser();
             var userDto = _userMappingService.UserInUserDto(user);
             return new JsonResult(new Result<UserDto>(userDto, errors));
+        }
+
+        /// <summary>
+        /// Получить таблицу пользователей.
+        /// </summary>
+        /// <param name="page"> Номер страницы. </param>
+        /// <param name="count"> Количество элементов на странице. </param>
+        /// <returns> Таблица с пользователями. </returns>
+        public async Task<JsonResult> GetUserTable(int page, int count)
+        {
+            var errors = new List<string>();
+
+            if (page <= 0)
+                errors.Add("Неверный формат страницы.");
+
+            if (count <= 0)
+                errors.Add("Неверный формат количества элементов на странице.");
+
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            var table = await _userService.GetUserTableInfoAsync(page, count, errors);
+            var tableDto = table != null ? _userMappingService.TableInfoToTableInfoDto(table) : null;
+
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            return new JsonResult(new Result<TableInfoDto<UserInfoDto>>(tableDto, errors));
         }
     }
 }

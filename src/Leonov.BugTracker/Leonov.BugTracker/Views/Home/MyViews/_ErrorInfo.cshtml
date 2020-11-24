@@ -28,7 +28,7 @@
         <div class="row">
             <label class="col-6 col-form-label"><strong>Кол-во:</strong></label>
             <div class="col-6">
-                <select name="count" id="errorCount" class="form-control" onchange="changeOption()">
+                <select name="count" id="errorCount" class="form-control" onchange="changeErrorOption()">
                     <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="15">15</option>
@@ -51,7 +51,7 @@
         }
     });
 
-    function changeOption() {
+    function changeErrorOption() {
         var count = $('#errorCount').val();
         getErrorTableAjax(1, count);
     }

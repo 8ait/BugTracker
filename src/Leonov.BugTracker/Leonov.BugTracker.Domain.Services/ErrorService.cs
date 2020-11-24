@@ -29,7 +29,7 @@
         }
 
         /// <inheritdoc />
-        public Error Get(Guid id)
+        public Task<Error> GetAsync(Guid id)
         {
             throw new NotImplementedException();
         }
