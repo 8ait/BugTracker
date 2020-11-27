@@ -62,6 +62,38 @@
             };
         }
 
+        /// <inheritdoc />
+        public TableInfoDto<UserInProjectDto> TableInfoToTableInfoDtoUserInProject(TableInfo<UserInProject> tableInfo)
+        {
+            return new TableInfoDto<UserInProjectDto>()
+            {
+                Count = tableInfo.Count,
+                CountOfPages = tableInfo.CountOfPages,
+                Page = tableInfo.Page,
+                RowDtos = UserInProjectToUserInProjectDto(tableInfo.Rows).ToList()
+            };
+        }
+
+        /// <summary>
+        /// Маппинг пользователя в дто информации для пользователя.
+        /// </summary>
+        /// <param name="items"> Пользователи. </param>
+        /// <returns> Дто информации для пользователя. </returns>
+        private IEnumerable<UserInProjectDto> UserInProjectToUserInProjectDto(List<UserInProject> items)
+        {
+            foreach (var item in items)
+            {
+                yield return new UserInProjectDto()
+                {
+                    Id = item.Id,
+                    Firstname = item.User.FirstName,
+                    Surname = item.User.Surname,
+                    StartDate = item.StartDate.ToShortDateString(),
+                    UserId = item.UserId
+                };
+            }
+        }
+
         /// <summary>
         /// Маппинг пользователя в дто информации для пользователя.
         /// </summary>

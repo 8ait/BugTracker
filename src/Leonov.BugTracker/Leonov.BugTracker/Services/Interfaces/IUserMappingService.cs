@@ -37,5 +37,12 @@
         /// <param name="tableInfo"> Таблица пользователей. </param>
         /// <returns> Таблица с информацией. </returns>
         public TableInfoDto<UserInfoDto> TableInfoToTableInfoDto(TableInfo<User> tableInfo);
+
+        /// <summary>
+        /// Маппинг таблицы пользователей в проекте в таблицу с дто.
+        /// </summary>
+        /// <param name="tableInfo"> Таблица пользователей. </param>
+        /// <returns> Таблица с информацией. </returns>
+        public TableInfoDto<UserInProjectDto> TableInfoToTableInfoDtoUserInProject(TableInfo<UserInProject> tableInfo);
     }
 }

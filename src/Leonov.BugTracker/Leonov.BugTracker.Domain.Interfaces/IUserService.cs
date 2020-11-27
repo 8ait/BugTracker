@@ -1,5 +1,6 @@
 ﻿namespace Leonov.BugTracker.Domain.Interfaces
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -35,5 +36,38 @@
         /// <param name="errors"> Ошибки. </param>
         /// <returns> Таблица информации. </returns>
         public Task<TableInfo<User>> GetUserTableInfoAsync(int page, int count, List<string> errors);
+
+        /// <summary>
+        /// Получить таблицу информации о пользователях.
+        /// </summary>
+        /// <param name="page"> Номер страницы. </param>
+        /// <param name="count"> Количество элементов на странице. </param>
+        /// <param name="errors"> Ошибки. </param>
+        /// <returns> Таблица информации. </returns>
+        public Task<TableInfo<UserInProject>> GetUserTypesTableInfoAsync(int page, int count, Guid id, int UserTypeId, List<string> errors);
+
+        /// <summary>
+        /// Получить пользователей по типу пользователя.
+        /// </summary>
+        /// <param name="userTypeId"> Тип пользователя. </param>
+        /// <param name="projectId"> Идентификатор проекта. </param>
+        /// <returns></returns>
+        public Task<List<User>> GetUsersByUserTypeAndProject(int userTypeId, Guid projectId);
+
+        /// <summary>
+        /// Доабвить пользователя в проект.
+        /// </summary>
+        /// <param name="userId"> Идентфикатор пользователя. </param>
+        /// <param name="projectId"> Идентфиикатор проекта. </param>
+        /// <returns></returns>
+        public Task AddUserToProject(Guid userId, Guid projectId, List<string> errors);
+
+        /// <summary>
+        /// Удалить пользователя из проекта.
+        /// </summary>
+        /// <param name="userInProjectId"> Идентификатор пользователя в проекте. </param>
+        /// <param name="errors"> Ошибки. </param>
+        /// <returns></returns>
+        public Task DeleteUserFromProject(Guid userInProjectId, List<string> errors);
     }
 }

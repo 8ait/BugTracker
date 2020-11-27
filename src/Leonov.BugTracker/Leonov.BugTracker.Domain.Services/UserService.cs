@@ -80,6 +80,66 @@
         }
 
         /// <inheritdoc />
+        public async Task<TableInfo<UserInProject>> GetUserTypesTableInfoAsync(int page, int count, Guid id, int UserTypeId, List<string> errors)
+        {
+            var usersInProject = _context.UserInProjects
+                .Include(x => x.User)
+                .Where(x => x.User.UserType.Id == UserTypeId && !x.EndDate.HasValue && x.ProjectId == id);
+
+            var result = await usersInProject.ToListAsync();
+
+            var table = TableUtil<UserInProject>.GetTableInfo(page, count, errors, result);
+
+            return table;
+        }
+
+        /// <inheritdoc />
+        public async Task<List<User>> GetUsersByUserTypeAndProject(int userTypeId, Guid projectId)
+        {
+            var users = _context.Users
+                .Include(x => x.UserType)
+                .Where(x => x.UserType.Id == userTypeId)
+                .Where(x => !x.UserInProject
+                    .Where(x => !x.EndDate.HasValue)
+                    .Select(x => x.ProjectId).Contains(projectId))
+                .AsNoTracking();
+
+            var result = await users.ToListAsync();
+
+            return result;
+        }
+
+        /// <inheritdoc />
+        public async Task AddUserToProject(Guid userId, Guid projectId, List<string> errors)
+        {
+            var userInProject = new UserInProject()
+            {
+                UserId = userId,
+                ProjectId = projectId,
+                StartDate = DateTime.Now
+            };
+
+            await _context.UserInProjects.AddAsync(userInProject);
+
+            await _context.TrySaveChangesAsync(errors);
+        }
+
+        /// <inheritdoc />
+        public async Task DeleteUserFromProject(Guid userInProjectId, List<string> errors)
+        {
+            var userInProject = await _context.UserInProjects.FindAsync(userInProjectId);
+            if (userInProject is null)
+            {
+                errors.Add("Пользователь в проекте с таким идентификатором не найден");
+                return;
+            }
+
+            userInProject.EndDate = DateTime.Now;
+            _context.UserInProjects.Update(userInProject);
+            await _context.TrySaveChangesAsync(errors);
+        }
+
+        /// <inheritdoc />
         public async Task<User> GetAsync(Guid id)
         {
             var user = await _context.Users

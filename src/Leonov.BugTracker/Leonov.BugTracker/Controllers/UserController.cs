@@ -154,5 +154,108 @@
 
             return new JsonResult(new Result<TableInfoDto<UserInfoDto>>(tableDto, errors));
         }
+
+        /// <summary>
+        /// Получить участников проекта.
+        /// </summary>
+        /// <param name="page"> Номер страницы. </param>
+        /// <param name="count"> Количество элементов на странице. </param>
+        /// <param name="id"> Идентификатор преокта. </param>
+        /// <param name="userTypeId"> Тип пользовател. </param>
+        /// <returns> Таблица разработчиков. </returns>
+        public async Task<JsonResult> GetProjectUserTable(int page, int count, Guid projectId, int userTypeId)
+        {
+            var errors = new List<string>();
+
+            if (page <= 0)
+                errors.Add("Неверный формат страницы.");
+
+            if (count <= 0)
+                errors.Add("Неверный формат количества элементов на странице.");
+
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            var table = await _userService.GetUserTypesTableInfoAsync(page, count, projectId, userTypeId, errors);
+            var tableDto = table != null ? _userMappingService.TableInfoToTableInfoDtoUserInProject(table) : null;
+
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            return new JsonResult(new Result<TableInfoDto<UserInProjectDto>>(tableDto, errors));
+        }
+
+        /// <summary>
+        /// Получить пользователей по типу, которых еще нет в проекте.
+        /// </summary>
+        /// <param name="userTypeId"> Идентификатор типа пользователя. </param>
+        /// <returns></returns>
+        public async Task<JsonResult> GetUsersByType(int userTypeId, Guid projectId)
+        {
+            var errors = new List<string>();
+
+            var users = await _userService.GetUsersByUserTypeAndProject(userTypeId, projectId);
+            var usersDto = users.Select(x => _userMappingService.UserInUserDto(x));
+
+            return new JsonResult(new Result<List<UserDto>>(usersDto.ToList(), errors));
+        }
+
+        /// <summary>
+        /// Добавить пользователя в проект.
+        /// </summary>
+        /// <param name="addUserToProjectDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<JsonResult> AddUserToProject([FromBody] AddUserToProjectDto addUserToProjectDto)
+        {
+            var errors = new List<string>();
+
+            if (addUserToProjectDto is null)
+            {
+                errors.Add("Ошибка входных данных.");
+                return new JsonResult(new Result(errors));
+            }
+            
+            var userId = addUserToProjectDto.User;
+            var projectId = addUserToProjectDto.Project;
+
+            if (userId == Guid.Empty)
+                errors.Add("Пользователь не может быть пустым.");
+            if (projectId == Guid.Empty)
+                errors.Add("Проект не может быть пустым.");
+
+            if (errors.Any())
+                return new JsonResult(new Result(errors));
+
+            await _userService.AddUserToProject(userId, projectId, errors);
+            return new JsonResult(new Result(errors));
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> DeleteUserFromProject([FromBody] DeleteUserFromProjectDto deleteUserFromProjectDto)
+        {
+            var errors = new List<string>();
+
+            if (deleteUserFromProjectDto is null)
+            {
+                errors.Add("Ошибка входных данных.");
+                return new JsonResult(new Result(errors));
+            }
+
+            var userInProjectId = deleteUserFromProjectDto.Id;
+
+            if (userInProjectId == Guid.Empty)
+                errors.Add("Идентфикатор пользователя в проекте не может быть пустым.");
+
+            if (errors.Any())
+                return new JsonResult(new Result(errors));
+
+            await _userService.DeleteUserFromProject(userInProjectId, errors);
+            return new JsonResult(new Result(errors));
+        }
     }
 }

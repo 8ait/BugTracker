@@ -81,6 +81,9 @@
                 return;
             }
 
+            var errorsToDelete = _context.Errors.Where(x => x.CreateUser.Project.Id == id);
+
+            _context.Errors.RemoveRange(errorsToDelete);
             _context.Projects.Remove(projectToDelete);
 
             try
@@ -115,6 +118,7 @@
                     project => project.Id,
                     userInProject => userInProject.ProjectId,
                     (project, inProject) => new { Project = project, UserInProject = inProject })
+                .Where(x => !x.UserInProject.EndDate.HasValue)
                 .Join(_context.Users,
                     arg => arg.UserInProject.UserId,
                     user => user.Id,

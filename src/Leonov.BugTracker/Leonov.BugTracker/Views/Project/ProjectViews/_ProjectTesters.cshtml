@@ -1,5 +1,66 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    Layout = null;
 }
+
+<table class="table table-striped" style="text-align: center;">
+    <thead style="background-color: chocolate; color: white">
+        <tr>
+            <th scope="col">Имя</th>
+            <th scope="col">Фамилия</th>
+            <th scope="col">Дата начала работы</th>
+            <th scope="col"><a class="btn btn-success" data-toggle="modal" data-target="#addUserModalCenter" id="addTester">Добавить &#128187;</a></th>
+        </tr>
+    </thead>
+    <tbody id="projectTesters">
+    </tbody>
+</table>
+<div class="row" style="text-align: center">
+    <div class="col-8">
+        <div class="input-group" style="width: 60%; margin: auto">
+            <input type="number" class="form-control" id="projectTesterPage">
+            <div class="input-group-append">
+                <span class="input-group-text" id="infoProjectTesterPage">1 из 25</span>
+                <button class="btn btn-success" type="button" id="projectTesterGo">Перейти</button>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="row">
+            <label class="col-6 col-form-label"><strong>Кол-во:</strong></label>
+            <div class="col-6">
+                <select name="count" id="projectTesterCount" class="form-control" onchange="changeProjectTesterOption()">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/user.js"></script>
+<script>
+    $(document).ready(function (e) {
+
+        var id = $('#projectId').val();
+
+        getProjectUserTableAjax(1, 5, id, 2);
+
+        projectTesterGo.onclick = function() {
+            var count = $('#projectTesterCount').val();
+            var page = $('#projectTesterPage').val();
+            getProjectUserTableAjax(page, count, id, 2);
+        }
+
+        addTester.onclick = function () {
+            getUsersByUserTypeAjax(2, id);
+        }
+    });
+
+    function changeProjectTesterOption() {
+        var id = $('#projectId').val();
+        var count = $('#projectTesterCount').val();
+        getProjectUserTableAjax(1, count, id, 2);
+    }
+</script>
+

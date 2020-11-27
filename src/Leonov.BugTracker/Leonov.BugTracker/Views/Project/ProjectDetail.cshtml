@@ -34,3 +34,59 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="addUserModalCenter" tabindex="-1" role="dialog" aria-labelledby="addUserModalCenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="userModalLongTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <select id="userSelect" class="form-control">
+
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-success" id="addUserBut">Добавить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteUserModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteUserModalCenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteUserModalLongTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Хотите исключить пользователя <strong id="userName"></strong> из проекта <strong id="projectName">"@Model.Name"</strong>?
+                <input type="hidden" id="userIdToDelete"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" id="deleteUserBut">Исключить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function (e) {
+        var id = $('#projectId').val();
+
+        addUserBut.onclick = function () {
+            var userID = $('#userSelect').val();
+            addUserToProjectAjax(userID, id);
+        }
+
+        deleteUserBut.onclick = function () {
+            var userIdToDelete = $('#userIdToDelete').val();
+            deleteUserFromProjectAjax(userIdToDelete, id);
+        }
+    });
+</script>
