@@ -96,7 +96,7 @@ function getErrorAllTableAjax(page, count) {
                     $("<tr><td colspan='2'>Ошибки отсутствуют в системе.</td></tr>").appendTo("#errors");
                 } else {
                     json.value.rowDtos.forEach(item => {
-                        $("<tr><td>" + item.name + "</td><td><a class='btn btn-success' href='Error/GetError?id=" + item.id + "'>Показать &#128270;</a></td></tr>").appendTo("#errors");
+                        $("<tr><td>" + item.name + "</td><td>" + item.createDate + "</td><td>" + item.originAreaName + "</td><td>" + item.errorStatusName + "</td><td>" + item.createUserName + "</td><td>" + item.responsibleUserName + "</td><td><a class='btn btn-success' href='Error/GetError?id=" + item.id + "'>Показать &#128270;</a></td></tr>").appendTo("#errors");
                     });
                 }
                 document.getElementById('infoErrorAllPage').innerHTML = json.value.page + " из " + json.value.countOfPages;

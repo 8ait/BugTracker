@@ -208,5 +208,37 @@
 
             return new JsonResult(new Result<TableInfoDto<ErrorInfoDto>>(tableDto, errors));
         }
+
+        /// <summary>
+        /// Получить всю таблицу ошибок.
+        /// </summary>
+        /// <param name="page"> Номер страницы. </param>
+        /// <param name="count"> Кол-во элементов на странице. </param>
+        /// <returns></returns>
+        public async Task<JsonResult> GetErrorAllTable(int page, int count)
+        {
+            var errors = new List<string>();
+
+            if (page <= 0)
+                errors.Add("Неверный формат страницы.");
+
+            if (count <= 0)
+                errors.Add("Неверный формат количества элементов на странице.");
+
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            var table = await _errorService.GetErrorAllTableInfoAsync(page, count, errors);
+            var tableDto = table != null ? _errorMappingService.TableInfoToTableFullInfoDto(table) : null;
+
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            return new JsonResult(new Result<TableInfoDto<ErrorFullInfoDto>>(tableDto, errors));
+        }
     }
 }

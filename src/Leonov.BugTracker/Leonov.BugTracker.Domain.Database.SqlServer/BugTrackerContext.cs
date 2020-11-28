@@ -66,7 +66,7 @@
         /// <param name="options"> Опции создания контекста. </param>
         public BugTrackerContext(DbContextOptions<BugTrackerContext> options) : base(options)
         {
-            //Database.Migrate();
+            Database.Migrate();
         }
 
         /// <summary>

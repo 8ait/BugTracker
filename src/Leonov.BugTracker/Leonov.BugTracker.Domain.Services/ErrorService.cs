@@ -68,7 +68,8 @@
 
             var userErrors = _context.Errors
                 .Include(x => x.OriginArea)
-                .Where(x => userInProjectIds.Contains(x.ResponsibleUserId) || userInProjectIds.Contains(x.CreateUserId));
+                .Where(x => userInProjectIds.Contains(x.ResponsibleUserId) || userInProjectIds.Contains(x.CreateUserId))
+                .OrderByDescending(x => x.CreateDate);
 
             var result = userErrors.ToList();
             var errorTable = TableUtil<Error>.GetTableInfo(page, count, errors, result);
@@ -91,12 +92,29 @@
 
             var projectErrors = _context.Errors
                 .Include(x => x.OriginArea)
-                .Where(x => userInProjectIds.Contains(x.CreateUserId));
+                .Where(x => userInProjectIds.Contains(x.CreateUserId))
+                .OrderByDescending(x => x.CreateDate);
 
             var result = projectErrors.ToList();
             var projectErrorTable = TableUtil<Error>.GetTableInfo(page, count, errors, result);
 
             return projectErrorTable;
+        }
+
+        /// <inheritdoc />
+        public async Task<TableInfo<Error>> GetErrorAllTableInfoAsync(int page, int count, List<string> errors)
+        {
+            var errorsEnt = await _context.Errors
+                .Include(x => x.CreateUser).ThenInclude(u => u.User)
+                .Include(x => x.ResponsibleUser).ThenInclude(u => u.User)
+                .Include(x => x.ErrorStatus)
+                .Include(x => x.OriginArea)
+                .OrderByDescending(x => x.CreateDate)
+                .ToListAsync();
+
+            var errorTable = TableUtil<Error>.GetTableInfo(page, count, errors, errorsEnt);
+
+            return errorTable;
         }
     }
 }

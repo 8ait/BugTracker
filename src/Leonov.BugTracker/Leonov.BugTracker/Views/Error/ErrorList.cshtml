@@ -30,7 +30,7 @@
             <div class="row">
                 <label class="col-6 col-form-label"><strong>Кол-во:</strong></label>
                 <div class="col-6">
-                    <select name="count" id="errorAllCount" class="form-control" onchange="changeErrortAllOption()">
+                    <select name="count" id="errorAllCount" class="form-control" onchange="changeErrorAllOption()">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="15">15</option>
@@ -47,7 +47,7 @@
 
         getErrorAllTableAjax(1, 5);
 
-        projectAllGo.onclick = function () {
+        errorAllGo.onclick = function () {
             var count = $('#errorAllCount').val();
             var page = $('#errorAllPage').val();
             getErrorAllTableAjax(page, count);
