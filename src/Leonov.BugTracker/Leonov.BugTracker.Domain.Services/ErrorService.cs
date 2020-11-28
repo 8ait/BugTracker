@@ -40,9 +40,11 @@
             throw new NotImplementedException();
         }
 
-        public Task CreateAsync(Error entity, List<string> errors)
+        /// <iheritdoc />
+        public async Task CreateAsync(Error entity, List<string> errors)
         {
-            throw new NotImplementedException();
+            _context.Errors.Update(entity);
+            await _context.TrySaveChangesAsync(errors);
         }
 
         public Task DeleteAsync(Guid id, List<string> errors)

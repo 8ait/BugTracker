@@ -1,0 +1,61 @@
+﻿@{
+}
+<div class="main info" style="margin-top: 20px;">
+    <table class="table table-striped" style="text-align: center;">
+        <thead style="background-color: chocolate; color: white">
+            <tr>
+                <th scope="col">Название</th>
+                <th scope="col">Дата создания</th>
+                <th scope="col">Область</th>
+                <th scope="col">Состояние</th>
+                <th scope="col">Создатель</th>
+                <th scope="col">Ответственный</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody id="errors">
+        </tbody>
+    </table>
+    <div class="row" style="text-align: center">
+        <div class="col-8">
+            <div class="input-group" style="width: 60%; margin: auto">
+                <input type="number" class="form-control" id="errorAllPage">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="infoErrorAllPage">1 из 25</span>
+                    <button class="btn btn-success" type="button" id="errorAllGo">Перейти</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="row">
+                <label class="col-6 col-form-label"><strong>Кол-во:</strong></label>
+                <div class="col-6">
+                    <select name="count" id="errorAllCount" class="form-control" onchange="changeErrortAllOption()">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="15">15</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/error.js"></script>
+<script>
+    $(document).ready(function (e) {
+
+        getErrorAllTableAjax(1, 5);
+
+        projectAllGo.onclick = function () {
+            var count = $('#errorAllCount').val();
+            var page = $('#errorAllPage').val();
+            getErrorAllTableAjax(page, count);
+        }
+    });
+
+    function changeErrorAllOption() {
+        var count = $('#errorAllCount').val();
+        getErrorAllTableAjax(1, count);
+    }
+</script>

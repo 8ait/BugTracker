@@ -55,6 +55,13 @@
         public Task<List<User>> GetUsersByUserTypeAndProject(int userTypeId, Guid projectId);
 
         /// <summary>
+        /// Получить польователей по проекту.
+        /// </summary>
+        /// <param name="projectId">Идентификатор проекта.</param>
+        /// <returns></returns>
+        public Task<List<UserInProject>> GetUsersByProject(Guid projectId);
+
+        /// <summary>
         /// Доабвить пользователя в проект.
         /// </summary>
         /// <param name="userId"> Идентфикатор пользователя. </param>
@@ -69,5 +76,13 @@
         /// <param name="errors"> Ошибки. </param>
         /// <returns></returns>
         public Task DeleteUserFromProject(Guid userInProjectId, List<string> errors);
+
+        /// <summary>
+        /// Получить пользователя в проекте по пользователю и проекту.
+        /// </summary>
+        /// <param name="userId"> Идентификатор пользователя. </param>
+        /// <param name="projectId"> Идентификатор проекта. </param>
+        /// <returns> Пользователь в проекте. </returns>
+        public Task<UserInProject> GetUserInProjectByUserIdAndProjectId(Guid userId, Guid projectId);
     }
 }

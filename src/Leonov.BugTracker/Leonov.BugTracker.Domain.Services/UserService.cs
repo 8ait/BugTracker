@@ -109,6 +109,16 @@
             return result;
         }
 
+        /// <inheritodc />
+        public async Task<List<UserInProject>> GetUsersByProject(Guid projectId)
+        {
+            var usersInProject = _context.UserInProjects
+                .Include(x => x.User)
+                .Where(x => x.ProjectId == projectId && !x.EndDate.HasValue);
+
+            return await usersInProject.ToListAsync();
+        }
+
         /// <inheritdoc />
         public async Task AddUserToProject(Guid userId, Guid projectId, List<string> errors)
         {
@@ -137,6 +147,13 @@
             userInProject.EndDate = DateTime.Now;
             _context.UserInProjects.Update(userInProject);
             await _context.TrySaveChangesAsync(errors);
+        }
+
+        /// <inheritdoc />
+        public async Task<UserInProject> GetUserInProjectByUserIdAndProjectId(Guid userId, Guid projectId)
+        {
+            var userInProject = await _context.UserInProjects.FirstOrDefaultAsync(x => x.ProjectId == projectId && x.UserId == userId && !x.EndDate.HasValue);
+            return userInProject;
         }
 
         /// <inheritdoc />

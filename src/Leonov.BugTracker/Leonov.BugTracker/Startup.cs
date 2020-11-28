@@ -34,6 +34,8 @@ namespace Leonov.BugTracker
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IErrorService, ErrorService>();
             services.AddScoped<IAuditService, AuditService>();
+            services.AddScoped<IErrorStatusService, ErrorStatusService>();
+            services.AddScoped<IOriginAreaService, OriginAreaService>();
 
             RegisterMappingServices(services);
 

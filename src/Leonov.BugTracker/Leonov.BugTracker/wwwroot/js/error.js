@@ -81,3 +81,47 @@ function getProjectErrorTableAjax(page, count, id) {
         }
     });
 }
+
+function getErrorAllTableAjax(page, count) {
+    $.ajax({
+        type: "GET",
+        url: "/Error/GetErrorAllTable?page=" + page + "&count=" + count,
+        data: '',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (json) {
+            if (json.isSuccess) {
+                document.getElementById('errors').innerHTML = "";
+                if (json.value.rowDtos.length == 0) {
+                    $("<tr><td colspan='2'>Ошибки отсутствуют в системе.</td></tr>").appendTo("#errors");
+                } else {
+                    json.value.rowDtos.forEach(item => {
+                        $("<tr><td>" + item.name + "</td><td><a class='btn btn-success' href='Error/GetError?id=" + item.id + "'>Показать &#128270;</a></td></tr>").appendTo("#errors");
+                    });
+                }
+                document.getElementById('infoErrorAllPage').innerHTML = json.value.page + " из " + json.value.countOfPages;
+                document.getElementById('errorAllPage').value = json.value.page;
+            } else {
+                for (var i = 0; i < json.errors.length; i++) {
+                    var id = getRandomInt(0, 9999);
+                    addError("alert-" + id, json.errors[i]);
+                    showAlert("alert-" + id, i * 450);
+                }
+            }
+        },
+        failure: function (response) {
+            var id = getRandomInt(0, 9999);
+            var err = "Не удалось получить ошибки.";
+            addError("alert-" + id, err);
+            showAlert("alert-" + id, 350);
+            console.log(err);
+        },
+        error: function (response) {
+            var id = getRandomInt(0, 9999);
+            var err = "Не удалось получить ошибки.";
+            addError("alert-" + id, err);
+            showAlert("alert-" + id, 350);
+            console.log(err);
+        }
+    });
+}

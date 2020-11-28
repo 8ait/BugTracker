@@ -1,5 +1,6 @@
 ﻿namespace Leonov.BugTracker.Services.Implementations
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -19,6 +20,21 @@
                 Count = tableInfo.Count,
                 RowDtos = ProjectToProjectInfoDto(tableInfo.Rows).ToList(),
                 CountOfPages = tableInfo.CountOfPages
+            };
+        }
+
+        /// <inheritdoc />
+        public Error CreateErrorDtoToError(CreateErrorDto createErrorDto)
+        {
+            return new Error()
+            {
+                Name = createErrorDto.Name,
+                About = createErrorDto.About,
+                CreateUserId = createErrorDto.CreateUserId,
+                ErrorStatusId = createErrorDto.ErrorStatusId,
+                OriginId = createErrorDto.OriginAreaId,
+                ResponsibleUserId = createErrorDto.ResponsibleUserId,
+                CreateDate = DateTime.Now
             };
         }
 

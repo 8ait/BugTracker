@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Leonov.BugTracker.Controllers
+﻿namespace Leonov.BugTracker.Controllers
 {
     using System;
     using System.Collections.Generic;
@@ -11,28 +9,140 @@ namespace Leonov.BugTracker.Controllers
     using Leonov.BugTracker.Dto;
     using Leonov.BugTracker.Services.Interfaces;
 
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.AspNetCore.Mvc;
+
     /// <summary>
     /// Контроллер для ошибок.
     /// </summary>
     public class ErrorController : Controller
     {
         private readonly IErrorService _errorService;
+        private readonly IProjectService _projectService;
+        private readonly IAuthoriseService _authoriseService;
+        private readonly IUserService _userService;
         private readonly IErrorMappingService _errorMappingService;
+        private readonly IErrorStatusService _errorStatusService;
+        private readonly IOriginAreaService _originAreaService;
 
         /// <summary>
         /// Контроллер.
         /// </summary>
         /// <param name="errorService">  </param>
         /// <param name="errorMappingService"></param>
-        public ErrorController(IErrorService errorService, IErrorMappingService errorMappingService)
+        public ErrorController(IErrorService errorService,
+            IErrorMappingService errorMappingService,
+            IAuthoriseService authoriseService,
+            IProjectService projectService,
+            IErrorStatusService errorStatusService,
+            IOriginAreaService originAreaService,
+            IUserService userService)
         {
             _errorService = errorService;
             _errorMappingService = errorMappingService;
+            _authoriseService = authoriseService;
+            _projectService = projectService;
+            _errorStatusService = errorStatusService;
+            _originAreaService = originAreaService;
+            _userService = userService;
         }
 
         public IActionResult Index()
         {
-            return null;
+            return View("ErrorList");
+        }
+
+        /// <summary>
+        /// Начальная страница создания ошибки.
+        /// </summary>
+        /// <param name="projectId"> Идентификатор проекта для создания. </param>
+        /// <returns></returns>
+        public async Task<IActionResult> CreateIndex(Guid projectId)
+        {
+            var errors = new List<string>();
+            ViewData["errors"] = errors;
+            ViewBag.ErrorStatuses = new SelectList(_errorStatusService.GetAll(), "Id", "Name");
+            ViewBag.OriginAreas = new SelectList(_originAreaService.GetAll(), "Id", "Name");
+            ViewBag.ProjectUsers = new SelectList((await _userService.GetUsersByProject(projectId)).Select(x => new {Id = x.Id, Name = $"{x.User.FirstName} {x.User.Surname}"}), "Id", "Name");
+
+            var project = await _projectService.GetAsync(projectId);
+            if (project is null)
+            {
+                return NotFound();
+            }
+
+            var user = await _authoriseService.GetCurrentUser();
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            var userInProject = await _userService.GetUserInProjectByUserIdAndProjectId(user.Id, projectId);
+            if (userInProject is null)
+            {
+                return NotFound();
+            }
+
+            var createErrorDto = new CreateErrorDto()
+            {
+                CreateUserId = userInProject.Id,
+                CreateUserName = $"{user.FirstName} {user.Surname}",
+                ProjectId = project.Id,
+                ProjectName = project.Name
+            };
+            return View("CreateError", createErrorDto);
+        }
+
+        /// <summary>
+        /// Создать ошибку.
+        /// </summary>
+        /// <param name="createErrorDto"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Create(CreateErrorDto createErrorDto)
+        {
+            var errors = new List<string>();
+            ViewData["errors"] = errors;
+
+            ViewBag.ErrorStatuses = new SelectList(_errorStatusService.GetAll(), "Id", "Name");
+            ViewBag.OriginAreas = new SelectList(_originAreaService.GetAll(), "Id", "Name");
+            ViewBag.ProjectUsers = new SelectList((await _userService.GetUsersByProject(createErrorDto.ProjectId)).Select(x => new { Id = x.Id, Name = $"{x.User.FirstName} {x.User.Surname}" }), "Id", "Name");
+
+            var project = await _projectService.GetAsync(createErrorDto.ProjectId);
+            if (project is null)
+            {
+                return NotFound();
+            }
+
+            var user = await _authoriseService.GetCurrentUser();
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            var userInProject = await _userService.GetUserInProjectByUserIdAndProjectId(user.Id, createErrorDto.ProjectId);
+            if (userInProject is null)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var error = _errorMappingService.CreateErrorDtoToError(createErrorDto);
+                await _errorService.CreateAsync(error, errors);
+                if (errors.Any())
+                {
+                    return Error();
+                }
+
+                return RedirectToAction("Index", "Error");
+            }
+
+            return Error();
+
+            IActionResult Error()
+            {
+                return View("CreateError", createErrorDto);
+            }
         }
 
         /// <summary>

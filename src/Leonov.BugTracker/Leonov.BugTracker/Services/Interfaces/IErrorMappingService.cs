@@ -15,5 +15,12 @@
         /// <param name="projectTableInfo"></param>
         /// <returns></returns>
         public TableInfoDto<ErrorInfoDto> TableInfoToTableInfoDto(TableInfo<Error> tableInfo);
+
+        /// <summary>
+        /// Дто создания ошибки в ошибку.
+        /// </summary>
+        /// <param name="createErrorDto"> Дто создания ошибки. </param>
+        /// <returns> Ошибка. </returns>
+        public Error CreateErrorDtoToError(CreateErrorDto createErrorDto);
     }
 }
