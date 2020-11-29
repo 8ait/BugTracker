@@ -1,0 +1,157 @@
+﻿@model Leonov.BugTracker.Dto.ErrorDto
+@{
+    ViewData["Title"] = "Ошибка";
+    Layout = "_Layout";
+}
+<div class="main info" style="margin-top: 20px; width: 70%; padding: 20px;">
+    <div class="info-mini" style="text-align: center; margin-bottom: 20px;">
+        <h3>Ошибка проекта <strong>"@Model.ProjectName"</strong></h3>
+    </div>
+    <div class="info-mini">
+        <input type="hidden" id="errorId" asp-for="Id"/>
+        <div class="form-group row">
+            <label for="inputName" class="col-3 col-form-label"><strong>Название:</strong></label>
+            <div class="col-9">
+                <input asp-for="Name" name="name" type="text" class="form-control" id="inputName" disabled="disabled" readonly="readonly">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputAbout" class="col-3 col-form-label"><strong>Описание:</strong></label>
+            <div class="col-9">
+                <textarea asp-for="About" name="about" type="text" class="form-control" id="inputAbout" disabled="disabled" readonly="readonly" style="resize: none; width: 100%; height: 200px;">
+                </textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputDate" class="col-3 col-form-label"><strong>Время создания:</strong></label>
+            <div class="col-9">
+                <input asp-for="CreateDateTime" name="about" type="text" class="form-control" id="inputDate" disabled="disabled" readonly="readonly"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="selectOriginArea" class="col-3 col-form-label"><strong>Область возникновения:</strong></label>
+            <div class="col-9">
+                <input asp-for="OriginAreaName" disabled="disabled" readonly="readonly" id="selectOriginArea" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="selectErrorStatus" class="col-3 col-form-label"><strong>Статус:</strong></label>
+            <div class="col-9">
+                <input asp-for="ErrorStatusName" disabled="disabled" readonly="readonly" id="selectErrorStatus" class="form-control"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputCreateUser" class="col-3 col-form-label"><strong>Создатель:</strong></label>
+            <div class="col-9">
+                <input asp-for="CreateUserName" name="about" type="text" class="form-control" id="inputCreateUser" disabled="disabled" readonly="readonly"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="selectResponsibleUser" class="col-3 col-form-label"><strong>Ответственный:</strong></label>
+            <div class="col-9">
+                <input asp-for="ResponsibleUserName" id="selectResponsibleUser" class="form-control" disabled="disabled" readonly="readonly"/>
+            </div>
+        </div>
+    </div>
+    <div class="info-mini" style="margin-top: 20px;">
+        <div class="row">
+            <div class="col-3">
+                <button class="btn btn-danger" style="width: 100%; height: 100%" data-toggle="modal" data-target="#deleteErrorModalCenter">Удалить</button>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-success" style="width: 100%; height: 100%" id="editErrorGo">Изменить</button>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-warning" style="width: 100%; height: 100%; color: white" id="changeStatusErrorShowBut" data-toggle="modal" data-target="#changeStatusErrorModalCenter">Изменить статус</button>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-info" style="width: 100%; height: 100%" data-toggle="modal" data-target="#commentaryModalCenter">Добавить комментарий</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deleteErrorModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteErrorModalCenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Подтверждение удаления</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Удалить ошибку "@Model.Name"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" id="deleteErrorBut">Удалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="changeStatusErrorModalCenter" tabindex="-1" role="dialog" aria-labelledby="changeStatusErrorModalCenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changeStatusErrorModalLongTitle">Изменение статуса ошибки.</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <select id="changeStatusSelect" class="form-control">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-success" id="changeStatusErrorBut">Изменить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="commentaryModalCenter" tabindex="-1" role="dialog" aria-labelledby="commentaryModalCenter" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="commentaryModalLongTitle">Добавить комментарий.</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea id="commentary" class="form-control" style="height: 200px; resize: none">
+                </textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-warning" data-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-success" id="addCommentaryBut">Добавить</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/js/error.js"></script>
+<script>
+    $(document).ready(function (e) {
+
+        editErrorGo.onclick = function () {
+            window.location.href = "/Error/EditIndex?id=@Model.Id";
+        }
+
+        deleteErrorBut.onclick = function () {
+            var id = $('#errorId').val();
+            deleteErrorAjax(id);
+        }
+
+        changeStatusErrorShowBut.onclick = function () {
+            getErrorStatusesAjax("@Model.Id");
+        }
+
+        changeStatusErrorBut.onclick = function () {
+            var statusId = $('#changeStatusSelect').val();
+            var id = $('#errorId').val();
+            changeErrorStatusAjax(id, parseInt(statusId));
+        }
+    });
+</script>
+

@@ -1,0 +1,88 @@
+﻿@model Leonov.BugTracker.Dto.EditErrorDto
+@{
+    ViewData["Title"] = "Редактировать ошибку";
+    Layout = "_Layout";
+}
+<div style="position: absolute; top: 15px; right: 15px; width: 400px;">
+    @{
+        foreach (var modelState in ViewData.ModelState.Values)
+        {
+            foreach (var error in modelState.Errors)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Ошибка ввода:</strong> @error.ErrorMessage
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            }
+        }
+        foreach (var error in (List<string>)ViewData["errors"])
+        {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Ошибка сервера:</strong> @error
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+    }
+</div>
+<div class="main info" style="margin-top: 20px; width: 70%;">
+    <div style="text-align: center">
+        <h3><strong>Редактирование ошибки для "@Model.ProjectName"</strong></h3>
+    </div>
+    <form method="post" style="width: 80%; margin: auto; margin-top: 40px;" asp-controller="Error" asp-action="Edit">
+        <input asp-for="Id" type="hidden" class="form-control" id="inputId">
+        <input asp-for="ProjectId" type="hidden" class="form-control" id="inputProjectId">
+        <input asp-for="CreateUserId" type="hidden" class="form-control" id="inputCreateUserId">
+        <input asp-for="ProjectName" type="hidden" class="form-control" id="inputProjectName">
+        <input asp-for="CreateUserName" type="hidden" class="form-control" id="inputCreateUserName">
+        <input asp-for="CreateDate" type="hidden" class="form-control" id="inputCreateDate">
+        <div class="form-group row">
+            <label for="inputName" class="col-3 col-form-label"><strong>Название:</strong></label>
+            <div class="col-9">
+                <input asp-for="Name" name="name" type="text" class="form-control" id="inputName" placeholder="Введите название">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputAbout" class="col-3 col-form-label"><strong>Описание:</strong></label>
+            <div class="col-9">
+                <textarea asp-for="About" name="about" type="text" class="form-control" id="inputAbout" placeholder="Введите описание" style="width: 100%; height: 300px;">
+                </textarea>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputCreateUser" class="col-3 col-form-label"><strong>Создатель:</strong></label>
+            <div class="col-9">
+                <input asp-for="CreateUserName" name="about" type="text" class="form-control" id="inputCreateUser" disabled="disabled" readonly="readonly" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="selectResponsibleUser" class="col-3 col-form-label"><strong>Ответственный:</strong></label>
+            <div class="col-9">
+                <select asp-for="ResponsibleUserId" asp-items="ViewBag.ProjectUsers" id="selectResponsibleUser" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="selectOriginArea" class="col-3 col-form-label"><strong>Область возникновения:</strong></label>
+            <div class="col-9">
+                <select asp-for="OriginAreaId" asp-items="ViewBag.OriginAreas" id="selectOriginArea" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="selectErrorStatus" class="col-3 col-form-label"><strong>Статус:</strong></label>
+            <div class="col-9">
+                <select asp-for="ErrorStatusId" asp-items="ViewBag.ErrorStatuses" id="selectErrorStatus" class="form-control"></select>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 25px; padding-bottom: 25px; margin: auto;">
+            <div class="col-6">
+                <a class="btn btn-danger" style="color: white; width: 100%;" asp-controller="Error" asp-action="Index">Отмена</a>
+            </div>
+            <div class="col-6">
+                <button type="submit" class="btn btn-success" style="width: 100%;">Изменить</button>
+            </div>
+        </div>
+    </form>
+</div>
