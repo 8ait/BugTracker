@@ -28,7 +28,7 @@
 
         public IActionResult Index()
         {
-            return null;
+            return View("AuditList");
         }
 
         /// <summary>
@@ -61,6 +61,38 @@
             }
 
             return new JsonResult(new Result<TableInfoDto<AuditInfoDto>>(tableDto, errors));
+        }
+
+        /// <summary>
+        /// Получить таблицу из проектов пользователя.
+        /// </summary>
+        /// <param name="page"> Номер страницы. </param>
+        /// <param name="count"> Количество элементов на странице. </param>
+        /// <returns> Список проектов. </returns>
+        public async Task<JsonResult> GetAuditAllTable(int page, int count)
+        {
+            var errors = new List<string>();
+
+            if (page <= 0)
+                errors.Add("Неверный формат страницы.");
+
+            if (count <= 0)
+                errors.Add("Неверный формат количества элементов на странице.");
+
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            var table = await _auditService.GetAuditAllTableInfoAsync(page, count, errors);
+            var tableDto = table != null ? _auditMappingService.TableInfoToTableFullInfoDto(table) : null;
+
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            return new JsonResult(new Result<TableInfoDto<AuditFullInfoDto>>(tableDto, errors));
         }
     }
 }

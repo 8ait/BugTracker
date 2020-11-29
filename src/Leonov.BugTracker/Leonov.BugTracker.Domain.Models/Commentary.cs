@@ -27,7 +27,7 @@
         /// <summary>
         /// Идентифиактор родительского комментария.
         /// </summary>
-        public Guid ParentId { get; set; }
+        public Guid? ParentId { get; set; }
 
         /// <summary>
         /// Ошибка.

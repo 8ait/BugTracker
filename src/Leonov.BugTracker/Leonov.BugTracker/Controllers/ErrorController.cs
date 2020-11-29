@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
 
     using Leonov.BugTracker.Domain.Interfaces;
+    using Leonov.BugTracker.Domain.Models;
     using Leonov.BugTracker.Dto;
     using Leonov.BugTracker.Services.Interfaces;
 
@@ -50,6 +51,20 @@
         public IActionResult Index()
         {
             return View("ErrorList");
+        }
+
+        /// <summary>
+        /// Получить ошибку.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> GetError(Guid id)
+        {
+            var error = await _errorService.GetAsync(id);
+
+            var errorDto = _errorMappingService.ErrorToErrorDto(error);
+
+            return View("ErrorDetail", errorDto);
         }
 
         /// <summary>
@@ -142,6 +157,64 @@
             IActionResult Error()
             {
                 return View("CreateError", createErrorDto);
+            }
+        }
+
+        /// <summary>
+        /// Начальная страница редактирования.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> EditIndex(Guid id)
+        {
+            var errors = new List<string>();
+            ViewData["errors"] = errors;
+
+            var error = await _errorService.GetAsync(id);
+            var editErrorDto = _errorMappingService.ErrorToEditErrorDto(error);
+
+            if (error is null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.ErrorStatuses = new SelectList(_errorStatusService.GetAll(), "Id", "Name");
+            ViewBag.OriginAreas = new SelectList(_originAreaService.GetAll(), "Id", "Name");
+            ViewBag.ProjectUsers = new SelectList((await _userService.GetUsersByProject(error.CreateUser.ProjectId)).Select(x => new { Id = x.Id, Name = $"{x.User.FirstName} {x.User.Surname}" }), "Id", "Name");
+
+            return View("EditError", editErrorDto);
+        }
+
+        /// <summary>
+        /// Начальная страница редактирования.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<IActionResult> Edit(EditErrorDto editErrorDto)
+        {
+            var errors = new List<string>();
+
+            if (ModelState.IsValid)
+            {
+                var error = _errorMappingService.EditErrorDtoToError(editErrorDto);
+                await _errorService.EditAsync(error, errors);
+                if (errors.Any())
+                {
+                    return await Error();
+                }
+
+                return RedirectToAction("Index", "Error");
+            }
+
+            return await Error();
+
+            async Task<IActionResult> Error()
+            {
+                ViewData["errors"] = errors;
+                ViewBag.ErrorStatuses = new SelectList(_errorStatusService.GetAll(), "Id", "Name");
+                ViewBag.OriginAreas = new SelectList(_originAreaService.GetAll(), "Id", "Name");
+                ViewBag.ProjectUsers = new SelectList((await _userService.GetUsersByProject(editErrorDto.ProjectId)).Select(x => new { Id = x.Id, Name = $"{x.User.FirstName} {x.User.Surname}" }), "Id", "Name");
+                return View("EditError", editErrorDto);
             }
         }
 
@@ -239,6 +312,65 @@
             }
 
             return new JsonResult(new Result<TableInfoDto<ErrorFullInfoDto>>(tableDto, errors));
+        }
+
+        /// <summary>
+        /// Удалить ошибку.
+        /// </summary>
+        /// <param name="id"> Идентификатор ошибки. </param>
+        /// <returns></returns>
+        [HttpDelete]
+        public async Task<JsonResult> Delete([FromBody] Guid id)
+        {
+            var errors = new List<string>();
+            await _errorService.DeleteAsync(id, errors);
+            return new JsonResult(new Result(errors));
+        }
+
+        /// <summary>
+        /// Изменить статус ошибки.
+        /// </summary>
+        /// <param name="changeStatusErrorDto"> Информация для изменения статуса. </param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<JsonResult> ChangeStatusError([FromBody] ChangeStatusErrorDto changeStatusErrorDto)
+        {
+            var errors = new List<string>();
+
+            await _errorService.ChangeStatusError(changeStatusErrorDto.Id, changeStatusErrorDto.ErrorStatusId, errors);
+
+            return new JsonResult(new Result(errors));
+        }
+
+        /// <summary>
+        /// Получить статусы ошибки.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<JsonResult> GetErrorStatuses(Guid id)
+        {
+            var errors = new List<string>();
+            var errorStatuses = await _errorStatusService.GetErrorStatuses(id, errors);
+            return new JsonResult(new Result<List<ErrorStatus>>(errorStatuses, errors));
+        }
+
+        /// <summary>
+        /// Получить статус ошибки.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task<JsonResult> GetErrorStatus(Guid id)
+        {
+            var errors = new List<string>();
+
+            var errorStatus = await _errorStatusService.GetErrorStatusOfError(id, errors);
+
+            if (errorStatus is null)
+            {
+                errors.Add("Не удалось найти статус.");
+            }
+
+            return new JsonResult(new Result<string>(errorStatus?.Name, errors));
         }
     }
 }

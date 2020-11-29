@@ -9,6 +9,7 @@
     using Leonov.BugTracker.Dto;
     using Leonov.BugTracker.Services.Interfaces;
 
+    /// <inheritdoc />
     public class ErrorMappingService: IErrorMappingService
     {
         /// <inheritdoc />
@@ -47,6 +48,58 @@
                 OriginId = createErrorDto.OriginAreaId,
                 ResponsibleUserId = createErrorDto.ResponsibleUserId,
                 CreateDate = DateTime.Now
+            };
+        }
+
+        /// <inheritdoc />
+        public ErrorDto ErrorToErrorDto(Error error)
+        {
+            return new ErrorDto()
+            {
+                Id = error.Id,
+                Name = error.Name,
+                About = error.About,
+                ProjectName = error.CreateUser.Project.Name,
+                CreateUserName = $"{error.CreateUser.User.FirstName} {error.CreateUser.User.Surname}",
+                ResponsibleUserName = $"{error.ResponsibleUser.User.FirstName} {error.ResponsibleUser.User.Surname}",
+                OriginAreaName = error.OriginArea.Name,
+                ErrorStatusName = error.ErrorStatus.Name,
+                CreateDateTime = error.CreateDate.ToLongDateString()
+            };
+        }
+
+        /// <inheritdoc />
+        public EditErrorDto ErrorToEditErrorDto(Error error)
+        {
+            return new EditErrorDto()
+            {
+                Id = error.Id,
+                Name = error.Name,
+                About = error.About,
+                ProjectId = error.CreateUser.ProjectId,
+                CreateUserId = error.CreateUserId,
+                ProjectName = error.CreateUser.Project.Name,
+                CreateDate = error.CreateDate,
+                ResponsibleUserId = error.ResponsibleUserId,
+                ErrorStatusId = error.ErrorStatusId,
+                CreateUserName = $"{error.CreateUser.User.FirstName} {error.CreateUser.User.Surname}",
+                OriginAreaId = error.OriginId
+            };
+        }
+
+        /// <inheritdoc />
+        public Error EditErrorDtoToError(EditErrorDto editErrorDto)
+        {
+            return new Error()
+            {
+                Id = editErrorDto.Id,
+                Name = editErrorDto.Name,
+                About = editErrorDto.About,
+                CreateUserId = editErrorDto.CreateUserId,
+                CreateDate = editErrorDto.CreateDate,
+                ErrorStatusId = editErrorDto.ErrorStatusId,
+                OriginId = editErrorDto.OriginAreaId,
+                ResponsibleUserId = editErrorDto.ResponsibleUserId
             };
         }
 

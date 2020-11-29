@@ -69,5 +69,35 @@
 
             return table;
         }
+
+        /// <inheritdoc />
+        public async Task<TableInfo<Audit>> GetAuditAllTableInfoAsync(int page, int count, List<string> errors)
+        {
+            var audits = _context.Audits
+                .Include(x => x.User)
+                .OrderByDescending(x => x.CreateDate);
+
+            var result = await audits.ToListAsync();
+            var table = TableUtil<Audit>.GetTableInfo(page, count, errors, result);
+
+            return table;
+        }
+
+        /// <inheritdoc />
+        public async Task WriteAuditAsync(Error error, Guid userId, List<string> errors)
+        {
+            var audit = new Audit()
+            {
+                ErrorId = error.Id,
+                UserId = userId,
+                CreateDate = DateTime.Now,
+                ErrorStatusId = error.ErrorStatusId,
+                About = $"Ошибка \"{error.Name}\" получила статус \"{error.ErrorStatus.Name}\"."
+            };
+
+            _context.Audits.Add(audit);
+
+            await _context.TrySaveChangesAsync(errors);
+        }
     }
 }

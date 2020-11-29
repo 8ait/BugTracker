@@ -17,27 +17,38 @@
     {
         private readonly BugTrackerContext _context;
         private readonly IAuthoriseService _authoriseService;
+        private readonly IAuditService _auditService;
 
         /// <summary>
         /// Конструктор.
         /// </summary>
         /// <param name="context"> Контекст БД. </param>
-        public ErrorService(BugTrackerContext context, IAuthoriseService authoriseService)
+        public ErrorService(BugTrackerContext context, IAuthoriseService authoriseService, IAuditService auditService)
         {
             _context = context;
             _authoriseService = authoriseService;
+            _auditService = auditService;
         }
 
         /// <inheritdoc />
-        public Task<Error> GetAsync(Guid id)
+        public async Task<Error> GetAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var error = await _context.Errors
+                .Include(x => x.CreateUser).ThenInclude(u => u.User)
+                .Include(x => x.CreateUser).ThenInclude(u => u.Project)
+                .Include(x => x.ResponsibleUser).ThenInclude(u => u.User)
+                .Include(x => x.OriginArea)
+                .Include(x => x.ErrorStatus)
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            return error;
         }
 
         /// <inheritdoc />
-        public Task EditAsync(Error entity, List<string> errors)
+        public async Task EditAsync(Error entity, List<string> errors)
         {
-            throw new NotImplementedException();
+            _context.Errors.Update(entity);
+            await _context.TrySaveChangesAsync(errors);
         }
 
         /// <iheritdoc />
@@ -47,9 +58,18 @@
             await _context.TrySaveChangesAsync(errors);
         }
 
-        public Task DeleteAsync(Guid id, List<string> errors)
+        /// <inheritdoc />
+        public async Task DeleteAsync(Guid id, List<string> errors)
         {
-            throw new NotImplementedException();
+            var errorForDelete = await _context.Errors.FindAsync(id);
+            if (errorForDelete is null)
+            {
+                errors.Add("Ошибка не найдена");
+                return;
+            }
+
+            _context.Errors.Remove(errorForDelete);
+            await _context.TrySaveChangesAsync(errors);
         }
 
         /// <inheritdoc />
@@ -115,6 +135,31 @@
             var errorTable = TableUtil<Error>.GetTableInfo(page, count, errors, errorsEnt);
 
             return errorTable;
+        }
+
+        /// <inheritdoc />
+        public async Task ChangeStatusError(Guid errorId, int errorStatusId, List<string> errors)
+        {
+            var error = await _context.Errors
+                .Include(x => x.ErrorStatus)
+                .FirstOrDefaultAsync(x => x.Id == errorId);
+            if (error is null)
+            {
+                errors.Add("Ошибки с таким идентификатором не существует.");
+            }
+
+            error.ErrorStatusId = errorStatusId;
+            _context.Errors.Update(error);
+
+            await _context.TrySaveChangesAsync(errors);
+            if (!errors.Any())
+            {
+                var errorForAudit = await _context.Errors
+                    .Include(x => x.ErrorStatus)
+                    .FirstOrDefaultAsync(x => x.Id == errorId);
+                var user = await _authoriseService.GetCurrentUser();
+                await _auditService.WriteAuditAsync(errorForAudit, user.Id, errors);
+            }
         }
     }
 }

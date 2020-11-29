@@ -23,6 +23,18 @@
             };
         }
 
+        /// <inheritdoc />
+        public TableInfoDto<AuditFullInfoDto> TableInfoToTableFullInfoDto(TableInfo<Audit> tableInfo)
+        {
+            return new TableInfoDto<AuditFullInfoDto>()
+            {
+                Page = tableInfo.Page,
+                Count = tableInfo.Count,
+                RowDtos = AuditToAuditFullInfoDto(tableInfo.Rows).ToList(),
+                CountOfPages = tableInfo.CountOfPages
+            };
+        }
+
         /// <summary>
         /// Маппинг аудита в дто информации для аудита.
         /// </summary>
@@ -38,6 +50,24 @@
                     About = item.About,
                     CreateDate = item.CreateDate.ToShortDateString(),
                     ErrorStatusName = item.ErrorStatus.Name
+                };
+            }
+        }
+
+        /// <summary>
+        /// Маппинг аудита в дто информации для аудита.
+        /// </summary>
+        /// <param name="items"> Аудиты. </param>
+        /// <returns> Дто информации для аудита. </returns>
+        private IEnumerable<AuditFullInfoDto> AuditToAuditFullInfoDto(List<Audit> items)
+        {
+            foreach (var item in items)
+            {
+                yield return new AuditFullInfoDto()
+                {
+                    About = item.About,
+                    CreateDate = $"{item.CreateDate.ToShortTimeString()} {item.CreateDate.ToShortDateString()}",
+                    CreateUserName = $"{item.User.FirstName } {item.User.Surname}"
                 };
             }
         }

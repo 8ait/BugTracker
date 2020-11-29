@@ -36,5 +36,13 @@
         /// <param name="errors"> Ошибки. </param>
         /// <returns></returns>
         public Task<TableInfo<Error>> GetErrorAllTableInfoAsync(int page, int count, List<string> errors);
+
+        /// <summary>
+        /// Изменить статус ошибки.
+        /// </summary>
+        /// <param name="errorId"> Идентификатор ошибки. </param>
+        /// <param name="errorStatusId"> Идентификатор статуса ошибки. </param>
+        /// <returns></returns>
+        public Task ChangeStatusError(Guid errorId, int errorStatusId, List<string> errors);
     }
 }
