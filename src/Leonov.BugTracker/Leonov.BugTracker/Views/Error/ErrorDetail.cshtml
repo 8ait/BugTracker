@@ -70,6 +70,9 @@
         </div>
     </div>
 </div>
+<div id="commentaries">
+
+</div>
 <div class="modal fade" id="deleteErrorModalCenter" tabindex="-1" role="dialog" aria-labelledby="deleteErrorModalCenter" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -119,8 +122,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <textarea id="commentary" class="form-control" style="height: 200px; resize: none">
-                </textarea>
+                <input type="hidden" id="parentId"/>
+                <textarea id="commentaryValue" class="form-control" style="height: 200px; resize: none"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-warning" data-dismiss="modal">Отмена</button>
@@ -131,23 +134,33 @@
 </div>
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/error.js"></script>
+<script src="~/js/commentary.js"></script>
 <script>
-    $(document).ready(function (e) {
+    $(document).ready(function(e) {
 
-        editErrorGo.onclick = function () {
+        getCommentariesByErrorId("@Model.Id");
+
+        editErrorGo.onclick = function() {
             window.location.href = "/Error/EditIndex?id=@Model.Id";
         }
 
-        deleteErrorBut.onclick = function () {
+        deleteErrorBut.onclick = function() {
             var id = $('#errorId').val();
             deleteErrorAjax(id);
         }
 
-        changeStatusErrorShowBut.onclick = function () {
+        addCommentaryBut.onclick = function() {
+            var errorId = $('#errorId').val();
+            var parentId = $('#parentId').val() !== "" ? $('#parentId').val() : null;
+            var commentary = $('#commentaryValue').val();
+            addCommentaryAjax(errorId, parentId, commentary);
+        }
+
+        changeStatusErrorShowBut.onclick = function() {
             getErrorStatusesAjax("@Model.Id");
         }
 
-        changeStatusErrorBut.onclick = function () {
+        changeStatusErrorBut.onclick = function() {
             var statusId = $('#changeStatusSelect').val();
             var id = $('#errorId').val();
             changeErrorStatusAjax(id, parseInt(statusId));

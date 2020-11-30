@@ -1,0 +1,19 @@
+﻿.commentary {
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    width: 70%;
+    background: wheat;
+    border: solid sandybrown 5px;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.info-commentary {
+    height: 100%;
+    background: papayawhip;
+    color: black;
+    border-radius: 10px;
+    padding: 20px;
+}
+

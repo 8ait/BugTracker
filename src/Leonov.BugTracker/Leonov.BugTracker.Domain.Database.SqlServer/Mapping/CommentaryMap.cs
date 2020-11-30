@@ -23,6 +23,10 @@
                 .HasForeignKey(x => x.ParentId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder.HasMany(x => x.Commentaries)
+                .WithOne(x => x.Parent)
+                .HasForeignKey(x => x.ParentId);
+
             builder.HasOne(x => x.Error)
                 .WithMany()
                 .HasForeignKey(x => x.ErrorId);

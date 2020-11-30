@@ -1,6 +1,7 @@
 ﻿namespace Leonov.BugTracker.Domain.Models
 {
     using System;
+    using System.Collections.Generic;
 
     using Leonov.BugTracker.Domain.Models.Base;
 
@@ -48,5 +49,10 @@
         /// Ид пользвателя.
         /// </summary>
         public Guid UserId { get; set; }
+
+        /// <summary>
+        /// Дочерние комментарии.
+        /// </summary>
+        public List<Commentary> Commentaries { get; set; }
     }
 }

@@ -1,6 +1,12 @@
 ﻿namespace Leonov.BugTracker.Controllers
 {
+    using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
+
+    using Leonov.BugTracker.Domain.Interfaces;
+    using Leonov.BugTracker.Dto;
+    using Leonov.BugTracker.Services.Interfaces;
 
     using Microsoft.AspNetCore.Mvc;
 
@@ -9,10 +15,49 @@
     /// </summary>
     public class CommentaryController : Controller
     {
-        [HttpPost]
-        public Task<JsonResult> AddCommentary()
+        private readonly ICommentaryService _commentaryService;
+        private readonly ICommentaryMapping _commentaryMapping;
+        private readonly IAuthoriseService _authoriseService;
+
+        public CommentaryController(ICommentaryService commentaryService,
+            ICommentaryMapping commentaryMapping,
+            IAuthoriseService authoriseService)
         {
-            return null;
+            _commentaryService = commentaryService;
+            _commentaryMapping = commentaryMapping;
+            _authoriseService = authoriseService;
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetCommentariesByError(Guid errorId)
+        {
+            var errors = new List<string>();
+            var commentaries = await _commentaryService.GetCommentariesByError(errorId, errors);
+            var commentariesDtos = _commentaryMapping.CommentariesToComeCommentaryInfoDtos(commentaries);
+            return new JsonResult(new Result<List<CommentaryInfoDto>>(commentariesDtos, errors));
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> AddCommentary([FromBody] AddCommentaryDto addCommentaryDto)
+        {
+            var errors = new List<string>();
+            if (string.IsNullOrWhiteSpace(addCommentaryDto.Value))
+            {
+                errors.Add("Значение комментария не может быть пустым.");
+                return new JsonResult(new Result(errors));
+            }
+            var commentary = _commentaryMapping.AddCommentaryDtoToCommentary(addCommentaryDto);
+            var user = await _authoriseService.GetCurrentUser();
+            if (user is null)
+            {
+                errors.Add("Не найден пользвоатель");
+                return new JsonResult(new Result(errors));
+            }
+
+            commentary.UserId = user.Id;
+            await _commentaryService.CreateAsync(commentary, errors);
+
+            return new JsonResult(new Result(errors));
         }
     }
 }

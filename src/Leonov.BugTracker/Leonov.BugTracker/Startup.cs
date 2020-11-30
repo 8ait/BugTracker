@@ -36,6 +36,7 @@ namespace Leonov.BugTracker
             services.AddScoped<IAuditService, AuditService>();
             services.AddScoped<IErrorStatusService, ErrorStatusService>();
             services.AddScoped<IOriginAreaService, OriginAreaService>();
+            services.AddScoped<ICommentaryService, CommentaryService>();
 
             RegisterMappingServices(services);
 
@@ -81,6 +82,7 @@ namespace Leonov.BugTracker
             services.AddScoped<IProjectMappingService, ProjectMappingService>();
             services.AddScoped<IErrorMappingService, ErrorMappingService>();
             services.AddScoped<IAuditMappingService, AuditMappingService>();
+            services.AddScoped<ICommentaryMapping, CommentaryMapping>();
         }
     }
 }
