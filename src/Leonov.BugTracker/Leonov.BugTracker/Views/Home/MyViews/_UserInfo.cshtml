@@ -21,15 +21,15 @@
     <div class="col-6">
         <div class="info-mini" style="margin: 5px">
             <div class="header-info-mini" style="margin: -20px; margin-bottom: 20px;">&#128221; Статусы ошибок</div>
-            <h5><strong>Активно</strong> <span class="badge badge-info">0</span></h5>
-            <h5><strong>Неактивно</strong> <span class="badge badge-secondary">2</span></h5>
+            <h5><strong>Активно</strong> <span class="badge badge-info" id="activeCount"></span></h5>
+            <h5><strong>Неактивно</strong> <span class="badge badge-secondary" id="nonActiveCount"></span></h5>
             </div>
     </div>
     <div class="col-6">
         <div class="info-mini" style="margin: 5px">
             <div class="header-info-mini" style="margin: -20px; margin-bottom: 20px;">&#128172; Комментарии</div>
-            <h5><strong>Оставлено</strong> <span class="badge badge-info">0</span></h5>
-            <h5><strong>Популярность</strong> <span class="badge badge-danger">0</span></h5>
+            <h5><strong>Оставлено</strong> <span class="badge badge-info" id="userCommentaries"></span></h5>
+            <h5><strong>Популярность</strong> <span class="badge badge-danger" id="popularity"></span></h5>
         </div>
     </div>
 </div>
@@ -50,5 +50,7 @@
 <script>
     $(document).ready(function (e) {
         getUserAjax();
+        getUserCommentaryInfoAjax();
+        getUserErrorInfoAjax();
     });
 </script>

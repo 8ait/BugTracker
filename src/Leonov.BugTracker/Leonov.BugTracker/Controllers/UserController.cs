@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Leonov.BugTracker.Authenticate;
     using Leonov.BugTracker.Domain.Interfaces;
     using Leonov.BugTracker.Dto;
     using Leonov.BugTracker.Services.Interfaces;
@@ -44,6 +45,7 @@
         /// </summary>
         /// <param name="id"> Идентификатор пользователя. </param>
         /// <returns> Страница пользователя </returns>
+        [Auth(Arm.Default)]
         public async Task<IActionResult> GetUser(Guid id)
         {
             var user = await _userService.GetAsync(id);
@@ -61,6 +63,7 @@
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [Auth(Arm.Default)]
         public async Task<JsonResult> EditUserInformation([FromBody] UserDto userDto)
         {
             var errors = new List<string>();
@@ -87,6 +90,7 @@
         /// </summary>
         /// <param name="userPasswordUpdateDto"> Дто обновления пароля. </param>
         /// <returns> Объект результата. </returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> EditUserPassword([FromBody] UserPasswordUpdateDto userPasswordUpdateDto)
         {
             var errors = new List<string>();
@@ -115,6 +119,7 @@
         /// </summary>
         /// <returns> Дто текущего пользователя. </returns>
         [HttpGet]
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetCurrentUser()
         {
             var errors = new List<string>();
@@ -129,6 +134,7 @@
         /// <param name="page"> Номер страницы. </param>
         /// <param name="count"> Количество элементов на странице. </param>
         /// <returns> Таблица с пользователями. </returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetUserTable(int page, int count)
         {
             var errors = new List<string>();
@@ -163,6 +169,7 @@
         /// <param name="id"> Идентификатор преокта. </param>
         /// <param name="userTypeId"> Тип пользовател. </param>
         /// <returns> Таблица разработчиков. </returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetProjectUserTable(int page, int count, Guid projectId, int userTypeId)
         {
             var errors = new List<string>();
@@ -194,6 +201,7 @@
         /// </summary>
         /// <param name="userTypeId"> Идентификатор типа пользователя. </param>
         /// <returns></returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetUsersByType(int userTypeId, Guid projectId)
         {
             var errors = new List<string>();
@@ -210,6 +218,7 @@
         /// <param name="addUserToProjectDto"></param>
         /// <returns></returns>
         [HttpPost]
+        [Auth(Arm.EditProject)]
         public async Task<JsonResult> AddUserToProject([FromBody] AddUserToProjectDto addUserToProjectDto)
         {
             var errors = new List<string>();
@@ -235,7 +244,13 @@
             return new JsonResult(new Result(errors));
         }
 
+        /// <summary>
+        /// Удалить пользователя из проекта.
+        /// </summary>
+        /// <param name="deleteUserFromProjectDto"> Дто удлаения пользвоателя из проекта. </param>
+        /// <returns></returns>
         [HttpPost]
+        [Auth(Arm.EditProject)]
         public async Task<JsonResult> DeleteUserFromProject([FromBody] DeleteUserFromProjectDto deleteUserFromProjectDto)
         {
             var errors = new List<string>();

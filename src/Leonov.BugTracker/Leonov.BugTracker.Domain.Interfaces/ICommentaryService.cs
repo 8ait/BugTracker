@@ -17,5 +17,19 @@
         /// <param name="errorId"></param>
         /// <returns></returns>
         public Task<List<Commentary>> GetCommentariesByError(Guid errorId, List<string> errors);
+
+        /// <summary>
+        /// Получить количество комментариев пользователя.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Task<int> GetCountOfUserCommentaries(Guid userId, List<string> errors);
+
+        /// <summary>
+        /// Получить популярность пользователя.
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public Task<int> GetPopularityOfUser(Guid userId, List<string> errors);
     }
 }

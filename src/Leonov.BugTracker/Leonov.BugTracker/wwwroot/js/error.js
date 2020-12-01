@@ -32,6 +32,9 @@
             console.log("Не удалось получить ошибки пользователя.");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);
@@ -74,6 +77,9 @@ function getProjectErrorTableAjax(page, count, id) {
             console.log("Не удалось получить ошибки проекта.");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);
@@ -117,6 +123,9 @@ function getErrorAllTableAjax(page, count) {
             console.log(err);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось получить ошибки.";
             addError("alert-" + id, err);
@@ -156,6 +165,9 @@ function deleteErrorAjax(id) {
             console.log(err);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось удалить ошибку.";
             addError("alert-" + id, err);
@@ -198,6 +210,9 @@ function getErrorStatusesAjax(errorId) {
             console.log(err);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось получить статусы ошибок.";
             addError("alert-" + id, err);
@@ -243,6 +258,9 @@ function changeErrorStatusAjax(id, errorStatusId) {
             console.log(err);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось удалить ошибку.";
             addError("alert-" + id, err);
@@ -278,6 +296,9 @@ function UpdateErrorStatusAjax(id) {
             console.log(err);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось удалить ошибку.";
             addError("alert-" + id, err);

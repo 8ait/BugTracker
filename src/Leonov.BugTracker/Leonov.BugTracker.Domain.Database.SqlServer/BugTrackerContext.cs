@@ -51,6 +51,11 @@
         public DbSet<UserType> UserTypes { get; set; }
 
         /// <summary>
+        /// Права пользователя.
+        /// </summary>
+        public DbSet<Arm> Arms { get; set; }
+
+        /// <summary>
         /// Пользователи в проектах.
         /// </summary>
         public DbSet<UserInProject> UserInProjects { get; set; }

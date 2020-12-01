@@ -34,9 +34,16 @@
         /// <returns></returns>
         public IActionResult Index()
         {
+            if (_authoriseService.IsAuthorized())
+                return RedirectToAction("Index", "Home");
             var errors = new List<string>();
             ViewData["errors"] = errors;
             return View("Login");
+        }
+
+        public IActionResult Forbidden()
+        {
+            return View("Forbidden");
         }
 
         /// <summary>
@@ -46,6 +53,8 @@
         /// <returns> Начальная страница. </returns>
         public IActionResult RegisterIndex([FromServices] IUserTypeService userTypeService)
         {
+            if (_authoriseService.IsAuthorized())
+                return RedirectToAction("Index", "Home");
             var errors = new List<string>();
             ViewData["errors"] = errors;
             ViewBag.UserTypes = new SelectList(userTypeService.GetAll(), "Id", "Name");
@@ -72,6 +81,8 @@
         [HttpPost]
         public async Task<IActionResult> Login(SignInDto signInDto)
         {
+            if (_authoriseService.IsAuthorized())
+                return RedirectToAction("Index", "Home");
             var errors = new List<string>();
             ViewData["errors"] = errors;
             if (ModelState.IsValid)
@@ -102,6 +113,8 @@
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpDto signUpDto, [FromServices] IUserTypeService userTypeService)
         {
+            if (_authoriseService.IsAuthorized())
+                return RedirectToAction("Index", "Home");
             ViewBag.UserTypes = new SelectList(userTypeService.GetAll(), "Id", "Name");
             var errors = new List<string>();
             ViewData["errors"] = errors;

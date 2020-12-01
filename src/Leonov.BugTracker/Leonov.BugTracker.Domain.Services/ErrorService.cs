@@ -161,5 +161,21 @@
                 await _auditService.WriteAuditAsync(errorForAudit, user.Id, errors);
             }
         }
+
+        /// <inheritdoc />
+        public async Task<int> GetCountOfError(Guid userId, bool isActive, List<string> errors)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user is null)
+            {
+                errors.Add("Пользвоатель не найден.");
+            }
+
+            var comments = _context.Errors
+                .Where(x => (x.CreateUser.UserId == userId || x.ResponsibleUser.UserId == userId) &&
+                            x.ErrorStatus.IsActive == isActive);
+
+            return comments.Count();
+        }
     }
 }

@@ -16,7 +16,58 @@ function getUserInfoAjax() {
             console.log("Не удалось получить пользователя");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             console.log("Не удалось получить пользователя");
+        }
+    });
+}
+
+//Получить пользователя.
+function getUserCommentaryInfoAjax(id) {
+    $.ajax({
+        type: "GET",
+        url: "/Commentary/GetUserCommentaryInfo?userId=" + id,
+        data: '',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (json) {
+            document.getElementById('userCommentaries').innerText = json.value.commentaryCount;
+            document.getElementById('popularity').innerText = json.value.popularity;
+        },
+        failure: function (response) {
+            console.log("Не удалось получить информацию о комментариях пользователя.");
+        },
+        error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
+            console.log("Не удалось получить информацию о комменатриях пользователя");
+        }
+    });
+}
+
+//Получить пользователя.
+function getUserErrorInfoAjax(id) {
+    $.ajax({
+        type: "GET",
+        url: "/Error/GetErrorInformationOfUser?userId=" + id,
+        data: '',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (json) {
+            document.getElementById('activeCount').innerText = json.value.activeCount;
+            document.getElementById('nonActiveCount').innerText = json.value.nonActiveCount;
+        },
+        failure: function (response) {
+            console.log("Не удалось получить информацию о комментариях пользователя.");
+        },
+        error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
+            console.log("Не удалось получить информацию о комменатриях пользователя");
         }
     });
 }
@@ -62,6 +113,9 @@ function postUserInfoAjax() {
             console.log("Не удалось получить пользователя");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);
@@ -88,9 +142,15 @@ function getUserTypes() {
             }
         },
         failure: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             console.log("Не удалось получить пользователя");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             console.log("Не удалось получить пользователя");
         }
     });
@@ -112,6 +172,9 @@ function getUserAjax() {
             console.log("Не удалось получить пользователя");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             console.log("Не удалось получить пользователя");
         }
     });
@@ -155,6 +218,9 @@ function postUserPasswordAjax() {
             console.log("Не удалось изменить пароль.");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);
@@ -198,6 +264,9 @@ function getUserTableAjax(page, count) {
             console.log("Не удалось получить ошибки пользователя.");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);
@@ -240,6 +309,9 @@ function getProjectTableAjax(page, count, id) {
             console.log("Не удалось получить проекты пользователя.");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);
@@ -311,6 +383,9 @@ function getProjectUserTableAjax(page, count, projectId, userTypeId) {
             console.log(errorMsg);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);
@@ -356,6 +431,9 @@ function addUserToProjectAjax(userId, projectId) {
             console.log("Не удалось добавить пользователя в проект.");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);
@@ -413,6 +491,9 @@ function getUsersByUserTypeAjax(userTypeId, projectId) {
             console.log(errorMsg);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);
@@ -478,6 +559,9 @@ function deleteUserFromProjectAjax(userInProjectId, projectId) {
             console.log("Не удалось удалить пользователя из проекта.");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);

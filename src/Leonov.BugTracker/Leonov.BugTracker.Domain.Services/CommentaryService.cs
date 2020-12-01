@@ -67,6 +67,38 @@
             return commentaries;
         }
 
+        /// <inheritdoc />
+        public async Task<int> GetCountOfUserCommentaries(Guid userId, List<string> errors)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user is null)
+            {
+                errors.Add("Неверный идентификатор пользователя.");
+                return 0;
+            }
+
+            var commentaries = _context.Commentaries.Where(x => x.UserId == userId);
+
+            return commentaries.Count();
+        }
+
+        /// <inheritdoc />
+        public async Task<int> GetPopularityOfUser(Guid userId, List<string> errors)
+        {
+            var user = await _context.Users.FindAsync(userId);
+            if (user is null)
+            {
+                errors.Add("Неверный идентификатор пользователя.");
+                return 0;
+            }
+
+            var commentaries = _context.Commentaries
+                .Include(x => x.Parent)
+                .Where(x => x.Parent.UserId == userId);
+
+            return commentaries.Count();
+        }
+
         private void IncludeChilds(Commentary commentary)
         {
             var childs = _context.Commentaries

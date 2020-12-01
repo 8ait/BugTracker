@@ -58,6 +58,8 @@ namespace Leonov.BugTracker
                 app.UseHsts();
             }
 
+            app.UseStatusCodePagesWithReExecute("/home/error", "?code={0}");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 

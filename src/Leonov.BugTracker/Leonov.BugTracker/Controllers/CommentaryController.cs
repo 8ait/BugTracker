@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using Leonov.BugTracker.Authenticate;
     using Leonov.BugTracker.Domain.Interfaces;
     using Leonov.BugTracker.Dto;
     using Leonov.BugTracker.Services.Interfaces;
@@ -29,6 +31,7 @@
         }
 
         [HttpGet]
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetCommentariesByError(Guid errorId)
         {
             var errors = new List<string>();
@@ -37,7 +40,35 @@
             return new JsonResult(new Result<List<CommentaryInfoDto>>(commentariesDtos, errors));
         }
 
+        [HttpGet]
+        [Auth(Arm.Default)]
+        public async Task<JsonResult> GetUserCommentaryInfo([FromServices] IAuthoriseService authoriseService, Guid? userId = null)
+        {
+            var errors = new List<string>();
+            Guid id;
+            if (userId is null)
+            {
+                id = (await authoriseService.GetCurrentUser()).Id;
+            }
+            else
+            {
+                id = userId.Value;
+            }
+            var result = new UserCommentaryInfoDto()
+            {
+                CommentaryCount = await _commentaryService.GetCountOfUserCommentaries(id, errors),
+                Popularity = await _commentaryService.GetPopularityOfUser(id, errors)
+            };
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            return new JsonResult(new Result<UserCommentaryInfoDto>(result, errors));
+        }
+
         [HttpPost]
+        [Auth(Arm.Default)]
         public async Task<JsonResult> AddCommentary([FromBody] AddCommentaryDto addCommentaryDto)
         {
             var errors = new List<string>();

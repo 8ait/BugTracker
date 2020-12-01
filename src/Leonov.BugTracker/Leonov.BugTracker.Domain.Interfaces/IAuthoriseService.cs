@@ -30,6 +30,12 @@
         public Task<User> GetCurrentUser();
 
         /// <summary>
+        /// Получить текущие права пользователя.
+        /// </summary>
+        /// <returns></returns>
+        public List<Arm> GetCurrentArms();
+
+        /// <summary>
         /// Выйти из системы.
         /// </summary>
         public void SignOut();

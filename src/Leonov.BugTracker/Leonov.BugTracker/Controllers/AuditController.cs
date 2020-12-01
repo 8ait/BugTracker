@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Leonov.BugTracker.Authenticate;
     using Leonov.BugTracker.Domain.Interfaces;
     using Leonov.BugTracker.Dto;
     using Leonov.BugTracker.Services.Interfaces;
@@ -26,6 +27,7 @@
             _auditService = auditService;
         }
 
+        [Auth(Arm.Default)]
         public IActionResult Index()
         {
             return View("AuditList");
@@ -37,6 +39,7 @@
         /// <param name="page"> Номер страницы. </param>
         /// <param name="count"> Количество элементов на странице. </param>
         /// <returns> Список проектов. </returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetUserAuditTable(int page, int count)
         {
             var errors = new List<string>();
@@ -69,6 +72,7 @@
         /// <param name="page"> Номер страницы. </param>
         /// <param name="count"> Количество элементов на странице. </param>
         /// <returns> Список проектов. </returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetAuditAllTable(int page, int count)
         {
             var errors = new List<string>();

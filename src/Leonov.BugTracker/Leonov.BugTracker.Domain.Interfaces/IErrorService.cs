@@ -44,5 +44,14 @@
         /// <param name="errorStatusId"> Идентификатор статуса ошибки. </param>
         /// <returns></returns>
         public Task ChangeStatusError(Guid errorId, int errorStatusId, List<string> errors);
+
+        /// <summary>
+        /// Получить количество задач.
+        /// </summary>
+        /// <param name="userId"> Идентификатор пользователя. </param>
+        /// <param name="isActive"> Активность задачи. </param>
+        /// <param name="errors"> Ошибки. </param>
+        /// <returns></returns>
+        public Task<int> GetCountOfError(Guid userId, bool isActive, List<string> errors);
     }
 }

@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Leonov.BugTracker.Authenticate;
     using Leonov.BugTracker.Domain.Interfaces;
     using Leonov.BugTracker.Domain.Models;
     using Leonov.BugTracker.Dto;
@@ -12,6 +13,8 @@
 
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.AspNetCore.Mvc;
+
+    using Arm = Leonov.BugTracker.Authenticate.Arm;
 
     /// <summary>
     /// Контроллер для ошибок.
@@ -48,6 +51,7 @@
             _userService = userService;
         }
 
+        [Auth(Arm.Default)]
         public IActionResult Index()
         {
             return View("ErrorList");
@@ -58,6 +62,7 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Auth(Arm.Default)]
         public async Task<IActionResult> GetError(Guid id)
         {
             var error = await _errorService.GetAsync(id);
@@ -72,6 +77,7 @@
         /// </summary>
         /// <param name="projectId"> Идентификатор проекта для создания. </param>
         /// <returns></returns>
+        [Auth(Arm.CreateError)]
         public async Task<IActionResult> CreateIndex(Guid projectId)
         {
             var errors = new List<string>();
@@ -113,6 +119,7 @@
         /// </summary>
         /// <param name="createErrorDto"></param>
         /// <returns></returns>
+        [Auth(Arm.CreateError)]
         public async Task<IActionResult> Create(CreateErrorDto createErrorDto)
         {
             var errors = new List<string>();
@@ -165,6 +172,7 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Auth(Arm.EditError)]
         public async Task<IActionResult> EditIndex(Guid id)
         {
             var errors = new List<string>();
@@ -190,6 +198,7 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Auth(Arm.EditError)]
         public async Task<IActionResult> Edit(EditErrorDto editErrorDto)
         {
             var errors = new List<string>();
@@ -224,6 +233,7 @@
         /// <param name="page"> Номер страницы. </param>
         /// <param name="count"> Количество элементов на странице. </param>
         /// <returns> Таблица ошибок. </returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetUserErrorTable(int page, int count)
         {
             var errors = new List<string>();
@@ -256,6 +266,7 @@
         /// <param name="page"> Номер страницы. </param>
         /// <param name="count"> Количество элементов на странице. </param>
         /// <returns> Таблица ошибок. </returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetProjectErrorTable(int page, int count, Guid id)
         {
             var errors = new List<string>();
@@ -288,6 +299,7 @@
         /// <param name="page"> Номер страницы. </param>
         /// <param name="count"> Кол-во элементов на странице. </param>
         /// <returns></returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetErrorAllTable(int page, int count)
         {
             var errors = new List<string>();
@@ -320,6 +332,7 @@
         /// <param name="id"> Идентификатор ошибки. </param>
         /// <returns></returns>
         [HttpDelete]
+        [Auth(Arm.DeleteError)]
         public async Task<JsonResult> Delete([FromBody] Guid id)
         {
             var errors = new List<string>();
@@ -333,6 +346,7 @@
         /// <param name="changeStatusErrorDto"> Информация для изменения статуса. </param>
         /// <returns></returns>
         [HttpPost]
+        [Auth(Arm.EditStatusError)]
         public async Task<JsonResult> ChangeStatusError([FromBody] ChangeStatusErrorDto changeStatusErrorDto)
         {
             var errors = new List<string>();
@@ -347,6 +361,7 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetErrorStatuses(Guid id)
         {
             var errors = new List<string>();
@@ -359,6 +374,7 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetErrorStatus(Guid id)
         {
             var errors = new List<string>();
@@ -371,6 +387,37 @@
             }
 
             return new JsonResult(new Result<string>(errorStatus?.Name, errors));
+        }
+
+        /// <summary>
+        /// Получить ифномрацию по ошибкам пользователя.
+        /// </summary>
+        /// <param name="userId"> Идентиикатор пользователя. </param>
+        /// <returns></returns>
+        [Auth(Arm.Default)]
+        public async Task<JsonResult> GetErrorInformationOfUser(Guid? userId = null)
+        {
+            var errors = new List<string>();
+            Guid id;
+            if (userId is null)
+            {
+                id = (await _authoriseService.GetCurrentUser()).Id;
+            }
+            else
+            {
+                id = userId.Value;
+            }
+            var result = new UserErrorInfoDto()
+            {
+                ActiveCount = await _errorService.GetCountOfError(id, true, errors),
+                NonActiveCount = await _errorService.GetCountOfError(id, false, errors)
+            };
+            if (errors.Any())
+            {
+                return new JsonResult(new Result(errors));
+            }
+
+            return new JsonResult(new Result<UserErrorInfoDto>(result, errors));
         }
     }
 }

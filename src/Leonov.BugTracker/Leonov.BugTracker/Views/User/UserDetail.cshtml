@@ -12,13 +12,13 @@
             </div>
             <div class="info-mini" style="margin: 5px; margin-top: 15px; height: 200px">
                 <div class="header-info-mini" style="margin: -20px; margin-bottom: 20px;">&#128221; Статусы ошибок</div>
-                <h5><strong>Активно</strong> <span class="badge badge-info">0</span></h5>
-                <h5><strong>Неактивно</strong> <span class="badge badge-secondary">2</span></h5>
+                <h5><strong>Активно</strong> <span class="badge badge-info" id="activeCount"></span></h5>
+                <h5><strong>Неактивно</strong> <span class="badge badge-secondary" id="nonActiveCount"></span></h5>
             </div>
             <div class="info-mini" style="margin: 5px; margin-top: 15px; height: 200px">
                 <div class="header-info-mini" style="margin: -20px; margin-bottom: 20px;">&#128172; Комментарии</div>
-                <h5><strong>Оставлено</strong> <span class="badge badge-info">0</span></h5>
-                <h5><strong>Популярность</strong> <span class="badge badge-danger">0</span></h5>
+                <h5><strong>Оставлено</strong> <span class="badge badge-info" id="userCommentaries"></span></h5>
+                <h5><strong>Популярность</strong> <span class="badge badge-danger" id="popularity"></span></h5>
             </div>
         </div>
         <div class="col-7" style="text-align: center">
@@ -65,7 +65,10 @@
 <script>
     $(document).ready(function (e) {
         var id = $('#userId').val();
+
         getProjectTableAjax(1, 5, id);
+        getUserCommentaryInfoAjax(id);
+        getUserErrorInfoAjax(id);
 
         userProjectGo.onclick = function () {
             var count = $('#userProjectCount').val();

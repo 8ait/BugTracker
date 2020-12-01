@@ -36,6 +36,9 @@
             console.log(err);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось добавить комментарий.";
             addError("alert-" + id, err);
@@ -87,6 +90,9 @@ function getCommentariesByErrorId(errorId) {
             console.log(err);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось добавить комментарий.";
             addError("alert-" + id, err);

@@ -100,6 +100,15 @@
         }
 
         /// <inheritdoc />
+        public List<Leonov.BugTracker.Domain.Models.Arm> GetCurrentArms()
+        {
+            var user =  GetCurrentUser();
+            user.Wait();
+            var arms = _context.Arms.Where(x => x.UserTypes.Contains(user.Result.UserType));
+            return arms.ToList();
+        }
+
+        /// <inheritdoc />
         public void SignOut()
         {
             _httpContextAccessor.HttpContext.Response.Cookies.Delete(LOGIN_COOKIE_NAME);

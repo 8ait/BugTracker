@@ -32,6 +32,9 @@
             console.log("Не удалось получить ошибки пользователя.");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);
@@ -75,6 +78,9 @@ function getAuditAllTableAjax(page, count) {
             console.log(err);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось получить аудиты.";
             addError("alert-" + id, err);

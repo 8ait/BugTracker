@@ -32,6 +32,9 @@
             console.log("Не удалось получить проекты пользователя.");
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
             showAlert("alert-" + id, 350);
@@ -75,6 +78,9 @@ function getProjectAllTableAjax(page, count) {
             console.log(err);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось получить проекты.";
             addError("alert-" + id, err);
@@ -114,6 +120,9 @@ function deleteProjectAjax(id) {
             console.log(err);
         },
         error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+            }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось удалить проект.";
             addError("alert-" + id, err);

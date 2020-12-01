@@ -31,3 +31,20 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //Максимум не включается, минимум включается
 }
+
+function showAuthorise() {
+    var id = getRandomInt(0, 9999);
+    addAuthorise("alert-" + id);
+    showAlert("alert-" + id, 350);
+    console.log("Недостаточно прав.");
+}
+
+function addAuthorise(alertId) {
+    var newDiv = document.createElement("div");
+    newDiv.className = "alert alert-info alert-dismissible fade show";
+    newDiv.innerHTML = "<strong>Ошибка:</strong> Действие запрещено <button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button>";
+    newDiv.id = alertId;
+    newDiv.role = "alert";
+
+    document.getElementById("alerts").appendChild(newDiv);
+}

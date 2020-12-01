@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Leonov.BugTracker.Authenticate;
     using Leonov.BugTracker.Domain.Interfaces;
     using Leonov.BugTracker.Dto;
     using Leonov.BugTracker.Services.Interfaces;
@@ -33,6 +34,7 @@
         /// Вернуть главную страницу.
         /// </summary>
         /// <returns></returns>
+        [Auth(Arm.Default)]
         public IActionResult Index()
         {
             return View("ProjectList");
@@ -42,6 +44,7 @@
         /// Начальное создание проекта.
         /// </summary>
         /// <returns></returns>
+        [Auth(Arm.CreateProject)]
         public IActionResult CreateIndex()
         {
             var errors = new List<string>();
@@ -53,6 +56,7 @@
         /// Создать проект.
         /// </summary>
         /// <returns></returns>
+        [Auth(Arm.CreateProject)]
         public async Task<IActionResult> Create(CreateProjectDto createProjectDto)
         {
             var errors = new List<string>();
@@ -80,6 +84,7 @@
         /// Индекс редактирования.
         /// </summary>
         /// <returns></returns>
+        [Auth(Arm.EditProject)]
         public async Task<IActionResult> EditIndex(Guid id)
         {
             var project = await _projectService.GetAsync(id);
@@ -99,6 +104,7 @@
         /// </summary>
         /// <param name="editProjectDto"> Дто редактирования </param>
         /// <returns></returns>
+        [Auth(Arm.EditProject)]
         public async Task<IActionResult> Edit(EditProjectDto editProjectDto)
         {
             var errors = new List<string>();
@@ -127,6 +133,7 @@
         /// </summary>
         /// <param name="id"> Id проекта. </param>
         /// <returns></returns>
+        [Auth(Arm.Default)]
         public async Task<IActionResult> GetProject(Guid id)
         {
             var project = await _projectService.GetAsync(id);
@@ -146,6 +153,7 @@
         /// <param name="id"> Идентфиикатор проекта. </param>
         /// <returns></returns>
         [HttpDelete]
+        [Auth(Arm.DeleteProject)]
         public async Task<JsonResult> Delete([FromBody] Guid id)
         {
             var errors = new List<string>();
@@ -159,6 +167,7 @@
         /// <param name="page"> Номер страницы. </param>
         /// <param name="count"> Количество элементов на странице. </param>
         /// <returns> Список проектов. </returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetUserProjectTable(int page, int count)
         {
             var errors = new List<string>();
@@ -192,6 +201,7 @@
         /// <param name="count"> Количество элементов на странице. </param>
         /// <param name="id"> ID пользователя. </param>
         /// <returns> Список проектов. </returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetUserProjectTableById(int page, int count, Guid? id)
         {
             var errors = new List<string>();
@@ -224,6 +234,7 @@
         /// <param name="page"> Номер страницы. </param>
         /// <param name="count"> Кол-во элементов на странице. </param>
         /// <returns></returns>
+        [Auth(Arm.Default)]
         public async Task<JsonResult> GetProjectAllTable(int page, int count)
         {
             var errors = new List<string>();
