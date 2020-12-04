@@ -18,6 +18,7 @@ function getUserInfoAjax() {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             console.log("Не удалось получить пользователя");
         }
@@ -42,6 +43,7 @@ function getUserCommentaryInfoAjax(id) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             console.log("Не удалось получить информацию о комменатриях пользователя");
         }
@@ -66,6 +68,7 @@ function getUserErrorInfoAjax(id) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             console.log("Не удалось получить информацию о комменатриях пользователя");
         }
@@ -115,6 +118,7 @@ function postUserInfoAjax() {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
@@ -150,6 +154,7 @@ function getUserTypes() {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             console.log("Не удалось получить пользователя");
         }
@@ -174,6 +179,7 @@ function getUserAjax() {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             console.log("Не удалось получить пользователя");
         }
@@ -220,6 +226,7 @@ function postUserPasswordAjax() {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
@@ -266,6 +273,7 @@ function getUserTableAjax(page, count) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
@@ -311,6 +319,7 @@ function getProjectTableAjax(page, count, id) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
@@ -385,6 +394,7 @@ function getProjectUserTableAjax(page, count, projectId, userTypeId) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
@@ -433,6 +443,7 @@ function addUserToProjectAjax(userId, projectId) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
@@ -493,6 +504,7 @@ function getUsersByUserTypeAjax(userTypeId, projectId) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
@@ -561,6 +573,7 @@ function deleteUserFromProjectAjax(userInProjectId, projectId) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);

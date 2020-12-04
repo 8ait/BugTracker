@@ -34,6 +34,7 @@
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
@@ -79,6 +80,7 @@ function getProjectErrorTableAjax(page, count, id) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
@@ -125,6 +127,7 @@ function getErrorAllTableAjax(page, count) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось получить ошибки.";
@@ -167,6 +170,7 @@ function deleteErrorAjax(id) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось удалить ошибку.";
@@ -212,6 +216,7 @@ function getErrorStatusesAjax(errorId) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось получить статусы ошибок.";
@@ -260,6 +265,7 @@ function changeErrorStatusAjax(id, errorStatusId) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось удалить ошибку.";
@@ -298,6 +304,7 @@ function UpdateErrorStatusAjax(id) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось удалить ошибку.";

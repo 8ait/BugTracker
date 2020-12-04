@@ -57,6 +57,7 @@
             var commentaries = await _context.Commentaries
                 .Include(x => x.User)
                 .Where(x => !x.ParentId.HasValue && x.ErrorId == errorId)
+                .OrderBy(x => x.CreateDate)
                 .ToListAsync();
 
             foreach (var commentary in commentaries)

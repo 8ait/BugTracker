@@ -34,6 +34,7 @@
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             addError("alert-" + id);
@@ -80,6 +81,7 @@ function getProjectAllTableAjax(page, count) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось получить проекты.";
@@ -122,6 +124,7 @@ function deleteProjectAjax(id) {
         error: function (response) {
             if (response.status === 403) {
                 showAuthorise();
+                return;
             }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось удалить проект.";
