@@ -154,6 +154,7 @@
             var parentId = $('#parentId').val() !== "" ? $('#parentId').val() : null;
             var commentary = $('#commentaryValue').val();
             addCommentaryAjax(errorId, parentId, commentary);
+            setAttributes("");
         }
 
         changeStatusErrorShowBut.onclick = function() {
