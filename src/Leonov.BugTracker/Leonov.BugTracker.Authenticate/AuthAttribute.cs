@@ -3,7 +3,6 @@
     using System;
     using System.ComponentModel;
     using System.Linq;
-    using System.Net;
 
     using Leonov.BugTracker.Domain.Interfaces;
 
@@ -47,7 +46,8 @@
             if (!auth.IsAuthorized())
                 context.Result = new RedirectToActionResult("Index", "Auth", context.RouteData.Values);
             var arms = auth.GetCurrentArms();
-            if (_arm != Arm.Default && !arms.Select(x => x.Name).Contains(Description(_arm)))
+            var active = auth.IsActive();
+            if (!active || _arm != Arm.Default && !arms.Select(x => x.Name).Contains(Description(_arm)))
             {
                 context.Result = new StatusCodeResult(403);
             }

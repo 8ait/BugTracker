@@ -35,7 +35,7 @@
         /// <param name="count"> Количество элементов на страинце. </param>
         /// <param name="errors"> Ошибки. </param>
         /// <returns></returns>
-        public Task<TableInfo<Error>> GetErrorAllTableInfoAsync(int page, int count, List<string> errors);
+        public Task<TableInfo<Error>> GetErrorAllTableInfoAsync(int page, int count, FilterError filterError, List<string> errors);
 
         /// <summary>
         /// Изменить статус ошибки.

@@ -157,6 +157,29 @@
         }
 
         /// <inheritdoc />
+        public async Task<List<User>> GetAll()
+        {
+            var users = await _context.Users
+                .Include(x => x.UserType)
+                .ToListAsync();
+            return users;
+        }
+
+        /// <inheritdoc />
+        public async Task ChangeAccountStatus(Guid id, bool status, List<string> errors)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user is null)
+            {
+                errors.Add("Пользователь не найден.");
+                return;
+            }
+
+            user.Active = status;
+            await _context.TrySaveChangesAsync(errors);
+        }
+
+        /// <inheritdoc />
         public async Task<User> GetAsync(Guid id)
         {
             var user = await _context.Users

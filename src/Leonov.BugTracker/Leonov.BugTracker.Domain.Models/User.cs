@@ -46,6 +46,11 @@
         public int UserTypeId { get; set; }
 
         /// <summary>
+        /// Активность аккаунта.
+        /// </summary>
+        public bool Active { get; set; }
+
+        /// <summary>
         /// Тип пользователя.
         /// </summary>
         public UserType UserType { get; set; }

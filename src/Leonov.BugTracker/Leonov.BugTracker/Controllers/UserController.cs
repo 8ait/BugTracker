@@ -63,7 +63,7 @@
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Auth(Arm.Default)]
+        [Auth(Arm.CanEditUserInformation)]
         public async Task<JsonResult> EditUserInformation([FromBody] UserDto userDto)
         {
             var errors = new List<string>();
@@ -271,6 +271,20 @@
 
             await _userService.DeleteUserFromProject(userInProjectId, errors);
             return new JsonResult(new Result(errors));
+        }
+
+        /// <summary>
+        /// Получить всех пользователей.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Auth(Arm.Default)]
+        public async Task<JsonResult> GetAllUser()
+        {
+            var errors = new List<string>();
+            var users = await _userService.GetAll();
+            var userDtos = users.Select(_userMappingService.UserInUserDto).ToList();
+            return new JsonResult(new Result<List<UserDto>>(userDtos, errors));
         }
     }
 }

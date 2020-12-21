@@ -51,5 +51,11 @@
         /// </summary>
         /// <returns>  </returns>
         public Task EditPasswordAsync(UserPasswordUpdate userPasswordUpdate, List<string> errors);
+
+        /// <summary>
+        /// Активирован аккаунт.
+        /// </summary>
+        /// <returns></returns>
+        public bool IsActive();
     }
 }

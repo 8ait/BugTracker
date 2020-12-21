@@ -31,5 +31,10 @@
         /// Идентификатор типа пользователя.
         /// </summary>
         public int UserTypeId { get; set; }
+
+        /// <summary>
+        /// Активность аккаунта.
+        /// </summary>
+        public bool Active { get; set; }
     }
 }
