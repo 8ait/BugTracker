@@ -28,6 +28,12 @@
         DeleteError,
 
         [Description("edit_status_error")]
-        EditStatusError
+        EditStatusError,
+
+        [Description("can_edit_user_information")]
+        CanEditUserInformation,
+
+        [Description("administrator_panel")]
+        AdministratorPanel
     }
 }

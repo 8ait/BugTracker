@@ -149,6 +149,14 @@
             await _context.TrySaveChangesAsync(errors);
         }
 
+        /// <inheritdoc />
+        public bool IsActive()
+        {
+            var user = GetCurrentUser();
+            user.Wait();
+            return user.Result.Active;
+        }
+
         /// <summary>
         /// Авторизовать пользователя.
         /// </summary>

@@ -1,5 +1,48 @@
 ﻿@{
 }
+<div id="panel">
+    Фильтры &#129534;
+    <div class="info" id="hidden_panel" style="color: black">
+        <div class="form-group row">
+            <label for="inputName" class="col-4 col-form-label"><strong>Название:</strong></label>
+            <div class="col-8">
+                <input type="text" class="form-control" id="errorName" placeholder="Введите название">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputName" class="col-4 col-form-label"><strong>Область:</strong></label>
+            <div class="col-8">
+                <select id="selectErrorOrigins" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputName" class="col-4 col-form-label"><strong>Состояние:</strong></label>
+            <div class="col-8">
+                <select id="selectErrorStatus" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputName" class="col-4 col-form-label"><strong>Ответственный:</strong></label>
+            <div class="col-8">
+                <select id="selectResponsible" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="inputName" class="col-4 col-form-label"><strong>Создатель:</strong></label>
+            <div class="col-8">
+                <select id="selectCreators" class="form-control"></select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-6">
+                <button class="btn btn-warning" id="clear" style="width: 100%">Очистить</button>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-success" id="search" style="width: 100%">Применить</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="main info" style="margin-top: 20px;">
     <table class="table table-striped" style="text-align: center;">
         <thead style="background-color: chocolate; color: white">
@@ -30,7 +73,7 @@
             <div class="row">
                 <label class="col-6 col-form-label"><strong>Кол-во:</strong></label>
                 <div class="col-6">
-                    <select name="count" id="errorAllCount" class="form-control" onchange="changeErrorAllOption()">
+                    <select name="count" id="errorAllCount" class="form-control">
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="15">15</option>
@@ -43,19 +86,66 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/js/error.js"></script>
 <script>
-    $(document).ready(function (e) {
+    $(document).ready(function(e) {
 
-        getErrorAllTableAjax(1, 5);
+        var useFilter = false;
+        var errorFilter = null;
 
-        errorAllGo.onclick = function () {
+        getErrorTable(1, 5, errorFilter, useFilter);
+        getAllUserAjax();
+        getAllErrorOriginsAjax();
+        getAllErrorStatusesAjax();
+
+        errorAllGo.onclick = function() {
             var count = $('#errorAllCount').val();
             var page = $('#errorAllPage').val();
-            getErrorAllTableAjax(page, count);
+            getErrorTable(page, count, errorFilter, useFilter);
+        }
+
+        search.onclick = function() {
+            var filter = getFilter();
+            useFilter = true;
+            errorFilter = filter;
+            getErrorTable(1, 5, errorFilter, useFilter);
+        }
+
+        clear.onclick = function() {
+            useFilter = false;
+            errorFilter = null;
+            clearFilter();
+            getErrorTable(1, 5, errorFilter, useFilter);
+        }
+
+        errorAllCount.onchange = function() {
+            var count = $('#errorAllCount').val();
+            getErrorTable(1, count, errorFilter, useFilter);
         }
     });
 
-    function changeErrorAllOption() {
-        var count = $('#errorAllCount').val();
-        getErrorAllTableAjax(1, count);
+    function getFilter() {
+        var filter = {
+            Name: $('#errorName').val(),
+            ErrorStatus: $('#selectErrorStatus').val() === "null" ? null : parseInt($('#selectErrorStatus').val()),
+            ErrorOrigin: $('#selectErrorOrigins').val() === "null" ? null : parseInt($('#selectErrorOrigins').val()),
+            UserCreate: $('#selectCreators').val() === "null" ? null : $('#selectCreators').val(),
+            UserResponsible: $('#selectResponsible').val() === "null" ? null : $('#selectResponsible').val()
+        }
+        return filter;
+    }
+
+    function clearFilter() {
+        document.getElementById('errorName').value = null;
+        document.getElementById('selectErrorStatus').value = null;
+        document.getElementById('selectErrorOrigins').value = null;
+        document.getElementById('selectCreators').value = null;
+        document.getElementById('selectResponsible').value = null;
+    }
+
+    function getErrorTable(page, count, filter, useFilter) {
+        if (useFilter === true) {
+            getErrorAllTableAjax(page, count, filter);
+        } else {
+            getErrorAllTableAjax(page, count, null);
+        }
     }
 </script>

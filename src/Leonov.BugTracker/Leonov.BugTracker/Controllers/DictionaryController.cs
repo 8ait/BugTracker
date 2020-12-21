@@ -27,5 +27,33 @@
             var result = userTypeService.GetAll();
             return new JsonResult(new Result<List<UserType>>(result, errors));
         }
+
+        /// <summary>
+        /// Получить все статусы ошибок.
+        /// </summary>
+        /// <param name="errorService"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Auth(Arm.Default)]
+        public JsonResult GetErrorStatuses([FromServices] IErrorStatusService errorStatusService)
+        {
+            var errors = new List<string>();
+            var errorStatuses = errorStatusService.GetAll();
+            return new JsonResult(new Result<List<ErrorStatus>>(errorStatuses, errors));
+        }
+
+        /// <summary>
+        /// Получить все области возникновения ошибок.
+        /// </summary>
+        /// <param name="errorService"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Auth(Arm.Default)]
+        public JsonResult GetErrorOrigins([FromServices] IOriginAreaService originAreaService)
+        {
+            var errors = new List<string>();
+            var originAreas = originAreaService.GetAll();
+            return new JsonResult(new Result<List<OriginArea>>(originAreas, errors));
+        }
     }
 }

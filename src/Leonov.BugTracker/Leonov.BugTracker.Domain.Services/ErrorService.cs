@@ -122,9 +122,9 @@
         }
 
         /// <inheritdoc />
-        public async Task<TableInfo<Error>> GetErrorAllTableInfoAsync(int page, int count, List<string> errors)
+        public async Task<TableInfo<Error>> GetErrorAllTableInfoAsync(int page, int count, FilterError filterError, List<string> errors)
         {
-            var errorsEnt = await _context.Errors
+            var errorsEnt = await FilterError(_context.Errors, filterError)
                 .Include(x => x.CreateUser).ThenInclude(u => u.User)
                 .Include(x => x.ResponsibleUser).ThenInclude(u => u.User)
                 .Include(x => x.ErrorStatus)
@@ -135,6 +135,36 @@
             var errorTable = TableUtil<Error>.GetTableInfo(page, count, errors, errorsEnt);
 
             return errorTable;
+        }
+
+        /// <summary>
+        /// Применить фильтр.
+        /// </summary>
+        /// <param name="errors">Ошибки.</param>
+        /// <returns></returns>
+        private IQueryable<Error> FilterError(DbSet<Error> errors, FilterError filter)
+        {
+            if (filter is null)
+                return errors;
+
+            IQueryable<Error> result = errors;
+
+            if (!string.IsNullOrEmpty(filter.Name))
+                result = result.Where(x => EF.Functions.Like(x.Name,$"%{filter.Name}%"));
+
+            if (filter.ErrorOrigin != null)
+                result = result.Where(x => x.OriginId == filter.ErrorOrigin);
+
+            if (filter.ErrorStatus != null)
+                result = result.Where(x => x.ErrorStatusId == filter.ErrorStatus);
+
+            if (filter.UserCreate != null)
+                result = result.Where(x => x.CreateUser.User.Id == filter.UserCreate);
+
+            if (filter.UserResponsible != null)
+                result = result.Where(x => x.ResponsibleUser.User.Id == filter.UserResponsible);
+
+            return result;
         }
 
         /// <inheritdoc />

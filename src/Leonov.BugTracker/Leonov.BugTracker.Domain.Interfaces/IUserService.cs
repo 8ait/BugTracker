@@ -84,5 +84,20 @@
         /// <param name="projectId"> Идентификатор проекта. </param>
         /// <returns> Пользователь в проекте. </returns>
         public Task<UserInProject> GetUserInProjectByUserIdAndProjectId(Guid userId, Guid projectId);
+
+        /// <summary>
+        /// Получить всех пользователей.
+        /// </summary>
+        /// <returns></returns>
+        public Task<List<User>> GetAll();
+
+        /// <summary>
+        /// Изменить статус аккаунта.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="status"></param>
+        /// <param name="errors"></param>
+        /// <returns></returns>
+        public Task ChangeAccountStatus(Guid id, bool status, List<string> errors);
     }
 }

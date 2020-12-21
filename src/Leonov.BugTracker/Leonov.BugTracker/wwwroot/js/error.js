@@ -90,18 +90,18 @@ function getProjectErrorTableAjax(page, count, id) {
     });
 }
 
-function getErrorAllTableAjax(page, count) {
+function getErrorAllTableAjax(page, count, filter) {
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: "/Error/GetErrorAllTable?page=" + page + "&count=" + count,
-        data: '',
+        data: JSON.stringify(filter),
         contentType: "application/json; charset=utf-8",
         dataType: "json",
         success: function (json) {
             if (json.isSuccess) {
                 document.getElementById('errors').innerHTML = "";
                 if (json.value.rowDtos.length == 0) {
-                    $("<tr><td colspan='2'>Ошибки отсутствуют в системе.</td></tr>").appendTo("#errors");
+                    $("<tr><td colspan='7'>Ошибки отсутствуют в системе.</td></tr>").appendTo("#errors");
                 } else {
                     json.value.rowDtos.forEach(item => {
                         $("<tr><td>" + item.name + "</td><td>" + item.createDate + "</td><td>" + item.originAreaName + "</td><td>" + item.errorStatusName + "</td><td>" + item.createUserName + "</td><td>" + item.responsibleUserName + "</td><td><a class='btn btn-success' href='Error/GetError?id=" + item.id + "'>Показать &#128270;</a></td></tr>").appendTo("#errors");
@@ -308,6 +308,134 @@ function UpdateErrorStatusAjax(id) {
             }
             var id = getRandomInt(0, 9999);
             var err = "Не удалось удалить ошибку.";
+            addError("alert-" + id, err);
+            showAlert("alert-" + id, 350);
+            console.log(err);
+        }
+    });
+}
+
+function getAllUserAjax() {
+    $.ajax({
+        type: "GET",
+        url: "/User/GetAllUser",
+        data: '',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (json) {
+            if (json.isSuccess) {
+                $("<option value=null>Не выбрано</option>").appendTo("#selectResponsible");
+                $("<option value=null>Не выбрано</option>").appendTo("#selectCreators");
+                json.value.forEach(item => {
+                    $("<option value=" + item.id + ">" + item.firstname + " " + item.surname + "</option>").appendTo("#selectResponsible");
+                    $("<option value=" + item.id + ">" + item.firstname + " " + item.surname + "</option>").appendTo("#selectCreators");
+                });
+            } else {
+                for (var i = 0; i < json.errors.length; i++) {
+                    var id = getRandomInt(0, 9999);
+                    addError("alert-" + id, json.errors[i]);
+                    showAlert("alert-" + id, i * 450);
+                }
+            }
+        },
+        failure: function (response) {
+            var id = getRandomInt(0, 9999);
+            var err = "Не удалось получить пользователей.";
+            addError("alert-" + id, err);
+            showAlert("alert-" + id, 350);
+            console.log(err);
+        },
+        error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+                return;
+            }
+            var id = getRandomInt(0, 9999);
+            var err = "Не удалось получить пользователей.";
+            addError("alert-" + id, err);
+            showAlert("alert-" + id, 350);
+            console.log(err);
+        }
+    });
+}
+
+function getAllErrorStatusesAjax() {
+    $.ajax({
+        type: "GET",
+        url: "/Dictionary/GetErrorStatuses",
+        data: '',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (json) {
+            if (json.isSuccess) {
+                $("<option value=null>Не выбрано</option>").appendTo("#selectErrorStatus");
+                json.value.forEach(item => {
+                    $("<option value=" + item.id + ">" + item.name + "</option>").appendTo("#selectErrorStatus");
+                });
+            } else {
+                for (var i = 0; i < json.errors.length; i++) {
+                    var id = getRandomInt(0, 9999);
+                    addError("alert-" + id, json.errors[i]);
+                    showAlert("alert-" + id, i * 450);
+                }
+            }
+        },
+        failure: function (response) {
+            var id = getRandomInt(0, 9999);
+            var err = "Не удалось получить статусы ошибок.";
+            addError("alert-" + id, err);
+            showAlert("alert-" + id, 350);
+            console.log(err);
+        },
+        error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+                return;
+            }
+            var id = getRandomInt(0, 9999);
+            var err = "Не удалось получить статусы ошибок.";
+            addError("alert-" + id, err);
+            showAlert("alert-" + id, 350);
+            console.log(err);
+        }
+    });
+}
+
+function getAllErrorOriginsAjax() {
+    $.ajax({
+        type: "GET",
+        url: "/Dictionary/GetErrorOrigins",
+        data: '',
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function (json) {
+            if (json.isSuccess) {
+                $("<option value=null>Не выбрано</option>").appendTo("#selectErrorOrigins");
+                json.value.forEach(item => {
+                    $("<option value=" + item.id + ">" + item.name + "</option>").appendTo("#selectErrorOrigins");
+                });
+            } else {
+                for (var i = 0; i < json.errors.length; i++) {
+                    var id = getRandomInt(0, 9999);
+                    addError("alert-" + id, json.errors[i]);
+                    showAlert("alert-" + id, i * 450);
+                }
+            }
+        },
+        failure: function (response) {
+            var id = getRandomInt(0, 9999);
+            var err = "Не удалось получить статусы ошибок.";
+            addError("alert-" + id, err);
+            showAlert("alert-" + id, 350);
+            console.log(err);
+        },
+        error: function (response) {
+            if (response.status === 403) {
+                showAuthorise();
+                return;
+            }
+            var id = getRandomInt(0, 9999);
+            var err = "Не удалось получить статусы ошибок.";
             addError("alert-" + id, err);
             showAlert("alert-" + id, 350);
             console.log(err);

@@ -300,7 +300,7 @@
         /// <param name="count"> Кол-во элементов на странице. </param>
         /// <returns></returns>
         [Auth(Arm.Default)]
-        public async Task<JsonResult> GetErrorAllTable(int page, int count)
+        public async Task<JsonResult> GetErrorAllTable([FromQuery] int page, [FromQuery] int count, [FromBody] FilterError filterError = null)
         {
             var errors = new List<string>();
 
@@ -315,7 +315,7 @@
                 return new JsonResult(new Result(errors));
             }
 
-            var table = await _errorService.GetErrorAllTableInfoAsync(page, count, errors);
+            var table = await _errorService.GetErrorAllTableInfoAsync(page, count, filterError, errors);
             var tableDto = table != null ? _errorMappingService.TableInfoToTableFullInfoDto(table) : null;
 
             if (errors.Any())

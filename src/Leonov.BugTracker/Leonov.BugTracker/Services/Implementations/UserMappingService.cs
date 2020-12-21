@@ -20,7 +20,8 @@
                 Firstname = user.FirstName,
                 Surname = user.Surname,
                 UserTypeName = user.UserType.Name,
-                UserTypeId = user.UserType.Id
+                UserTypeId = user.UserType.Id,
+                Active = user.Active
             };
         }
 
