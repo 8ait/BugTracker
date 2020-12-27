@@ -21,6 +21,9 @@ namespace Leonov.BugTracker
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    webBuilder.UseKestrel();
+                    webBuilder.UseUrls("http://localhost:5000", "http://localhost:5001", "http://192.168.3.11:5000",
+                        "http://192.168.3.11:5001");
                 });
     }
 }
