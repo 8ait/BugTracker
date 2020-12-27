@@ -93,6 +93,8 @@
         /// <inheritdoc/>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasPostgresExtension("uuid-ossp");
+
             modelBuilder.ApplyConfiguration(new ArmMap());
             modelBuilder.ApplyConfiguration(new UserTypeMap());
             modelBuilder.ApplyConfiguration(new OriginAreaMap());

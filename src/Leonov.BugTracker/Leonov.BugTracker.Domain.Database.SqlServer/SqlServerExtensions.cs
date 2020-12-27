@@ -15,7 +15,7 @@
         /// <param name="connectionString"> Строка подключения. </param>
         public static void UseSqlServerContext(this IServiceCollection services, string connectionString)
         {
-            services.AddDbContext<BugTrackerContext>(options => options.UseSqlServer(connectionString));
+            services.AddDbContext<BugTrackerContext>(options => options.UseNpgsql(connectionString));
         }
     }
 }

@@ -14,7 +14,7 @@
         /// <inheritdoc />
         public virtual void Configure(EntityTypeBuilder<T> builder)
         {
-            builder.Property(p => p.Id).HasDefaultValueSql("newid()");
+            builder.Property(p => p.Id).HasDefaultValueSql("uuid_generate_v4()");
         }
     }
 }
